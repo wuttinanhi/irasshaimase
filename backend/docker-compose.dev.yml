@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: irasshaimase
+    ports:
+      - 3306:3306
+    volumes:
+      - irasshaimase-dev-mysql:/var/lib/mysql
+    networks:
+      - irasshaimase-dev-net
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - irasshaimase-dev-net
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+
+volumes:
+  irasshaimase-dev-mysql:
+
+networks:
+  irasshaimase-dev-net:
