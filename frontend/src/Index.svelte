@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Footer from "./Footer.svelte";
-  import Navbar from "./Navbar.svelte";
-  import ProductCard from "./ProductCard.svelte";
+  import Footer from "./common/Footer.svelte";
+  import Navbar from "./common/Navbar.svelte";
+  import ProductShowcase from "./product/ProductShowcase.svelte";
 </script>
 
 <Navbar />
@@ -17,11 +17,7 @@
     <h3 class="font-bold text-3xl">Product</h3>
   </div>
 
-  <div class="flex w-full flex-wrap">
-    {#each { length: 9 } as _, i}
-      <ProductCard />
-    {/each}
-  </div>
+  <ProductShowcase />
 
   <div class="my-10" />
 </div>
