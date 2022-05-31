@@ -1,5 +1,5 @@
-<div class="w-full bg-blue-500">
-  <div class="px-24 py-5">
+<div class="w-full bg-blue-500 px-16">
+  <div class="py-5">
     <div class="flex flex-row">
       <div class="flex grow">
         <div class="flex flex-col">
@@ -10,12 +10,12 @@
         </div>
       </div>
 
-      <div class="flex flex-row gap-x-5">
+      <div class="hidden sm:flex flex-row gap-x-5">
         <button class="p-2 font-bold text-white">CONTACT</button>
         <button class="p-2 font-bold text-white">ABOUT</button>
-        <button class="p-2 px-5 font-bold rounded-md bg-white text-blue-600"
-          >CART (0)</button
-        >
+        <button class="p-2 px-5 font-bold rounded-md bg-white text-blue-600">
+          CART (0)
+        </button>
       </div>
     </div>
   </div>
