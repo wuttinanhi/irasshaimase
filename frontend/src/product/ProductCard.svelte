@@ -1,6 +1,6 @@
 <div class="flex flex-row basis-1/3">
   <div class="p-3">
-    <div class="rounded-lg border-2 border-gray-200">
+    <div class="rounded-md border-2 border-gray-200">
       <img src="img/teddy.jpg" alt="" class="w-full h-fit" />
 
       <div class="px-3 pb-3">
