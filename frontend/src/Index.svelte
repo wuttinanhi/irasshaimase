@@ -7,10 +7,9 @@
 
 <Navbar />
 
-<div class="flex flex-col pt-16 px-96">
+<div class="flex flex-col pt-16 px-96 mb-10">
   <Banner />
   <Store />
-  <div class="my-10" />
 </div>
 
 <Footer />

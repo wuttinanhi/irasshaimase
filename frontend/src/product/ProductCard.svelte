@@ -1,7 +1,18 @@
+<script lang="ts">
+  import ProductOverlay from "./ProductOverlay.svelte";
+
+  let overlay: ProductOverlay;
+</script>
+
 <div class="flex flex-row basis-1/3">
   <div class="p-3">
     <div class="rounded-md border-2 border-gray-200">
-      <img src="img/teddy.jpg" alt="" class="w-full h-fit" />
+      <img
+        src="img/teddy.jpg"
+        alt=""
+        class="w-full h-fit"
+        on:click={() => overlay.showOverlay()}
+      />
 
       <div class="px-3 pb-3">
         <h3 class="pt-3 text-lg">Lovely Teddy Bear</h3>
@@ -17,3 +28,5 @@
     </div>
   </div>
 </div>
+
+<ProductOverlay bind:this={overlay} />

@@ -3,7 +3,7 @@
 </script>
 
 <div class="flex w-full flex-wrap">
-  {#each { length: 9 } as _, i}
+  {#each { length: 7 } as _, i}
     <ProductCard />
   {/each}
 </div>
