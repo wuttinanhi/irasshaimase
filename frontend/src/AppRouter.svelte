@@ -3,6 +3,7 @@
   import CartPage from "./cart/CartPage.svelte";
   import Index from "./Index.svelte";
   import Product from "./Product.svelte";
+  import ProductOverlay from "./product/ProductOverlay.svelte";
 
   export let url = "";
 </script>
@@ -18,4 +19,5 @@
   </Route>
   <Route path="/cart"><CartPage /></Route>
   <Route path="/"><Index /></Route>
+  <Route path="/dev/ProductOverlay"><ProductOverlay showing={true} /></Route>
 </Router>
