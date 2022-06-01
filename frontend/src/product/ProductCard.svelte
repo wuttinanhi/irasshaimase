@@ -4,7 +4,7 @@
   let overlay: ProductOverlay;
 </script>
 
-<div class="flex flex-row basis-1/3">
+<div class="flex flex-row md:basis-1/3">
   <div class="p-3">
     <div class="rounded-md border-2 border-gray-200">
       <img

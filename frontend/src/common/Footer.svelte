@@ -1,4 +1,4 @@
-<div class="sticky top-[100vh] w-full bg-gray-800 mt-52">
+<div class="sticky top-[100vh] w-full bg-gray-800 mt-20 md:mt-52">
   <div class="px-24 py-5">
     <div class="flex flex-row">
       <div class="flex grow">
