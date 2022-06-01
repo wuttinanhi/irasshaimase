@@ -1,7 +1,18 @@
-<script>
+<script lang="ts">
+  export let showSidebar = false;
+
+  export function showOverlay() {
+    showSidebar = true;
+    document.body.style.overflow = "hidden";
+  }
+
+  export function hideOverlay() {
+    showSidebar = false;
+    document.body.style.overflow = "auto";
+  }
 </script>
 
-<div class="w-full bg-blue-500 px-16">
+<div class="w-full bg-blue-500 px-5 md:px-16">
   <div class="py-5">
     <div class="flex flex-row">
       <div class="flex grow">
@@ -29,6 +40,54 @@
           CART (0)
         </a>
       </div>
+
+      <div class="flex md:hidden">
+        <button
+          type="button"
+          class="font-bold text-white text-lg"
+          on:click={showOverlay}
+        >
+          Menu
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
+{#if showSidebar}
+  <div
+    class="z-100 flex fixed inset-0 w-full h-full bg-black bg-opacity-80"
+    on:click={hideOverlay}
+  >
+    <div
+      class="z-101 flex flex-col px-5 basis-9/12 bg-blue-600 text-white"
+      on:click={(e) => e.stopPropagation()}
+    >
+      <div class="flex pt-10 pb-8 w-full">
+        <div class="flex flex-col w-full pb-5 border-b-2">
+          <a href="/">
+            <h1 class="font-bold text-white text-2xl">IRASSHAIMASE</h1>
+            <h1 class="font-bold text-white text-sm">いらっしゃいませ</h1>
+          </a>
+        </div>
+      </div>
+
+      <div class="flex py-5">
+        <a href="/contact" class="font-bold">CONTACT</a>
+      </div>
+
+      <div class="flex py-5">
+        <a href="/about" class="font-bold">ABOUT</a>
+      </div>
+
+      <div class="flex py-5">
+        <a
+          href="/cart"
+          class="py-3 px-5 text-center font-bold rounded-md bg-white text-blue-600 w-full"
+        >
+          CART (0)
+        </a>
+      </div>
+    </div>
+  </div>
+{/if}
