@@ -1,6 +1,7 @@
 <script>
   import { Route, Router } from "svelte-routing";
   import CartPage from "./cart/CartPage.svelte";
+  import InputNumber from "./common/InputNumber.svelte";
   import Index from "./Index.svelte";
   import NotFoundPage from "./page/NotFoundPage.svelte";
   import Product from "./Product.svelte";
@@ -16,5 +17,6 @@
   <Route path="/cart"><CartPage /></Route>
   <Route path="/"><Index /></Route>
   <Route path="/dev/ProductOverlay"><ProductOverlay showing={true} /></Route>
+  <Route path="/dev/InputNumber"><InputNumber /></Route>
   <Route path="/*"><NotFoundPage /></Route>
 </Router>

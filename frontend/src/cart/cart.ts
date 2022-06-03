@@ -1,6 +1,6 @@
 import type { IProduct } from "../product/IProduct";
 import { cart, getCart, setCart } from "./cart-storage";
-import type { ICart } from "./ICart";
+import type { ICart, ICartItem } from "./ICart";
 
 export class Cart {
   /**
@@ -17,6 +17,12 @@ export class Cart {
   public static removeItem(product: IProduct, quantity: number) {
     const previousQuantity = this.getItemQuantity(product);
     this.setItem(product, previousQuantity - quantity);
+  }
+
+  static getItem(product: IProduct): ICartItem {
+    const cart = this.getCart();
+    const cartItem = cart.items.find((item) => item.product.id === product.id);
+    return cartItem;
   }
 
   /**
@@ -38,8 +44,7 @@ export class Cart {
    * getItemQuantity - Returns the quantity of a product in the cart.
    */
   public static getItemQuantity(product: IProduct): number {
-    const cart = this.getCart();
-    const cartItem = cart.items.find((item) => item.product.id === product.id);
+    const cartItem = this.getItem(product);
 
     if (cartItem) {
       return cartItem.quantity;
