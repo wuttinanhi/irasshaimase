@@ -1,37 +1,35 @@
 <script lang="ts">
-  import { LOREM } from "../etc/lorem";
+  import { MOCK_PRODUCT_DATA } from "../etc/mock";
   import type { IProduct } from "./IProduct";
   import ProductAddToCartButton from "./ProductAddToCartButton.svelte";
   import ProductOverlay from "./ProductOverlay.svelte";
 
-  export let productData: IProduct = {
-    id: 1,
-    name: "Teddy Bear",
-    description: LOREM,
-    price: 5.99,
-    imageUrl: "/img/teddy.jpg",
-  };
+  export let productData: IProduct = MOCK_PRODUCT_DATA;
 
   let overlay: ProductOverlay;
 </script>
 
-<div class="flex flex-row basis-12/12 sm:basis-1/3">
-  <div class="p-3">
-    <div class="rounded-md border-2 border-gray-200">
+<div class="flex flex-row basis-12/12 sm:basis-1/3 min-w-0">
+  <div class="flex flex-col m-3 rounded-md border-2 border-gray-200 min-w-0">
+    <div class="flex basis-8/12 min-w-0 overflow-hidden">
       <img
-        src="img/teddy.jpg"
-        alt=""
-        class="w-full h-fit"
+        src={productData.imageUrl}
+        alt={productData.name}
+        class="object-fill w-full h-full"
         on:click={() => overlay.showOverlay()}
       />
+    </div>
 
-      <div class="px-3 pb-3">
-        <h3 class="pt-3 text-lg font-bold">{productData.name}</h3>
+    <div class="flex flex-col basis-4/12 px-3">
+      <div class="flex pt-3">
+        <p class="text-lg font-bold truncate">{productData.name}</p>
+      </div>
 
-        <h3 class="text-lg pb-3">
-          ${productData.price}
-        </h3>
+      <div class="flex">
+        <h3 class="flex text-lg">${productData.price}</h3>
+      </div>
 
+      <div class="flex py-3">
         <ProductAddToCartButton {productData} />
       </div>
     </div>

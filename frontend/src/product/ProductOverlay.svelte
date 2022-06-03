@@ -1,15 +1,9 @@
 <script lang="ts">
-  import { LOREM } from "../etc/lorem";
+  import { MOCK_PRODUCT_DATA } from "../etc/mock";
   import type { IProduct } from "./IProduct";
   import ProductAddToCartButton from "./ProductAddToCartButton.svelte";
 
-  export let productData: IProduct = {
-    id: 1,
-    name: "Teddy Bear",
-    description: LOREM,
-    price: 5.99,
-    imageUrl: "/img/teddy.jpg",
-  };
+  export let productData: IProduct = MOCK_PRODUCT_DATA;
 
   export let showing = false;
 
