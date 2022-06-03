@@ -1,7 +1,7 @@
 <!-- Thanks https://www.youtube.com/watch?v=6NlGez_doNY -->
 
 <div
-  class="fixed bottom-0 right-0 p-6 w-8 h-8 bg-white border flex justify-center items-center opacity-75"
+  class="z-[99] fixed bottom-0 right-0 p-6 w-8 h-8 bg-white border flex justify-center items-center opacity-75"
 >
   <div class="block sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden">XS</div>
   <div class="hidden sm:block md:hidden lg:hidden xl:hidden 2xl:hidden">SM</div>
