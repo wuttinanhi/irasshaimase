@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onDestroy } from "svelte";
+  import { Link } from "svelte-routing";
   import CartButton from "../cart/CartButton.svelte";
 
   export let showSidebar = false;
@@ -12,13 +14,17 @@
     showSidebar = false;
     document.body.style.overflow = "auto";
   }
+
+  onDestroy(() => {
+    hideOverlay();
+  });
 </script>
 
 <div class="w-full bg-blue-500 px-5 md:px-16">
   <div class="py-5">
     <div class="flex flex-row">
       <div class="flex grow">
-        <a href="/">
+        <Link to="/">
           <div class="flex flex-col">
             <div>
               <h1 class="font-bold text-white text-2xl">IRASSHAIMASE</h1>
@@ -27,14 +33,14 @@
               <h1 class="font-bold text-white text-sm">いらっしゃいませ</h1>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
 
       <div
         class="hidden sm:flex flex-row gap-x-12 pt-2 content-center items-baseline"
       >
-        <a href="/contact" class="font-bold text-white">CONTACT</a>
-        <a href="/about" class="font-bold text-white">ABOUT</a>
+        <Link to="/contact" class="font-bold text-white">CONTACT</Link>
+        <Link to="/about" class="font-bold text-white">ABOUT</Link>
         <CartButton />
       </div>
 
@@ -62,19 +68,19 @@
     >
       <div class="flex pt-10 pb-8 w-full">
         <div class="flex flex-col w-full pb-5 border-b-2">
-          <a href="/">
+          <Link to="/">
             <h1 class="font-bold text-white text-2xl">IRASSHAIMASE</h1>
             <h1 class="font-bold text-white text-sm">いらっしゃいませ</h1>
-          </a>
+          </Link>
         </div>
       </div>
 
       <div class="flex py-5">
-        <a href="/contact" class="font-bold">CONTACT</a>
+        <Link to="/contact" class="font-bold">CONTACT</Link>
       </div>
 
       <div class="flex py-5">
-        <a href="/about" class="font-bold">ABOUT</a>
+        <Link to="/about" class="font-bold">ABOUT</Link>
       </div>
 
       <div class="flex py-5">

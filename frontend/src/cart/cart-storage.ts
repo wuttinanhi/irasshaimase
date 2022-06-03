@@ -11,7 +11,6 @@ export const cart = writable(cartData);
 let cartValue = cartData;
 
 cart.subscribe((value) => {
-  console.log("CART UPDATED");
   localStorage.setItem("cart", JSON.stringify(value));
   cartValue = value;
 });
