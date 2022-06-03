@@ -21,11 +21,11 @@
     </div>
 
     <div class="flex flex-col basis-4/12 px-3">
-      <div class="flex pt-3">
+      <div class="flex pt-3" on:click={() => overlay.showOverlay()}>
         <p class="text-lg font-bold truncate">{productData.name}</p>
       </div>
 
-      <div class="flex">
+      <div class="flex" on:click={() => overlay.showOverlay()}>
         <h3 class="flex text-lg">${productData.price}</h3>
       </div>
 
