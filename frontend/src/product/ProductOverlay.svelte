@@ -16,6 +16,11 @@
     showing = false;
     document.body.style.overflow = "auto";
   }
+
+  // hide overlay when esc key pressed
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") hideOverlay();
+  });
 </script>
 
 {#if showing === true}
