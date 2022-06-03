@@ -15,6 +15,15 @@
     if (value <= min) value = min;
     onChange(value);
   }
+
+  function onInputChange(e) {
+    value = parseInt(e.target.value) ?? 0;
+    // clamp value
+    if (value < min) value = min;
+    if (value > max) value = max;
+    // call callback
+    onChange(value);
+  }
 </script>
 
 <div class="flex flex-row flex-shrink space-x-2">
@@ -22,12 +31,13 @@
     <button class="input-number-button align-top" on:click={decrease}>-</button>
   </div>
 
-  <div class="flex">
+  <div class="flex px-8">
     <input
       type="number"
       inputmode="numeric"
       {value}
-      class="no-spin rounded-md border-0 text-xl text-center max-w-[50px] max-h-[80px]"
+      class="no-spin rounded-md border-2 text-xl text-center w-full"
+      on:change={onInputChange}
     />
   </div>
 
@@ -47,6 +57,6 @@
   }
 
   .input-number-button {
-    @apply flex flex-shrink h-10 w-10 rounded-full shadow-md bg-white font-bold text-blue-400 text-2xl justify-center text-center align-middle;
+    @apply flex flex-shrink h-10 w-10 rounded-full bg-white font-bold text-blue-400 border-2 text-2xl justify-center text-center align-middle;
   }
 </style>

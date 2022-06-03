@@ -81,7 +81,7 @@
 
           <!-- ADD TO CART BUTTON -->
 
-          <div class="flex flex-row p-5">
+          <div class="flex flex-row p-5 justify-center">
             <ProductAddToCartButton {productData} />
           </div>
         </div>
