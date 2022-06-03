@@ -1,9 +1,19 @@
+<script lang="ts">
+  import { Cart } from "./cart";
+
+  let cartTotal = Cart.getToal();
+
+  Cart.getCartStore().subscribe(() => {
+    cartTotal = Cart.getToal();
+  });
+</script>
+
 <div class="flex flex-col w-full bg-gray-50 px-5 py-5 border-y-2">
   <div class="flex py-5"><h1 class="font-bold text-lg">Summary</h1></div>
 
   <div class="flex justify-between py-2">
     <h1>Subtotal</h1>
-    <h1>$15.85</h1>
+    <h1>${cartTotal}</h1>
   </div>
 
   <div class="flex justify-between py-2 items-center">
@@ -19,7 +29,7 @@
 
   <div class="flex justify-between py-2 font-bold">
     <h1>Total</h1>
-    <h1>$15.85</h1>
+    <h1>${cartTotal}</h1>
   </div>
 
   <div class="flex justify-between pt-6">

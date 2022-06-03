@@ -1,6 +1,7 @@
 <script lang="ts">
   import { LOREM } from "../etc/lorem";
   import type { IProduct } from "./IProduct";
+  import ProductAddToCartButton from "./ProductAddToCartButton.svelte";
   import ProductOverlay from "./ProductOverlay.svelte";
 
   export let productData: IProduct = {
@@ -14,7 +15,7 @@
   let overlay: ProductOverlay;
 </script>
 
-<div class="flex flex-row md:basis-1/3">
+<div class="flex flex-row basis-12/12 sm:basis-1/3">
   <div class="p-3">
     <div class="rounded-md border-2 border-gray-200">
       <img
@@ -31,14 +32,10 @@
           ${productData.price}
         </h3>
 
-        <button
-          class="w-full bg-blue-400 h-full py-3 rounded-md text-white font-bold"
-        >
-          Add to cart
-        </button>
+        <ProductAddToCartButton {productData} />
       </div>
     </div>
   </div>
 </div>
 
-<ProductOverlay bind:this={overlay} />
+<ProductOverlay bind:this={overlay} {productData} />

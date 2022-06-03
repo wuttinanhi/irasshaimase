@@ -1,6 +1,7 @@
 <script lang="ts">
   import { LOREM } from "../etc/lorem";
   import type { IProduct } from "./IProduct";
+  import ProductAddToCartButton from "./ProductAddToCartButton.svelte";
 
   export let productData: IProduct = {
     id: 1,
@@ -30,9 +31,9 @@
     class="z-50 flex fixed w-full h-screen bg-black bg-opacity-80 inset-0 invisible md:visible"
     on:click={() => hideOverlay()}
   >
-    <div class="mx-auto my-auto px-96">
+    <div class="ml-[-384px] mr-[-388px] xl:mx-auto my-auto px-96">
       <div
-        class="flex bg-white flex-row max-h-[80vh]"
+        class="flex bg-white flex-row max-h-[80vh] w-full"
         on:click={(e) => e.stopPropagation()}
       >
         <!-- PRODUCT IMAGE -->
@@ -82,12 +83,7 @@
           <!-- ADD TO CART BUTTON -->
 
           <div class="flex flex-row p-5">
-            <button
-              class="w-full bg-blue-400 h-full py-3 rounded-sm text-white font-bold text-xl"
-              on:click={hideOverlay}
-            >
-              Add to cart
-            </button>
+            <ProductAddToCartButton {productData} />
           </div>
         </div>
       </div>
@@ -139,12 +135,7 @@
 
           <!-- ADD TO CART BUTTON -->
           <div class="flex flex-row p-5">
-            <button
-              class="w-full bg-blue-400 h-full py-3 rounded-sm text-white font-bold text-xl"
-              on:click={hideOverlay}
-            >
-              Add to cart
-            </button>
+            <ProductAddToCartButton {productData} />
           </div>
 
           <!-- PRODUCT DESCRIPTION -->

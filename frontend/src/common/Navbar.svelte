@@ -1,4 +1,6 @@
 <script lang="ts">
+  import CartButton from "../cart/CartButton.svelte";
+
   export let showSidebar = false;
 
   export function showOverlay() {
@@ -33,15 +35,10 @@
       >
         <a href="/contact" class="font-bold text-white">CONTACT</a>
         <a href="/about" class="font-bold text-white">ABOUT</a>
-        <a
-          href="/cart"
-          class="py-3 px-5 font-bold rounded-md bg-white text-blue-600"
-        >
-          CART (0)
-        </a>
+        <CartButton />
       </div>
 
-      <div class="flex md:hidden">
+      <div class="flex sm:hidden">
         <button
           type="button"
           class="font-bold text-white text-lg"
@@ -81,12 +78,7 @@
       </div>
 
       <div class="flex py-5">
-        <a
-          href="/cart"
-          class="py-3 px-5 text-center font-bold rounded-md bg-white text-blue-600 w-full"
-        >
-          CART (0)
-        </a>
+        <CartButton />
       </div>
     </div>
   </div>
