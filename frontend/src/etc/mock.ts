@@ -32,16 +32,16 @@ export const MOCK_PRODUCTS: IProduct[] = [
   },
   {
     id: 2,
-    name: "Bear Doll",
+    name: "Lovely Bear",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     imageUrl: "/img/teddy.jpg",
     price: 10,
   },
   {
     id: 3,
-    name: "Lovely Bear",
+    name: "A Little Cat",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    imageUrl: "/img/teddy.jpg",
+    imageUrl: "/img/cat.jpg",
     price: 15,
   },
   {
