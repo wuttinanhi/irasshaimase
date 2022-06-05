@@ -63,10 +63,6 @@ export class OrderService {
         orderItem.quantity = item.quantity;
         orderItem.price = product.price * item.quantity;
 
-        if (orderItem.price >= 30) {
-          throw new InternalServerErrorException('TEST');
-        }
-
         // remove product stock
         product.stock = product.stock - item.quantity;
         await queryRunner.manager.save(product);
