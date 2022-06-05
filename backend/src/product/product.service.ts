@@ -37,4 +37,10 @@ export class ProductService {
     await this.productRepository.remove(product);
     return product;
   }
+
+  async isProductAvailable(id: number, quantity = 1) {
+    const product = await this.findOne(id);
+    if (!product) return false;
+    return product.stock >= quantity;
+  }
 }
