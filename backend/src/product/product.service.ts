@@ -45,4 +45,15 @@ export class ProductService {
     if (!product) return false;
     return product.stock >= quantity;
   }
+
+  async setProductStock(id: number, amount: number) {
+    const product = await this.update(id, { stock: amount });
+    return product;
+  }
+
+  async removeProductStock(id: number, take: number) {
+    const product = await this.findOne(id);
+    const update = await this.setProductStock(id, product.stock - take);
+    return update;
+  }
 }
