@@ -10,6 +10,7 @@ import { CartService } from '../cart/cart.service';
 import { ProductService } from '../product/product.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderItem } from './entities/order.entity';
+import { EOrderStatus } from './order-status.enum';
 
 @Injectable()
 export class OrderService {
@@ -51,6 +52,8 @@ export class OrderService {
       const order = this.orderRepository.create();
       order.userId = createOrderDto.userId;
       order.orderItems = [];
+      order.total = 0;
+      order.status = EOrderStatus.CREATED;
       await queryRunner.manager.save(order);
 
       // loop through cart item
@@ -72,7 +75,13 @@ export class OrderService {
 
         // push order item to order
         order.orderItems.push(orderItem);
+
+        // update total
+        order.total += orderItem.price;
       }
+
+      // update order status
+      order.status = EOrderStatus.PENDING;
 
       // save order
       const orderResult = await queryRunner.manager.save(order);

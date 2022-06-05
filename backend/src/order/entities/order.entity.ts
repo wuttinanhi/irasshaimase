@@ -5,6 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { EOrderStatus } from '../order-status.enum';
 
 @Entity()
 export class Order {
@@ -19,6 +20,12 @@ export class Order {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.orderId)
   orderItems: OrderItem[];
+
+  @Column()
+  total: number;
+
+  @Column({ type: 'enum', enum: EOrderStatus, default: EOrderStatus.CREATED })
+  status: EOrderStatus;
 }
 
 @Entity()

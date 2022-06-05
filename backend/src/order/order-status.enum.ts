@@ -1,0 +1,8 @@
+export enum EOrderStatus {
+  CREATED = 'CREATED',
+  PENDING = 'PENDING',
+  CANCELLED = 'CANCELLED',
+  PAID = 'PAID',
+  CONFIRMED = 'CONFIRMED',
+  DELIVERED = 'DELIVERED',
+}
