@@ -20,7 +20,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     // check if user exists
     const exists = await this.userRepository.findOne({
-      email: createUserDto.email,
+      where: { email: createUserDto.email },
     });
 
     // if user exists, return error
@@ -32,12 +32,12 @@ export class UserService {
   }
 
   async findOne(id: number) {
-    const user = await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne({ where: { id } });
     return user;
   }
 
   async authenticate(email: string, password: string) {
-    const user = await this.userRepository.findOne({ email });
+    const user = await this.userRepository.findOne({ where: { email } });
     if (!user) throw new UnauthorizedException();
     const validate = await compare(password, user.password);
     if (validate === true) return user;
@@ -45,7 +45,7 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne({ where: { id } });
     if (!user) throw new ForbiddenException();
 
     const result = await this.userRepository.update(
