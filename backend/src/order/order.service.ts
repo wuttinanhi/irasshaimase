@@ -1,12 +1,14 @@
 import {
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DataSource } from 'typeorm/data-source/DataSource';
 import { CartService } from '../cart/cart.service';
+import { PaypalService } from '../paypal/paypal.service';
 import { ProductService } from '../product/product.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderItem } from './entities/order.entity';
@@ -23,12 +25,15 @@ export class OrderService {
     // service
     private readonly cartService: CartService,
     private readonly productService: ProductService,
+    private readonly paypalService: PaypalService,
     // datasource
     private readonly dataSource: DataSource,
   ) {}
 
-  findOne(id: number) {
-    return this.orderRepository.findOne({ where: { id } });
+  async findOne(id: number) {
+    const order = await this.orderRepository.findOne({ where: { id } });
+    if (!order) throw new NotFoundException();
+    return order;
   }
 
   async create(createOrderDto: CreateOrderDto) {
@@ -84,13 +89,19 @@ export class OrderService {
       order.status = EOrderStatus.PENDING;
 
       // save order
-      const orderResult = await queryRunner.manager.save(order);
+      const createdOrder = await queryRunner.manager.save(order);
 
       // commit transaction
       await queryRunner.commitTransaction();
 
-      // return order result
-      return orderResult;
+      // create payment
+      const { payUrl } = await this.paypalService.create(order);
+
+      // return result
+      return {
+        order: createdOrder,
+        payUrl: payUrl,
+      };
     } catch (err) {
       // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
@@ -101,5 +112,11 @@ export class OrderService {
       // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
     }
+  }
+
+  async updateOrderStatus(id: number, status: EOrderStatus) {
+    const order = await this.orderRepository.findOne({ where: { id } });
+    order.status = status;
+    return this.orderRepository.save(order);
   }
 }
