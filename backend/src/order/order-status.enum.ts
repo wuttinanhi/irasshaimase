@@ -5,4 +5,5 @@ export enum EOrderStatus {
   PAID = 'PAID',
   CONFIRMED = 'CONFIRMED',
   DELIVERED = 'DELIVERED',
+  REFUNDED = 'REFUNDED',
 }

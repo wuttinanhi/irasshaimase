@@ -114,9 +114,14 @@ export class OrderService {
     }
   }
 
+  async update(id: number, order: Order) {
+    const original = await this.findOne(id);
+    return this.orderRepository.save({ ...original, ...order });
+  }
+
   async updateOrderStatus(id: number, status: EOrderStatus) {
-    const order = await this.orderRepository.findOne({ where: { id } });
+    const order = await this.findOne(id);
     order.status = status;
-    return this.orderRepository.save(order);
+    await this.update(id, order);
   }
 }

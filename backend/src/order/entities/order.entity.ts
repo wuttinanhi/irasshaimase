@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -26,6 +27,14 @@ export class Order {
 
   @Column({ type: 'enum', enum: EOrderStatus, default: EOrderStatus.CREATED })
   status: EOrderStatus;
+
+  @Exclude()
+  @Column({ default: null })
+  captureId: string;
+
+  @Exclude()
+  @Column({ default: null })
+  authorizationId: string;
 }
 
 @Entity()

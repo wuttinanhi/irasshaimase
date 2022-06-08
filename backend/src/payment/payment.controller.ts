@@ -1,9 +1,4 @@
-import {
-  Controller,
-  Get,
-  InternalServerErrorException,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { EOrderStatus } from '../order/order-status.enum';
 import { OrderService } from '../order/order.service';
 import { PaypalService } from '../paypal/paypal.service';
@@ -22,13 +17,29 @@ export class PaymentController {
       await this.paypalService.getAuthorizationInfo(token);
 
     // capture payment
-    const capture = await this.paypalService.capture(authorizationId);
-    if (capture === false) throw new InternalServerErrorException();
+    const captureId = await this.paypalService.capture(authorizationId);
 
-    // update order status to paid
-    await this.orderService.updateOrderStatus(orderId, EOrderStatus.PAID);
+    // get order to update
+    const order = await this.orderService.findOne(orderId);
+
+    // update order status to paid, order authorization id and capture id
+    order.status = EOrderStatus.PAID;
+    order.authorizationId = authorizationId;
+    order.captureId = captureId;
+
+    // update order
+    await this.orderService.update(orderId, order);
 
     // return order id
+    return { orderId };
+  }
+
+  @Post('refund')
+  async refund(@Query('orderId') orderId: number) {
+    const order = await this.orderService.findOne(orderId);
+    await this.paypalService.refund(order.id, order.captureId, order.total);
+    order.status = EOrderStatus.REFUNDED;
+    await this.orderService.update(orderId, order);
     return { orderId };
   }
 

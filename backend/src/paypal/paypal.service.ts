@@ -54,13 +54,13 @@ export class PaypalService {
             currency_code: 'USD',
             value: String(order.total),
             breakdown: {
-              item_total: { currency_code: 'USD', value: String(order.total) },
               discount: { currency_code: 'USD', value: '0.00' },
               handling: { currency_code: 'USD', value: '0.00' },
               shipping: { currency_code: 'USD', value: '0.00' },
               tax_total: { currency_code: 'USD', value: '0.00' },
               shipping_discount: { currency_code: 'USD', value: '0.00' },
               insurance: { currency_code: 'USD', value: '0.00' },
+              item_total: { currency_code: 'USD', value: String(order.total) },
             },
           },
         },
@@ -90,34 +90,36 @@ export class PaypalService {
     return { authorizationId, orderId };
   }
 
-  public async capture(authorizationId: string): Promise<any> {
-    try {
-      const captureRequest = new paypal.payments.AuthorizationsCaptureRequest(
-        authorizationId,
-      );
+  /**
+   * capture payment
+   * @param authorizationId
+   * @returns capture id
+   */
+  public async capture(authorizationId: string) {
+    const captureRequest = new paypal.payments.AuthorizationsCaptureRequest(
+      authorizationId,
+    );
 
-      await this.getClient().execute(captureRequest);
+    const response = await this.getClient().execute(captureRequest);
 
-      return true;
-    } catch (error) {
-      false;
-    }
+    // return capture id
+    return response.result.id as string;
   }
 
-  public async refund(captureId: string): Promise<any> {
+  public async refund(
+    invoiceId: number | string,
+    captureId: string,
+    amount: number,
+    message = 'REFUND',
+  ) {
     const Refundrequest = new paypal.payments.CapturesRefundRequest(captureId);
 
     Refundrequest.requestBody({
-      amount: {
-        currency_code: 'USD',
-        value: '10.00',
-      },
-      note_to_payer: 'REFUND',
-      invoice_id: captureId,
+      amount: { currency_code: 'USD', value: String(amount) },
+      note_to_payer: message,
+      invoice_id: String(invoiceId),
     });
 
-    const refundResponse = await this.getClient().execute(Refundrequest);
-
-    return refundResponse;
+    await this.getClient().execute(Refundrequest);
   }
 }
