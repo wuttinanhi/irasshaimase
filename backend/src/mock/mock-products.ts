@@ -42,8 +42,9 @@ const MOCK_PRODUCTS: CreateProductDto[] = [
 ];
 
 async function mockProducts() {
-  const app = await NestFactory.createApplicationContext(AppModule);
-  app.useLogger(false);
+  const app = await NestFactory.createApplicationContext(AppModule, {
+    logger: false,
+  });
 
   const productService = app.get(ProductService);
 
