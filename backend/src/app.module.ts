@@ -12,6 +12,7 @@ import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { PaymentModule } from './payment/payment.module';
 import { PaypalModule } from './paypal/paypal.module';
+import { UserRoleModule } from './user-role/user-role.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { PaypalModule } from './paypal/paypal.module';
     OrderModule,
     PaymentModule,
     PaypalModule,
+    UserRoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
