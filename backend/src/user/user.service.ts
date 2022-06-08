@@ -33,6 +33,7 @@ export class UserService {
 
   async findOne(id: number) {
     const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) throw new ForbiddenException();
     return user;
   }
 
@@ -45,8 +46,7 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) throw new ForbiddenException();
+    const user = await this.findOne(id);
 
     const result = await this.userRepository.update(
       id,
