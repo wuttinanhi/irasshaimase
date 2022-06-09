@@ -59,6 +59,7 @@ export class OrderService {
       order.orderItems = [];
       order.total = 0;
       order.status = EOrderStatus.CREATED;
+      order.shippingAddress = createOrderDto.shippingAddress;
       await queryRunner.manager.save(order);
 
       // loop through cart item

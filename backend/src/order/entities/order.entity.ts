@@ -35,6 +35,10 @@ export class Order {
   @Exclude()
   @Column({ default: null })
   authorizationId: string;
+
+  @Column()
+  @Exclude()
+  shippingAddress: string;
 }
 
 @Entity()
