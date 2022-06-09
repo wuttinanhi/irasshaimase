@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { EOrderStatus } from '../order/order-status.enum';
 import { OrderService } from '../order/order.service';
 import { PaypalService } from '../paypal/paypal.service';
+import { AdminGuard } from '../user-role/admin.guard';
 
 @Controller('api/payment')
 export class PaymentController {
@@ -35,6 +37,7 @@ export class PaymentController {
   }
 
   @Post('refund')
+  @UseGuards(JwtAuthGuard, AdminGuard)
   async refund(@Query('orderId') orderId: number) {
     const order = await this.orderService.findOne(orderId);
     await this.paypalService.refund(order.id, order.captureId, order.total);
