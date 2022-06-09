@@ -16,7 +16,7 @@ export class Order {
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ default: 1 })
+  @Column()
   userId: number;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.orderId)

@@ -36,7 +36,7 @@ export class OrderService {
     return order;
   }
 
-  async create(createOrderDto: CreateOrderDto) {
+  async create(userId: any, createOrderDto: CreateOrderDto) {
     // validate cart
     const cartValidate = await this.cartService.validateCart(
       createOrderDto.cart,
@@ -55,7 +55,7 @@ export class OrderService {
     try {
       // create order
       const order = this.orderRepository.create();
-      order.userId = createOrderDto.userId;
+      order.userId = userId;
       order.orderItems = [];
       order.total = 0;
       order.status = EOrderStatus.CREATED;
