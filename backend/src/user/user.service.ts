@@ -58,4 +58,11 @@ export class UserService {
 
     return result;
   }
+
+  async ___debugShowUserTable() {
+    const users = await this.userRepository.find();
+    // remove user password field
+    users.map((user) => delete user.password);
+    console.table(users);
+  }
 }
