@@ -7,22 +7,22 @@ const MOCK_USER: CreateUserDto[] = [
   {
     name: 'Admin',
     email: 'admin@example.com',
-    password: 'admin',
+    password: 'adminpassword',
   },
   {
     name: 'User',
     email: 'user@example.com',
-    password: 'user',
+    password: 'userpassword',
   },
   {
     name: 'Guest',
     email: 'guest@example.com',
-    password: 'guest',
+    password: 'guestpassword',
   },
   {
     name: 'John Doe',
     email: 'john@example.com',
-    password: 'john',
+    password: 'johnpassword',
   },
 ];
 
