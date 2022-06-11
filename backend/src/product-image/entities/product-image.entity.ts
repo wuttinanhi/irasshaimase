@@ -9,10 +9,10 @@ export class ProductImage {
   productId: number;
 
   @Column()
-  imageUrl: string;
+  userId: number;
 
   @Column()
-  userId: number;
+  imageUrl: string;
 
   @Column()
   imageName: string;

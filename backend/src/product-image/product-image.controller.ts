@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  PayloadTooLargeException,
   Post,
   Query,
   UploadedFiles,
@@ -11,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs';
+import { DataSource } from 'typeorm';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../user-role/admin.guard';
@@ -20,7 +22,7 @@ import { ProductImageService } from './product-image.service';
 
 @Controller('api/product-image')
 export class ProductImageController {
-  constructor(private readonly productImageService: ProductImageService) {}
+  constructor(private readonly productImageService: ProductImageService, private dataSource: DataSource) {}
 
   @Post('upload')
   @UseGuards(JwtAuthGuard, AdminGuard)
@@ -30,67 +32,58 @@ export class ProductImageController {
     @Query('productId') productId: number,
     @CurrentUser() user: User,
   ) {
-    const uploadedFilePaths = [];
-    const recordArray: ProductImage[] = [];
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
     try {
+      // check file mimetype
+      const allowedMimeTypes = ['image/jpeg', 'image/png'];
       for (const file of files) {
-        // check file mimetype
-        if (
-          (file.mimetype === 'image/jpeg') === false &&
-          (file.mimetype === 'image/png') === false
-        ) {
-          // push to array
-          uploadedFilePaths.push(file.path);
-
-          // throw error
+        if (allowedMimeTypes.includes(file.mimetype) === false) {
           throw new BadRequestException();
         }
+      }
 
-        // get file extension
-        const fileExtension = file.mimetype.split('/').pop();
+      // check image count of product
+      const imageCount = await this.productImageService.countByProductId(productId);
+      const totalImageCount = imageCount + files.length;
+      if (totalImageCount > parseInt(process.env.PRODUCT_IMAGE_LIMIT, 10)) {
+        throw new PayloadTooLargeException();
+      }
 
-        // define file save path
-        const fileName = `${file.filename}.${fileExtension}`;
-        const fileSavePath = `${file.destination}/${fileName}`;
-
-        // rename file
-        fs.renameSync(file.path, fileSavePath);
-
+      // looping files
+      for (const file of files) {
         // create record
         const productImage = new ProductImage();
         productImage.imageMimeType = file.mimetype;
-        productImage.imageName = fileName;
+        productImage.imageName = file.filename;
         productImage.imageSize = file.size;
-        productImage.imageUrl = `${process.env.PRODUCT_IMAGE_BASE_URL}/${fileName}`;
+        productImage.imageUrl = `${process.env.PRODUCT_IMAGE_BASE_URL}/${file.filename}`;
         productImage.productId = productId;
         productImage.userId = user.id;
-
-        // push record
-        recordArray.push(productImage);
-
-        // push to array
-        uploadedFilePaths.push(fileSavePath);
+        // save record
+        await this.productImageService.create(productImage);
       }
 
-      // save records
-      for (const record of recordArray) {
-        await this.productImageService.create(record);
-      }
-    } catch (error) {
+      // commit transaction
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // rollback transaction
+      await queryRunner.rollbackTransaction();
       // delete all uploaded files
-      for (const filePath of uploadedFilePaths) {
-        fs.unlinkSync(filePath);
-      }
-
+      for (const file of files) fs.unlinkSync(file.path);
       // throw error
       throw new BadRequestException();
+    } finally {
+      // release query runner
+      await queryRunner.release();
     }
   }
 
   @Get('get')
   async get(@Query('productId') productId: number) {
-    return this.productImageService.getProductImages(productId);
+    return this.productImageService.getImageByProductId(productId);
   }
 
   @Delete('delete')
