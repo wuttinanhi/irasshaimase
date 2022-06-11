@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../user-role/admin.guard';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -36,10 +27,7 @@ export class ProductController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  async update(
-    @Param('id') id: string,
-    @Body() updateProductDto: UpdateProductDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     await this.productService.update(+id, updateProductDto);
   }
 
