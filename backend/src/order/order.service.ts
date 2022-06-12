@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DataSource } from 'typeorm/data-source/DataSource';
 import { CartService } from '../cart/cart.service';
+import { Pagination } from '../pagination/pagination';
 import { PaypalService } from '../paypal/paypal.service';
 import { ProductService } from '../product/product.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -38,9 +39,7 @@ export class OrderService {
 
   async create(userId: any, createOrderDto: CreateOrderDto) {
     // validate cart
-    const cartValidate = await this.cartService.validateCart(
-      createOrderDto.cart,
-    );
+    const cartValidate = await this.cartService.validateCart(createOrderDto.cart);
 
     // if cart is invalid, throw exception
     if (cartValidate.notAvailableCount > 0) {
@@ -124,5 +123,15 @@ export class OrderService {
     const order = await this.findOne(id);
     order.status = status;
     await this.update(id, order);
+  }
+
+  async getAll() {
+    return this.orderRepository.find();
+  }
+
+  async paginate(page: number, limit: number) {
+    const queryBuilder = this.orderRepository.createQueryBuilder('order');
+    const pagination = new Pagination(queryBuilder);
+    return pagination.paginate(page, limit);
   }
 }
