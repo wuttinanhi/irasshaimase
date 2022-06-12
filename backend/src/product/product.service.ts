@@ -82,6 +82,7 @@ export class ProductService {
         'product.name AS name',
         'product.description AS description',
         'product.price AS price',
+        'product.stock AS stock',
         'ANY_VALUE(product_image.imageUrl) AS image',
       ])
       .leftJoin('product_image', 'product_image', 'product.id = product_image.productId')
