@@ -37,6 +37,9 @@ export class ProductImageController {
     await queryRunner.startTransaction();
 
     try {
+      // throw error file not present
+      if (!files || files.length === 0) throw new BadRequestException();
+
       // check file mimetype
       const allowedMimeTypes = ['image/jpeg', 'image/png'];
       for (const file of files) {
@@ -72,7 +75,9 @@ export class ProductImageController {
       // rollback transaction
       await queryRunner.rollbackTransaction();
       // delete all uploaded files
-      for (const file of files) fs.unlinkSync(file.path);
+      if (files && files.length > 0) {
+        for (const file of files) fs.unlinkSync(file.path);
+      }
       // throw error
       throw new BadRequestException();
     } finally {
