@@ -1,4 +1,5 @@
 import { ClassSerializerInterceptor, INestApplication, Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { UserService } from './user/user.service';
@@ -44,15 +45,21 @@ async function bootstrap() {
   // start force modify
   await forceModify(app);
 
+  // get config service
+  const configService = app.get(ConfigService);
+
   // apply global stuff
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
+  // enable CORS
+  // parse APP_CORS_ORIGIN to array
+  const APP_CORS_ORIGIN = configService.get('APP_CORS_ORIGIN').split(',');
+  // apply CORS
+  app.enableCors({ origin: APP_CORS_ORIGIN });
+
   // enable gracefully shutdown
   app.enableShutdownHooks();
-
-  // enable CORS
-  app.enableCors({ origin: '*' });
 
   // listen port
   await app.listen(3000);

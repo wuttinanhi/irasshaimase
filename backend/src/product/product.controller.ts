@@ -33,7 +33,6 @@ export class ProductController {
   }
 
   @Get('paginate')
-  @UseGuards(JwtAuthGuard, AdminGuard)
   paginate(@Query('page') page: number, @Query('limit') limit: number) {
     return this.productService.paginate(page, limit);
   }
