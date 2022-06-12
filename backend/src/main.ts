@@ -1,9 +1,4 @@
-import {
-  ClassSerializerInterceptor,
-  INestApplication,
-  Logger,
-  ValidationPipe,
-} from '@nestjs/common';
+import { ClassSerializerInterceptor, INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { UserService } from './user/user.service';
@@ -52,6 +47,9 @@ async function bootstrap() {
   // apply global stuff
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  // enable gracefully shutdown
+  app.enableShutdownHooks();
 
   // listen port
   await app.listen(3000);
