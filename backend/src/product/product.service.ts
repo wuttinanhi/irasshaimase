@@ -6,6 +6,10 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
+// export class ProductPaginationObject extends OmitType(Product, ['id']) {
+//   image: string;
+// }
+
 @Injectable()
 export class ProductService {
   constructor(
@@ -71,8 +75,19 @@ export class ProductService {
   }
 
   paginate(page: number, limit: number) {
-    const queryBuilder = this.productRepository.createQueryBuilder('product');
+    const queryBuilder = this.productRepository
+      .createQueryBuilder('product')
+      .select([
+        'product.id AS id',
+        'product.name AS name',
+        'product.description AS description',
+        'product.price AS price',
+        'ANY_VALUE(product_image.imageUrl) AS image',
+      ])
+      .leftJoin('product_image', 'product_image', 'product.id = product_image.productId')
+      .groupBy('id');
+
     const pagination = new Pagination(queryBuilder);
-    return pagination.paginate(page, limit);
+    return pagination.paginate(page, limit, true);
   }
 }

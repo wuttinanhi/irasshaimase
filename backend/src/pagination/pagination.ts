@@ -11,16 +11,14 @@ export class Pagination<T> {
     this.queryBuilder = queryBuilder;
   }
 
-  public async paginate(page: number, limit: number) {
+  public async paginate(page: number, limit: number, raw = false) {
     if (page < 1 || limit < 1 || limit > 50) throw new BadRequestException();
 
     this.page = page;
     this.perPage = limit;
 
-    const items = await this.queryBuilder
-      .skip((this.page - 1) * this.perPage)
-      .take(this.perPage)
-      .getMany();
+    const query = this.queryBuilder.skip((this.page - 1) * this.perPage).take(this.perPage);
+    const items = await (raw ? query.getRawMany() : query.getMany());
 
     const totalCount = await this.queryBuilder.getCount();
 
