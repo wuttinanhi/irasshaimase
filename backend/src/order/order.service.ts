@@ -129,8 +129,10 @@ export class OrderService {
     return this.orderRepository.find();
   }
 
-  async paginate(page: number, limit: number) {
+  async paginate(page: number, limit: number, userId?: number) {
     const queryBuilder = this.orderRepository.createQueryBuilder('order');
+    if (userId) queryBuilder.where('order.userId = :userId', { userId });
+
     const pagination = new Pagination(queryBuilder);
     return pagination.paginate(page, limit);
   }

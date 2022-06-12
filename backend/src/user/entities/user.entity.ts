@@ -1,12 +1,6 @@
 import { hash } from 'bcrypt';
 import { Exclude } from 'class-transformer';
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -26,9 +20,6 @@ export class User {
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
-    this.password = await hash(
-      this.password,
-      parseInt(process.env.BCRYPT_SALT_ROUNDS),
-    );
+    this.password = await hash(this.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../user-role/admin.guard';
@@ -16,15 +16,29 @@ export class OrderController {
     return this.orderService.create(user.id, createOrderDto);
   }
 
-  @Get('get')
+  @Get('admin/get')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  findOne(@Query('id') id: string) {
-    return this.orderService.findOne(+id);
+  adminGet(@Query('id') id: number) {
+    return this.orderService.findOne(id);
+  }
+
+  @Get('admin/paginate')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  adminPaginate(@Query('page') page: number, @Query('limit') limit: number, @Query('userId') userId: number) {
+    return this.orderService.paginate(page, limit, userId);
   }
 
   @Get('paginate')
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  paginate(@Query('page') page: number, @Query('limit') limit: number) {
-    return this.orderService.paginate(page, limit);
+  @UseGuards(JwtAuthGuard)
+  paginate(@CurrentUser() user: User, @Query('page') page: number, @Query('limit') limit: number) {
+    return this.orderService.paginate(page, limit, user.id);
+  }
+
+  @Get('get')
+  @UseGuards(JwtAuthGuard)
+  async get(@CurrentUser() user: User, @Query('id') id: number) {
+    const order = await this.orderService.findOne(id);
+    if (order.userId !== user.id) throw new ForbiddenException();
+    return order;
   }
 }
