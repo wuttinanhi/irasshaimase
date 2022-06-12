@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Pagination } from '../pagination/pagination';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -67,5 +68,11 @@ export class ProductService {
     const product = await this.findOne(id);
     const update = await this.setProductStock(id, product.stock - take);
     return update;
+  }
+
+  paginate(page: number, limit: number) {
+    const queryBuilder = this.productRepository.createQueryBuilder('product');
+    const pagination = new Pagination(queryBuilder);
+    return pagination.paginate(page, limit);
   }
 }

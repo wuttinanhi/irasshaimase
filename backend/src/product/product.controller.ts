@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../user-role/admin.guard';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -15,25 +15,26 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
-  @Get()
-  findAll() {
-    return this.productService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get('get')
+  findOne(@Query('id') id: string) {
     return this.productService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('update')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  async update(@Query('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     await this.productService.update(+id, updateProductDto);
   }
 
-  @Delete(':id')
+  @Delete('delete')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  async remove(@Param('id') id: string) {
+  async remove(@Query('id') id: string) {
     await this.productService.remove(+id);
+  }
+
+  @Get('paginate')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  paginate(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.productService.paginate(page, limit);
   }
 }
