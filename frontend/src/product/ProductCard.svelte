@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { MOCK_PRODUCT_DATA } from "../etc/mock";
   import type { IProduct } from "./IProduct";
   import ProductAddToCartButton from "./ProductAddToCartButton.svelte";
   import ProductOverlay from "./ProductOverlay.svelte";
 
-  export let productData: IProduct = MOCK_PRODUCT_DATA;
+  export let productData: IProduct;
 
   let overlay: ProductOverlay;
 </script>
@@ -31,8 +30,12 @@
         </div>
       </div>
 
-      <div class="flex py-3 justify-center">
-        <ProductAddToCartButton {productData} />
+      <div class="flex py-2 justify-center">
+        {#if productData.stock > 0}
+          <ProductAddToCartButton {productData} />
+        {:else}
+          <p class="text-gray-800 font-bold">Out of Stock</p>
+        {/if}
       </div>
     </div>
   </div>

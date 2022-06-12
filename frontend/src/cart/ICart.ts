@@ -8,4 +8,5 @@ export interface ICart {
 export interface ICartItem {
   product: IProduct;
   quantity: number;
+  available: boolean;
 }

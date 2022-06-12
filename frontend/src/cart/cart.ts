@@ -1,3 +1,4 @@
+import { CartAPI } from "../api/cart.api";
 import type { IProduct } from "../product/IProduct";
 import { cart, getCart, setCart } from "./cart-storage";
 import type { ICart, ICartItem } from "./ICart";
@@ -30,7 +31,8 @@ export class Cart {
    */
   public static getToal() {
     const cartTotal = this.getCart().items.reduce(
-      (total, item) => total + item.product.price * item.quantity,
+      (total, item) =>
+        item.available ? total + item.product.price * item.quantity : total,
       0
     );
     return cartTotal.toFixed(2);
@@ -70,7 +72,7 @@ export class Cart {
         cartItem.quantity = quantity;
       }
     } else {
-      cart.items.push({ product, quantity });
+      cart.items.push({ product, quantity, available: true });
     }
 
     this.setCart(cart);
@@ -82,5 +84,46 @@ export class Cart {
 
   private static setCart(cart: ICart) {
     setCart(cart);
+  }
+
+  public static getItemById(productId: number) {
+    const cart = this.getCart();
+    const cartItem = cart.items.find((item) => item.product.id === productId);
+    return cartItem;
+  }
+
+  public static setAvailable(product: IProduct, available: boolean) {
+    const cart = this.getCart();
+    const cartItem = cart.items.find((item) => item.product.id === product.id);
+
+    if (cartItem) {
+      cartItem.available = available;
+    }
+
+    this.setCart(cart);
+  }
+
+  public static async validate() {
+    console.log("========== Validating cart ==========");
+
+    const cart = this.getCart();
+    if (cart.items.length <= 0) return;
+
+    const api = new CartAPI();
+    const request = await api.validate(cart);
+
+    if (request === null) return;
+
+    for (const notAvailableProduct of request.products) {
+      const cartItem = Cart.getItemById(notAvailableProduct.id);
+      const product = cartItem.product;
+
+      const productAvailable = notAvailableProduct.available;
+      Cart.setAvailable(product, productAvailable);
+
+      if (productAvailable == false) {
+        console.log(`product ${product.name} is not available`);
+      }
+    }
   }
 }

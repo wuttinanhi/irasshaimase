@@ -20,6 +20,7 @@ export const MOCK_PRODUCT_DATA: IProduct = {
   description: LOREM,
   price: 5.99,
   image: "/img/teddy.jpg",
+  stock: 10,
 };
 
 export const MOCK_PRODUCTS: IProduct[] = [
@@ -29,6 +30,7 @@ export const MOCK_PRODUCTS: IProduct[] = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/img/teddy.jpg",
     price: 5,
+    stock: 1,
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ export const MOCK_PRODUCTS: IProduct[] = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/img/teddy.jpg",
     price: 10,
+    stock: 2,
   },
   {
     id: 3,
@@ -43,6 +46,7 @@ export const MOCK_PRODUCTS: IProduct[] = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/img/cat.jpg",
     price: 15,
+    stock: 3,
   },
   {
     id: 4,
@@ -50,6 +54,7 @@ export const MOCK_PRODUCTS: IProduct[] = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/img/teddy.jpg",
     price: 5,
+    stock: 4,
   },
   {
     id: 5,
@@ -57,6 +62,7 @@ export const MOCK_PRODUCTS: IProduct[] = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/img/teddy.jpg",
     price: 10,
+    stock: 5,
   },
   {
     id: 6,
@@ -64,6 +70,7 @@ export const MOCK_PRODUCTS: IProduct[] = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/img/teddy.jpg",
     price: 15,
+    stock: 6,
   },
   {
     id: 7,
@@ -71,5 +78,6 @@ export const MOCK_PRODUCTS: IProduct[] = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     image: "/img/teddy.jpg",
     price: 15,
+    stock: 7,
   },
 ];

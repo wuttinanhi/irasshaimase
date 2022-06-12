@@ -1,7 +1,7 @@
 <script lang="ts">
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
-  import Cart from "./CartDisplay.svelte";
+  import CartDisplay from "./CartDisplay.svelte";
   import CartSummary from "./CartSummary.svelte";
 </script>
 
@@ -13,7 +13,7 @@
   </div>
 
   <div class="flex">
-    <Cart />
+    <CartDisplay />
   </div>
 
   <div class="flex mt-10 w-full justify-end">

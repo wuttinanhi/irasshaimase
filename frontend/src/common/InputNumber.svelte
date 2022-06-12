@@ -3,6 +3,7 @@
   export let min: number = 0;
   export let max: number = 9999;
   export let onChange: (value: number) => void = () => {};
+  export let disabled: boolean = false;
 
   function increase() {
     value += 1;
@@ -27,23 +28,30 @@
 </script>
 
 <div class="flex flex-row flex-shrink space-x-2">
-  <div class="flex">
-    <button class="input-number-button align-top" on:click={decrease}>-</button>
-  </div>
+  {#if disabled === false}
+    <div class="flex flex-shrink">
+      <button class="input-number-button align-top" on:click={decrease}>
+        -
+      </button>
+    </div>
+  {/if}
 
-  <div class="flex px-8">
+  <div class="flex px-1 flex-shrink">
     <input
       type="number"
       inputmode="numeric"
       {value}
       class="no-spin rounded-md border-2 text-xl text-center w-full"
       on:change={onInputChange}
+      {disabled}
     />
   </div>
 
-  <div class="flex">
-    <button class="input-number-button" on:click={increase}> + </button>
-  </div>
+  {#if disabled === false}
+    <div class="flex flex-shrink">
+      <button class="input-number-button" on:click={increase}> + </button>
+    </div>
+  {/if}
 </div>
 
 <style lang="postcss">

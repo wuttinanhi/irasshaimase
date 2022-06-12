@@ -39,8 +39,8 @@
       <div
         class="hidden sm:flex flex-row gap-x-12 pt-2 content-center items-baseline"
       >
-        <Link to="/contact" class="font-bold text-white">CONTACT</Link>
-        <Link to="/about" class="font-bold text-white">ABOUT</Link>
+        <!-- <Link to="/contact" class="font-bold text-white">CONTACT</Link>
+        <Link to="/about" class="font-bold text-white">ABOUT</Link> -->
         <CartButton />
       </div>
 
@@ -75,13 +75,14 @@
         </div>
       </div>
 
+      <!-- 
       <div class="flex py-5">
         <Link to="/contact" class="font-bold">CONTACT</Link>
       </div>
 
       <div class="flex py-5">
         <Link to="/about" class="font-bold">ABOUT</Link>
-      </div>
+      </div> -->
 
       <div class="flex py-5">
         <CartButton />

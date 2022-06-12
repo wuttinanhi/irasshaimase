@@ -5,7 +5,13 @@ export class BaseAPI {
     this.baseUrl = "http://localhost:3000";
   }
 
-  public get(url: string): Promise<any> {
-    return fetch(`${this.baseUrl}/${url}`).then((response) => response.json());
+  public get(url: string, method = "GET", body?: any): Promise<any> {
+    return fetch(`${this.baseUrl}/${url}`, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }).then((response) => response.json());
   }
 }

@@ -8,7 +8,6 @@
   async function getProduct() {
     const productApi = new ProductAPI();
     products = await productApi.getAllProducts();
-    console.log(products);
   }
 
   getProduct();
