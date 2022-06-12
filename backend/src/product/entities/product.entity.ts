@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsPositive, IsString, IsUrl, Length } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsPositive, IsString, Length } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -22,12 +22,6 @@ export class Product {
   @IsString()
   @Length(1, 1024)
   description: string;
-
-  @Column()
-  @IsString()
-  @IsUrl()
-  @Length(1, 255)
-  image: string;
 
   @Column()
   @IsNumber()
