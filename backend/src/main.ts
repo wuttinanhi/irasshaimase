@@ -51,6 +51,9 @@ async function bootstrap() {
   // enable gracefully shutdown
   app.enableShutdownHooks();
 
+  // enable CORS
+  app.enableCors({ origin: '*' });
+
   // listen port
   await app.listen(3000);
 }
