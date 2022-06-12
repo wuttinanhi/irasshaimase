@@ -11,11 +11,11 @@
 
 <div class="flex flex-row basis-12/12 sm:basis-1/3 min-w-0">
   <div class="flex flex-col m-3 rounded-md border-2 border-gray-200 min-w-0">
-    <div class="flex flex-grow basis-8/12overflow-hidden min-w-0">
+    <div class="flex flex-grow basis-8/12 overflow-hidden min-w-0">
       <img
-        src={productData.imageUrl}
+        src={productData.image}
         alt={productData.name}
-        class="flex object-fill w-[500px] h-[500px] max-h-[355px]"
+        class="flex object-fill w-[500px] h-[500px] max-h-[350px]"
         on:click={() => overlay.showOverlay()}
       />
     </div>

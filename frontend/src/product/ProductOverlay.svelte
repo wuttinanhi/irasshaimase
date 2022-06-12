@@ -30,26 +30,27 @@
     class="z-50 flex fixed w-full h-screen bg-black bg-opacity-80 inset-0 invisible md:visible"
     on:click={() => hideOverlay()}
   >
-    <div class="ml-[-384px] mr-[-388px] xl:mx-auto my-auto px-96">
+    <div class="ml-[-384px] mr-[-388px] xl:mx-auto my-auto px-0">
       <div
         class="flex bg-white flex-row max-h-[80vh] w-full"
         on:click={(e) => e.stopPropagation()}
       >
         <!-- PRODUCT IMAGE -->
-
-        <div class="flex flex-grow basis-3/5">
+        <div
+          class="flex flex-grow basis-3/5 justify-center bg-gray-800 overflow-hidden w-[800px] h-[800px] max-h-[80vh] max-w-[800px]"
+        >
           <img
-            src={productData.imageUrl}
+            src={productData.image}
             alt=""
-            class="object-fill w-full h-full"
+            class="flex object-none w-[800px] h-[800px] max-h-[80vh] max-w-[800px]"
           />
         </div>
 
         <!-- PRODUCT PANEL -->
-
-        <div class="flex flex-col w-full basis-2/5">
+        <div
+          class="flex flex-col basis-2/5 overflow-hidden w-[400px] h-[400px] max-h-[80vh] max-w-[400px]"
+        >
           <!-- PRODUCT HEADER -->
-
           <div class="flex flex-row p-5 justify-between">
             <div class="flex grow flex-col">
               <h1 class="font-bold text-4xl">
@@ -70,7 +71,6 @@
           </div>
 
           <!-- PRODUCT DESCRIPTION -->
-
           <div class="flex flex-grow max-h-full overflow-y-hidden">
             <div class="flex overflow-y-auto">
               <p class="text-lg px-5">
@@ -80,7 +80,6 @@
           </div>
 
           <!-- ADD TO CART BUTTON -->
-
           <div class="flex flex-row p-5 justify-center">
             <ProductAddToCartButton {productData} />
           </div>
@@ -110,7 +109,7 @@
 
         <div class="flex">
           <img
-            src={productData.imageUrl}
+            src={productData.image}
             alt=""
             class="object-fill w-full h-full"
           />
