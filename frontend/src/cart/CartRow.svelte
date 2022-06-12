@@ -31,7 +31,7 @@
       <div class="flex flex-col sm:flex-row w-full justify-center items-center">
         <div class="flex sm:basis-1/2 justify-center">
           <img
-            src={cartItem.product.imageUrl}
+            src={cartItem.product.image}
             alt=""
             class="flex object-fill w-20 h-20"
           />
