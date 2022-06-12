@@ -12,7 +12,7 @@ export class Pagination<T> {
   }
 
   public async paginate(page: number, limit: number) {
-    if (page < 1 || limit < 1) throw new BadRequestException();
+    if (page < 1 || limit < 1 || limit > 50) throw new BadRequestException();
 
     this.page = page;
     this.perPage = limit;
