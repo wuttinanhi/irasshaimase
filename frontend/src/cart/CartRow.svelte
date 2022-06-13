@@ -20,12 +20,14 @@
   // subscribe to cart store
   store.subscribe(() => {
     cartItem = Cart.getItem(product);
-    product = cartItem.product;
-    available = cartItem.available;
+    if (cartItem?.product) {
+      product = cartItem.product;
+      available = cartItem.available;
+    }
   });
 </script>
 
-{#if cartItem && cartItem.product}
+{#if cartItem}
   <div class="flex py-5 border-t-2 bg-gray-50">
     <div class="flex basis-4/12 justify-center">
       <div class="flex flex-col sm:flex-row w-full justify-center items-center">

@@ -6,6 +6,7 @@
   import NotFoundPage from "./page/NotFoundPage.svelte";
   import Product from "./Product.svelte";
   import ProductOverlay from "./product/ProductOverlay.svelte";
+  import LoginPage from "./user/LoginPage.svelte";
 
   export let url = "";
 </script>
@@ -15,8 +16,9 @@
     <Product productId={params.id} />
   </Route>
   <Route path="/cart"><CartPage /></Route>
-  <Route path="/"><Index /></Route>
+  <Route path="/login"><LoginPage /></Route>
   <Route path="/dev/ProductOverlay"><ProductOverlay showing={true} /></Route>
   <Route path="/dev/InputNumber"><InputNumber /></Route>
+  <Route path="/"><Index /></Route>
   <Route path="/*"><NotFoundPage /></Route>
 </Router>

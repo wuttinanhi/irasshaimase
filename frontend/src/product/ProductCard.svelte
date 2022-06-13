@@ -31,11 +31,7 @@
       </div>
 
       <div class="flex py-2 justify-center">
-        {#if productData.stock > 0}
-          <ProductAddToCartButton {productData} />
-        {:else}
-          <p class="text-gray-800 font-bold">Out of Stock</p>
-        {/if}
+        <ProductAddToCartButton {productData} />
       </div>
     </div>
   </div>

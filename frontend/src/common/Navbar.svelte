@@ -2,6 +2,7 @@
   import { onDestroy } from "svelte";
   import { Link } from "svelte-routing";
   import CartButton from "../cart/CartButton.svelte";
+  import { userStore } from "../user/user.store";
 
   export let showSidebar = false;
 
@@ -41,6 +42,15 @@
       >
         <!-- <Link to="/contact" class="font-bold text-white">CONTACT</Link>
         <Link to="/about" class="font-bold text-white">ABOUT</Link> -->
+        {#if $userStore}
+          <Link to="/user/profile" class="font-bold text-white">
+            Welcom {$userStore.name}
+          </Link>
+
+          <Link to="/user/logout" class="font-bold text-white">Logout</Link>
+        {:else}
+          <Link to="/login" class="font-bold text-white">LOGIN</Link>
+        {/if}
         <CartButton />
       </div>
 

@@ -31,13 +31,17 @@
   }
 </script>
 
-{#if quantity >= 1}
-  <InputNumber value={quantity} {onChange} max={productData.stock} />
+{#if productData.stock > 0}
+  {#if quantity >= 1}
+    <InputNumber value={quantity} {onChange} max={productData.stock} />
+  {:else}
+    <button
+      class="w-full h-full py-3 rounded-md font-bold border-2 border-blue-400 bg-blue-400 text-white"
+      on:click={addToCart}
+    >
+      Add to cart
+    </button>
+  {/if}
 {:else}
-  <button
-    class="w-full h-full py-3 rounded-md font-bold border-2 border-blue-400 bg-blue-400 text-white"
-    on:click={addToCart}
-  >
-    Add to cart
-  </button>
+  <p class="text-gray-800 font-bold">Out of Stock</p>
 {/if}
