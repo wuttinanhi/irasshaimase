@@ -76,19 +76,20 @@ export class PaypalService {
 
     // return data
     return {
+      id: response.result.id,
       payUrl: response.result.links[1].href,
     };
   }
 
-  public async getAuthorizationInfo(token: string) {
+  public async requestCapture(token: string) {
     const orderAuthRequest = new paypal.orders.OrdersAuthorizeRequest(token);
     const orderAuthResponse = await this.getClient().execute(orderAuthRequest);
 
+    const paymentId = orderAuthResponse.result.id;
     const authorizationId = orderAuthResponse.result.purchase_units[0].payments.authorizations[0].id;
-
     const orderId = orderAuthResponse.result.purchase_units[0].payments.authorizations[0].invoice_id;
 
-    return { authorizationId, orderId };
+    return { paymentId, authorizationId, orderId };
   }
 
   /**
@@ -106,14 +107,14 @@ export class PaypalService {
   }
 
   public async refund(invoiceId: number | string, captureId: string, amount: number, message = 'REFUND') {
-    const Refundrequest = new paypal.payments.CapturesRefundRequest(captureId);
+    const refundRequest = new paypal.payments.CapturesRefundRequest(captureId);
 
-    Refundrequest.requestBody({
+    refundRequest.requestBody({
       amount: { currency_code: 'USD', value: String(amount) },
       note_to_payer: message,
       invoice_id: String(invoiceId),
     });
 
-    await this.getClient().execute(Refundrequest);
+    await this.getClient().execute(refundRequest);
   }
 }

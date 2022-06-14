@@ -9,7 +9,6 @@ import { Repository } from 'typeorm';
 import { DataSource } from 'typeorm/data-source/DataSource';
 import { CartService } from '../cart/cart.service';
 import { Pagination } from '../pagination/pagination';
-import { PaypalService } from '../paypal/paypal.service';
 import { ProductService } from '../product/product.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderItem } from './entities/order.entity';
@@ -26,7 +25,6 @@ export class OrderService {
     // service
     private readonly cartService: CartService,
     private readonly productService: ProductService,
-    private readonly paypalService: PaypalService,
     // datasource
     private readonly dataSource: DataSource,
   ) {}
@@ -94,18 +92,13 @@ export class OrderService {
       // commit transaction
       await queryRunner.commitTransaction();
 
-      // create payment
-      const { payUrl } = await this.paypalService.create(order);
-
       // return result
       return {
         order: createdOrder,
-        payUrl: payUrl,
       };
     } catch (err) {
       // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
-
       // throw error
       throw new InternalServerErrorException();
     } finally {
@@ -123,10 +116,6 @@ export class OrderService {
     const order = await this.findOne(id);
     order.status = status;
     await this.update(id, order);
-  }
-
-  async getAll() {
-    return this.orderRepository.find();
   }
 
   async paginate(page: number, limit: number, userId?: number) {

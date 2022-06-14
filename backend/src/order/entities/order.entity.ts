@@ -13,7 +13,7 @@ export class Order {
   @Column()
   userId: number;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.orderId)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.orderId, { eager: true })
   orderItems: OrderItem[];
 
   @Column()
@@ -21,14 +21,6 @@ export class Order {
 
   @Column({ type: 'enum', enum: EOrderStatus, default: EOrderStatus.CREATED })
   status: EOrderStatus;
-
-  @Exclude()
-  @Column({ default: null })
-  captureId: string;
-
-  @Exclude()
-  @Column({ default: null })
-  authorizationId: string;
 
   @Column()
   @Exclude()
