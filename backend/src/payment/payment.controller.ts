@@ -7,16 +7,12 @@ import { AdminGuard } from '../user-role/admin.guard';
 
 @Controller('api/payment')
 export class PaymentController {
-  constructor(
-    private readonly paypalService: PaypalService,
-    private readonly orderService: OrderService,
-  ) {}
+  constructor(private readonly paypalService: PaypalService, private readonly orderService: OrderService) {}
 
   @Get('success')
   async success(@Query('token') token: string) {
     // get authorization info
-    const { authorizationId, orderId } =
-      await this.paypalService.getAuthorizationInfo(token);
+    const { authorizationId, orderId } = await this.paypalService.getAuthorizationInfo(token);
 
     // capture payment
     const captureId = await this.paypalService.capture(authorizationId);

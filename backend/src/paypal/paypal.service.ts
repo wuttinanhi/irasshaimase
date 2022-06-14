@@ -1,20 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as paypal from '@paypal/checkout-server-sdk';
 import { Order } from '../order/entities/order.entity';
 import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class PaypalService {
-  constructor(private readonly productService: ProductService) {}
+  private readonly PAYPAL_SUCCESS_REDIRECT_URL: string;
+  private readonly PAYPAL_CANCEL_REDIRECT_URL: string;
+
+  constructor(private readonly productService: ProductService, private readonly configService: ConfigService) {
+    this.PAYPAL_SUCCESS_REDIRECT_URL = this.configService.get('PAYPAL_SUCCESS_REDIRECT_URL');
+    this.PAYPAL_CANCEL_REDIRECT_URL = this.configService.get('PAYPAL_CANCEL_REDIRECT_URL');
+  }
 
   private getClient(): paypal.core.PayPalHttpClient {
     const clientId = process.env.PAYPAL_CLIENT_ID;
     const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
-    const environment = new paypal.core.SandboxEnvironment(
-      clientId,
-      clientSecret,
-    );
+    const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 
     const client = new paypal.core.PayPalHttpClient(environment);
     return client;
@@ -43,8 +47,8 @@ export class PaypalService {
     request.requestBody({
       intent: 'AUTHORIZE',
       application_context: {
-        return_url: 'http://localhost:3000/api/payment/success',
-        cancel_url: 'http://localhost:3000/api/payment/cancel',
+        return_url: this.PAYPAL_SUCCESS_REDIRECT_URL,
+        cancel_url: this.PAYPAL_CANCEL_REDIRECT_URL,
       },
       purchase_units: [
         {
@@ -80,12 +84,9 @@ export class PaypalService {
     const orderAuthRequest = new paypal.orders.OrdersAuthorizeRequest(token);
     const orderAuthResponse = await this.getClient().execute(orderAuthRequest);
 
-    const authorizationId =
-      orderAuthResponse.result.purchase_units[0].payments.authorizations[0].id;
+    const authorizationId = orderAuthResponse.result.purchase_units[0].payments.authorizations[0].id;
 
-    const orderId =
-      orderAuthResponse.result.purchase_units[0].payments.authorizations[0]
-        .invoice_id;
+    const orderId = orderAuthResponse.result.purchase_units[0].payments.authorizations[0].invoice_id;
 
     return { authorizationId, orderId };
   }
@@ -96,9 +97,7 @@ export class PaypalService {
    * @returns capture id
    */
   public async capture(authorizationId: string) {
-    const captureRequest = new paypal.payments.AuthorizationsCaptureRequest(
-      authorizationId,
-    );
+    const captureRequest = new paypal.payments.AuthorizationsCaptureRequest(authorizationId);
 
     const response = await this.getClient().execute(captureRequest);
 
@@ -106,12 +105,7 @@ export class PaypalService {
     return response.result.id as string;
   }
 
-  public async refund(
-    invoiceId: number | string,
-    captureId: string,
-    amount: number,
-    message = 'REFUND',
-  ) {
+  public async refund(invoiceId: number | string, captureId: string, amount: number, message = 'REFUND') {
     const Refundrequest = new paypal.payments.CapturesRefundRequest(captureId);
 
     Refundrequest.requestBody({
