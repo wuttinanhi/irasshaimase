@@ -1,16 +1,15 @@
 <script lang="ts">
-  import { AuthAPI } from "../api/auth.api";
   import Navbar from "../common/Navbar.svelte";
-  import { userStore } from "./user.store";
+  import { User } from "./user";
   let email: string;
   let password: string;
+  let remember: boolean;
 
   async function login() {
     try {
-      const api = new AuthAPI();
-      const accessToken = await api.login(email, password);
-      if (!accessToken) throw new Error("Login failed");
-      userStore.set({ accessToken: accessToken });
+      await User.login(email, password, remember);
+      // redirect to index page
+      window.location.href = "/";
     } catch (error) {
       alert(error);
     }
@@ -19,28 +18,54 @@
 
 <Navbar />
 <!-- login form -->
-<form>
-  <h1>Login</h1>
 
-  <label for="email">Email</label>
-  <input
-    type="email"
-    id="email"
-    name="email"
-    placeholder="Email"
-    bind:value={email}
-  />
-  <br />
+<div class="flex flex-row my-[30vh] justify-center">
+  <div class="flex basis-1/5 flex-col gap-4">
+    <div class="flex">
+      <h1 class="text-2xl">Login</h1>
+    </div>
 
-  <label for="password">Password</label>
-  <input
-    type="password"
-    id="password"
-    name="password"
-    placeholder="Password"
-    bind:value={password}
-  />
-  <br />
+    <div class="flex">
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        class="w-full p-2 border-2 border-gray-500"
+        bind:value={email}
+      />
+    </div>
 
-  <button type="button" on:click={login}>Login</button>
-</form>
+    <div class="flex">
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+        class="w-full p-2 border-2 border-gray-500"
+        bind:value={password}
+      />
+    </div>
+
+    <div class="flex">
+      <input
+        type="checkbox"
+        id="remember"
+        name="remember"
+        class="mt-1"
+        bind:checked={remember}
+      />
+      <label for="remember" class="ml-2">Remember me</label>
+    </div>
+
+    <div class="flex">
+      <button
+        type="button"
+        on:click={login}
+        class="p-3 bg-blue-600 text-white w-full"
+      >
+        Login
+      </button>
+    </div>
+  </div>
+</div>

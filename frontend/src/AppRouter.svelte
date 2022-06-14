@@ -7,6 +7,7 @@
   import Product from "./Product.svelte";
   import ProductOverlay from "./product/ProductOverlay.svelte";
   import LoginPage from "./user/LoginPage.svelte";
+  import LogoutPage from "./user/LogoutPage.svelte";
 
   export let url = "";
 </script>
@@ -17,8 +18,11 @@
   </Route>
   <Route path="/cart"><CartPage /></Route>
   <Route path="/login"><LoginPage /></Route>
+  <Route path="/logout"><LogoutPage /></Route>
+
   <Route path="/dev/ProductOverlay"><ProductOverlay showing={true} /></Route>
   <Route path="/dev/InputNumber"><InputNumber /></Route>
+
   <Route path="/"><Index /></Route>
   <Route path="/*"><NotFoundPage /></Route>
 </Router>

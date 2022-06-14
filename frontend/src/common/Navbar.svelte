@@ -23,8 +23,8 @@
 
 <div class="w-full bg-blue-500 px-5 md:px-16">
   <div class="py-5">
-    <div class="flex flex-row">
-      <div class="flex grow">
+    <div class="flex flex-row justify-between">
+      <div class="flex">
         <Link to="/">
           <div class="flex flex-col">
             <div>
@@ -43,15 +43,23 @@
         <!-- <Link to="/contact" class="font-bold text-white">CONTACT</Link>
         <Link to="/about" class="font-bold text-white">ABOUT</Link> -->
         {#if $userStore}
-          <Link to="/user/profile" class="font-bold text-white">
-            Welcom {$userStore.name}
-          </Link>
+          <div class="flex">
+            <!-- TODO: Need implementation -->
+            <!-- <Link to="/profile" class="font-bold text-white">Profile</Link> -->
+          </div>
 
-          <Link to="/user/logout" class="font-bold text-white">Logout</Link>
+          <div class="flex">
+            <Link to="/logout" class="font-bold text-white">Logout</Link>
+          </div>
         {:else}
-          <Link to="/login" class="font-bold text-white">LOGIN</Link>
+          <div class="flex">
+            <Link to="/login" class="font-bold text-white">LOGIN</Link>
+          </div>
         {/if}
-        <CartButton />
+
+        <div class="flex">
+          <CartButton />
+        </div>
       </div>
 
       <div class="flex sm:hidden">
@@ -67,6 +75,7 @@
   </div>
 </div>
 
+<!-- MOBILE SIDEBAR -->
 {#if showSidebar}
   <div
     class="z-100 flex fixed inset-0 w-full h-full bg-black bg-opacity-80"

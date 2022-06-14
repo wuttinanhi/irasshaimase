@@ -27,7 +27,7 @@
       // delay 5 seconds before enable checkout button
       setTimeout(() => {
         checkoutDisabled = false;
-      }, 5000);
+      }, 3000);
     }
   }
 </script>
@@ -66,7 +66,7 @@
       disabled={checkoutDisabled}
       on:click={checkout}
     >
-      Checkout
+      {checkoutDisabled ? "Processing..." : "Checkout"}
     </button>
   </div>
 </div>
