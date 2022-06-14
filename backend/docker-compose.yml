@@ -13,6 +13,7 @@ services:
       MYSQL_HOST: mysql
     volumes:
       - ./.env:/app/.env
+      - irasshaimase-app-upload:/app/public/images
     ports:
       - 3000:3000
     networks:
@@ -42,6 +43,7 @@ services:
 
 volumes:
   irasshaimase-dev-mysql:
+  irasshaimase-app-upload:
 
 networks:
   irasshaimase-dev-net:
