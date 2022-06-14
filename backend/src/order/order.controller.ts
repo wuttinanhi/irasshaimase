@@ -41,4 +41,12 @@ export class OrderController {
     if (order.userId !== user.id) throw new ForbiddenException();
     return order;
   }
+
+  @Get('report')
+  @UseGuards(JwtAuthGuard)
+  async report(@CurrentUser() user: User, @Query('id') id: number) {
+    const order = await this.orderService.findOne(id);
+    if (order.userId !== user.id) throw new ForbiddenException();
+    return this.orderService.report(id);
+  }
 }

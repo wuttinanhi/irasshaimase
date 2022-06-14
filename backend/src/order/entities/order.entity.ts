@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EOrderStatus } from '../order-status.enum';
 
 @Entity()
@@ -33,6 +33,7 @@ export class OrderItem {
   id: number;
 
   @ManyToOne(() => Order, (order) => order.orderItems)
+  @JoinColumn({ name: 'orderId' })
   orderId: number;
 
   @Column()

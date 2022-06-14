@@ -125,4 +125,28 @@ export class OrderService {
     const pagination = new Pagination(queryBuilder);
     return pagination.paginate(page, limit);
   }
+
+  async report(orderId: number) {
+    const order = await this.findOne(orderId);
+
+    const queryBuilder = this.orderItemRepository.createQueryBuilder('order_item');
+    queryBuilder.select([
+      'ANY_VALUE(product.id) as id',
+      'ANY_VALUE(product.name) as name',
+      'ANY_VALUE(order_item.price) as price',
+      'ANY_VALUE(product.description) as description',
+      'ANY_VALUE(order_item.quantity) as quantity',
+      'ANY_VALUE(product_image.imageUrl) as image',
+    ]);
+
+    queryBuilder.leftJoin('product', 'product', 'product.id = order_item.productId');
+    queryBuilder.leftJoin('product_image', 'product_image', 'product_image.productId = product.id');
+
+    queryBuilder.where('order_item.orderId = :orderId', { orderId: order.id });
+    queryBuilder.groupBy('order_item.productId');
+
+    order.orderItems = await queryBuilder.getRawMany();
+
+    return order;
+  }
 }
