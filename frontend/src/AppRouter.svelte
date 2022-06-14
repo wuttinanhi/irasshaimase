@@ -4,6 +4,7 @@
   import InputNumber from "./common/InputNumber.svelte";
   import Index from "./Index.svelte";
   import NotFoundPage from "./page/NotFoundPage.svelte";
+  import PaymentSuccessHandler from "./payment/PaymentSuccessHandler.svelte";
   import Product from "./Product.svelte";
   import ProductOverlay from "./product/ProductOverlay.svelte";
   import LoginPage from "./user/LoginPage.svelte";
@@ -19,6 +20,8 @@
   <Route path="/cart"><CartPage /></Route>
   <Route path="/login"><LoginPage /></Route>
   <Route path="/logout"><LogoutPage /></Route>
+
+  <Route path="/paypal/success"><PaymentSuccessHandler /></Route>
 
   <Route path="/dev/ProductOverlay"><ProductOverlay showing={true} /></Route>
   <Route path="/dev/InputNumber"><InputNumber /></Route>
