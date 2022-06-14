@@ -23,11 +23,12 @@ export class Payment {
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column()
-  paypalPaymentId: string;
-
   @Column({ type: 'enum', enum: EPaymentMethod, default: EPaymentMethod.PAYPAL })
   paymentMethod: string;
+
+  @Exclude()
+  @Column()
+  paypalPaymentId: string;
 
   @Exclude()
   @Column({ default: null })

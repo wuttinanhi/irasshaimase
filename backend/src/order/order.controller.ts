@@ -1,9 +1,10 @@
-import { Body, Controller, ForbiddenException, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../user-role/admin.guard';
 import { User } from '../user/entities/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { OrderGetGuard } from './order.guard';
 import { OrderService } from './order.service';
 
 @Controller('api/order')
@@ -35,18 +36,15 @@ export class OrderController {
   }
 
   @Get('get')
-  @UseGuards(JwtAuthGuard)
-  async get(@CurrentUser() user: User, @Query('id') id: number) {
+  @UseGuards(JwtAuthGuard, OrderGetGuard)
+  async get(@Query('id') id: number) {
     const order = await this.orderService.findOne(id);
-    if (order.userId !== user.id) throw new ForbiddenException();
     return order;
   }
 
   @Get('report')
-  @UseGuards(JwtAuthGuard)
-  async report(@CurrentUser() user: User, @Query('id') id: number) {
-    const order = await this.orderService.findOne(id);
-    if (order.userId !== user.id) throw new ForbiddenException();
+  @UseGuards(JwtAuthGuard, OrderGetGuard)
+  async report(@Query('id') id: number) {
     return this.orderService.report(id);
   }
 }
