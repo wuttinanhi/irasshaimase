@@ -39,7 +39,7 @@ export class ShippingAddressController {
     await this.shippingAddressService.update(+id, dto);
 
     // get updated record
-    const record = await this.shippingAddressService.findOne(+id);
+    const record = await this.shippingAddressService.getById(+id);
 
     // if default is true update default
     if (dto.default === true) {

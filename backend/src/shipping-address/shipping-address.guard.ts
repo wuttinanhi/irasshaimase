@@ -19,7 +19,7 @@ export class ShippingAddressGuard implements CanActivate {
     if (!user) throw new UnauthorizedException();
 
     const id = request.query.id;
-    const record = await this.shippingAddressService.findOne(id);
+    const record = await this.shippingAddressService.getById(id);
 
     if (!record) throw new NotFoundException();
     if (record.userId === user.id) return true;

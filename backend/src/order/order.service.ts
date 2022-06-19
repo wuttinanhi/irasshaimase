@@ -53,7 +53,7 @@ export class OrderService {
 
     try {
       // get shipping address
-      const shippingAddressRecord = await this.shippingAddressService.findOne(dto.shippingAddressId);
+      const shippingAddressRecord = await this.shippingAddressService.getById(dto.shippingAddressId);
       const shippingAddressData = shippingAddressRecord.toHumanReadable();
 
       // create order

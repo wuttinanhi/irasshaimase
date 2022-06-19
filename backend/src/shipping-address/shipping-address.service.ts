@@ -25,7 +25,7 @@ export class ShippingAddressService {
     return record;
   }
 
-  async findOne(id: number) {
+  async getById(id: number) {
     return this.repository.findOne({ where: { id } });
   }
 
@@ -38,7 +38,7 @@ export class ShippingAddressService {
   }
 
   async remove(id: number) {
-    const record = await this.findOne(id);
+    const record = await this.getById(id);
     return this.repository.remove(record);
   }
 
@@ -50,7 +50,7 @@ export class ShippingAddressService {
     }
 
     // update default of target record to true
-    const target = await this.findOne(recordId);
+    const target = await this.getById(recordId);
     await this.update(target.id, { default: true });
   }
 
