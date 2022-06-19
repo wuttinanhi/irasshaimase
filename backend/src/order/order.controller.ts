@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../user-role/admin.guard';
 import { User } from '../user/entities/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { EOrderStatus } from './order-status.enum';
 import { OrderGetGuard } from './order.guard';
 import { OrderService } from './order.service';
 
@@ -15,18 +16,6 @@ export class OrderController {
   @UseGuards(JwtAuthGuard)
   create(@Body() createOrderDto: CreateOrderDto, @CurrentUser() user: User) {
     return this.orderService.create(user.id, createOrderDto);
-  }
-
-  @Get('admin/get')
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  adminGet(@Query('id') id: number) {
-    return this.orderService.findOne(id);
-  }
-
-  @Get('admin/paginate')
-  @UseGuards(JwtAuthGuard, AdminGuard)
-  adminPaginate(@Query('page') page: number, @Query('limit') limit: number, @Query('userId') userId: number) {
-    return this.orderService.paginate(page, limit, userId);
   }
 
   @Get('paginate')
@@ -46,5 +35,29 @@ export class OrderController {
   @UseGuards(JwtAuthGuard, OrderGetGuard)
   async report(@Query('id') id: number) {
     return this.orderService.report(id);
+  }
+
+  @Patch('received')
+  @UseGuards(JwtAuthGuard, OrderGetGuard)
+  async received(@Query('id') id: number) {
+    await this.orderService.updateOrderStatus(id, EOrderStatus.DELIVERED);
+  }
+
+  @Get('admin/get')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  adminGet(@Query('id') id: number) {
+    return this.orderService.findOne(id);
+  }
+
+  @Get('admin/paginate')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  adminPaginate(@Query('page') page: number, @Query('limit') limit: number, @Query('userId') userId: number) {
+    return this.orderService.paginate(page, limit, userId);
+  }
+
+  @Patch('admin/update')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  async adminUpdate(@Query('id') id: number, @Body('status') status: EOrderStatus) {
+    await this.orderService.updateOrderStatus(id, status);
   }
 }
