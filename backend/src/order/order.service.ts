@@ -10,6 +10,7 @@ import { DataSource } from 'typeorm/data-source/DataSource';
 import { CartService } from '../cart/cart.service';
 import { Pagination } from '../pagination/pagination';
 import { ProductService } from '../product/product.service';
+import { ShippingAddressService } from '../shipping-address/shipping-address.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderItem } from './entities/order.entity';
 import { EOrderStatus } from './order-status.enum';
@@ -25,6 +26,7 @@ export class OrderService {
     // service
     private readonly cartService: CartService,
     private readonly productService: ProductService,
+    private readonly shippingAddressService: ShippingAddressService,
     // datasource
     private readonly dataSource: DataSource,
   ) {}
@@ -35,9 +37,9 @@ export class OrderService {
     return order;
   }
 
-  async create(userId: any, createOrderDto: CreateOrderDto) {
+  async create(userId: any, dto: CreateOrderDto) {
     // validate cart
-    const cartValidate = await this.cartService.validateCart(createOrderDto.cart);
+    const cartValidate = await this.cartService.validateCart(dto.cart);
 
     // if cart is invalid, throw exception
     if (cartValidate.notAvailableCount > 0) {
@@ -50,17 +52,21 @@ export class OrderService {
     await queryRunner.startTransaction();
 
     try {
+      // get shipping address
+      const shippingAddressRecord = await this.shippingAddressService.findOne(dto.shippingAddressId);
+      const shippingAddressData = shippingAddressRecord.toHumanReadable();
+
       // create order
       const order = this.orderRepository.create();
       order.userId = userId;
       order.orderItems = [];
       order.total = 0;
       order.status = EOrderStatus.CREATED;
-      order.shippingAddress = createOrderDto.shippingAddress;
+      order.shippingAddress = shippingAddressData;
       await queryRunner.manager.save(order);
 
       // loop through cart item
-      for (const item of createOrderDto.cart.items) {
+      for (const item of dto.cart.items) {
         // create order item
         const orderItem = this.orderItemRepository.create();
         const product = await this.productService.findOne(item.productId);

@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsString, Length, ValidateNested } from 'class-validator';
+import { IsNumber, IsPositive, ValidateNested } from 'class-validator';
 import { Cart } from '../../cart/entities/cart.entity';
 
 export class CreateOrderDto {
@@ -7,7 +7,7 @@ export class CreateOrderDto {
   @Type(() => Cart)
   cart: Cart;
 
-  @IsString()
-  @Length(10, 255)
-  shippingAddress: string;
+  @IsNumber()
+  @IsPositive()
+  shippingAddressId: number;
 }
