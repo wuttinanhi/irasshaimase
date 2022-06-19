@@ -32,13 +32,43 @@ export class ShippingAddress {
   @IsString()
   @IsNotEmpty()
   @Length(1, 255)
-  province: string;
+  houseNumber: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  alley: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  lane: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  street: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  subArea: string;
 
   @Column()
   @IsString()
   @IsNotEmpty()
   @Length(1, 255)
   district: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  province: string;
 
   @Column()
   @IsNumber()
