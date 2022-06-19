@@ -14,6 +14,7 @@ import { ProductImageModule } from './product-image/product-image.module';
 import { ProductModule } from './product/product.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserModule } from './user/user.module';
+import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { UserModule } from './user/user.module';
     PaypalModule,
     UserRoleModule,
     ProductImageModule,
+    ShippingAddressModule,
   ],
   controllers: [AppController],
   providers: [AppService],
