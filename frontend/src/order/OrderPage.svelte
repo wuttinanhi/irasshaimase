@@ -31,6 +31,8 @@
   function changePage(to: number) {
     page = to;
     load();
+    // scroll to top
+    window.scrollTo(0, 0);
   }
 
   load();

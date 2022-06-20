@@ -4,6 +4,7 @@
   import InputNumber from "./common/InputNumber.svelte";
   import Index from "./Index.svelte";
   import OrderPage from "./order/OrderPage.svelte";
+  import OrderReportPage from "./order/OrderReportPage.svelte";
   import NotFoundPage from "./page/NotFoundPage.svelte";
   import PaymentSuccessHandler from "./payment/PaymentSuccessHandler.svelte";
   import Product from "./Product.svelte";
@@ -23,6 +24,9 @@
   <Route path="/logout"><LogoutPage /></Route>
 
   <Route path="/order"><OrderPage /></Route>
+  <Route path="/order/:id" let:params>
+    <OrderReportPage orderId={params.id} />
+  </Route>
   <Route path="/cart"><CartPage /></Route>
   <Route path="/account"><UserPage /></Route>
 

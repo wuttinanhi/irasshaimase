@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { navigate } from "svelte-routing";
   import { IOrder, IOrderReport, OrderAPI } from "../api/order.api";
   import { PaymentAPI } from "../api/payment.api";
+  import { PLACEHOLDER_IMAGE } from "../etc/mock";
 
   const orderApi = new OrderAPI();
   const paymentApi = new PaymentAPI();
@@ -29,11 +31,15 @@
     }
   }
 
+  async function onClick() {
+    navigate(`/order/${orderReport.id}`);
+  }
+
   load();
 </script>
 
 {#if orderReport}
-  <div class="flex flex-col border-2 w-full px-5 py-3">
+  <div class="flex flex-col border-2 w-full px-5 py-3" on:click={onClick}>
     <div class="flex flex-row justify-between my-2 w-full">
       <div class="flex flex-col">
         <h1 class="flex text-xl">
@@ -55,8 +61,7 @@
       {#if orderReport}
         {#each orderReport.orderItems as orderItem}
           <img
-            src={orderItem.image ||
-              "https://via.placeholder.com/100x100/00b7ff/ffffff"}
+            src={orderItem.image || PLACEHOLDER_IMAGE}
             class="flex w-20 h-20"
             alt={orderItem.name}
           />
@@ -64,7 +69,10 @@
       {/if}
     </div>
 
-    <div class="flex flex-row justify-end items-center w-full mt-2 space-x-4">
+    <div
+      class="flex flex-row justify-end items-center w-full mt-2 space-x-4"
+      on:click={(e) => e.stopPropagation()}
+    >
       <div class="flex">
         <h1 class="flex text-xl">Total ${orderData.total}</h1>
       </div>

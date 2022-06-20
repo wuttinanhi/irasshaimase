@@ -1,0 +1,85 @@
+<script lang="ts">
+  import { IOrderReport, OrderAPI } from "../api/order.api";
+  import Footer from "../common/Footer.svelte";
+  import Navbar from "../common/Navbar.svelte";
+  import OrderReportRow from "./OrderReportRow.svelte";
+
+  const api = new OrderAPI();
+  export let orderId: number;
+  let orderReport: IOrderReport;
+
+  async function load() {
+    const result = await api.report(orderId);
+    orderReport = result;
+  }
+
+  load();
+</script>
+
+<Navbar />
+
+<div class="flex flex-col px-3 lg:pt-8 lg:px-32 2xl:pt-8 2xl:px-96">
+  {#if orderReport}
+    <div class="flex flex-row justify-between mt-10">
+      <h1 class="flex text-4xl font-bold">Order #{orderReport.id}</h1>
+      <h1 class="flex font-bold text-4xl text-blue-500">
+        {orderReport.status}
+      </h1>
+    </div>
+
+    <div class="flex flex-col md:flex-row w-full mt-10 space-x-10">
+      <div class="flex md:basis-6/12  flex-col w-full">
+        <h1 class="flex font-bold text-lg my-3">Summary</h1>
+
+        <div class="flex flex-row w-full justify-between">
+          <h1 class="flex text-lg">Order create date:</h1>
+          <h1 class="flex text-lg">
+            {new Date(orderReport.createdAt).toLocaleString()}
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex md:basis-6/12 flex-col w-full">
+        <h1 class="flex font-bold text-lg my-3">Shipping Address</h1>
+
+        <h1 class="flex">
+          {orderReport.status}
+        </h1>
+      </div>
+    </div>
+
+    <div class="flex flex-col w-full mt-20">
+      <h1 class="flex font-bold text-lg">Order Items</h1>
+    </div>
+
+    <div
+      class="flex flex-row border-2 w-full px-5 py-3 mt-3 justify-center bg-gray-100"
+    >
+      <div class="basis-3/12 flex-grow flex justify-center">
+        <h1 class="font-bold">Product</h1>
+      </div>
+
+      <div class="basis-3/12 flex-grow flex justify-center">
+        <h1 class="font-bold">Price</h1>
+      </div>
+
+      <div class="basis-3/12 flex-grow flex justify-center">
+        <h1 class="font-bold">Amount</h1>
+      </div>
+
+      <div class="basis-3/12 flex-grow flex justify-center">
+        <h1 class="font-bold">Total</h1>
+      </div>
+    </div>
+
+    {#each orderReport.orderItems as item}
+      <OrderReportRow orderItemData={item} />
+    {/each}
+
+    <div class="flex flex-row justify-end w-full mt-10">
+      <h1 class="flex text-2xl font-bold">Total: {orderReport.total}</h1>
+    </div>
+  {/if}
+</div>
+
+<Footer />

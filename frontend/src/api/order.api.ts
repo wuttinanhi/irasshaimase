@@ -47,9 +47,9 @@ export interface IOrderReport {
 export interface IOrderReportItem {
   id: string;
   name: string;
-  price: string;
+  price: number;
   description: string;
-  quantity: string;
+  quantity: number;
   image: null | string;
 }
 
