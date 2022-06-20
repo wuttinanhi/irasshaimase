@@ -27,7 +27,13 @@
 <div class="flex flex-col w-full border-b-2">
   <CartHeader />
 
-  {#each cartItems as item}
-    <CartRow cartItem={item} />
-  {/each}
+  {#if cartItems.length > 0}
+    {#each cartItems as item}
+      <CartRow cartItem={item} />
+    {/each}
+  {:else}
+    <div class="flex py-5 border-t-2 bg-gray-50 justify-center">
+      <h1 class="my-3 text-center">Cart empty</h1>
+    </div>
+  {/if}
 </div>
