@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { navigate } from "svelte-routing";
   import Navbar from "../common/Navbar.svelte";
   import { User } from "./user";
   let email: string;
@@ -7,9 +8,11 @@
 
   async function login() {
     try {
+      // try login user
       await User.login(email, password, remember);
+
       // redirect to index page
-      window.location.href = "/";
+      navigate("/", { replace: true });
     } catch (error) {
       alert(error);
     }
