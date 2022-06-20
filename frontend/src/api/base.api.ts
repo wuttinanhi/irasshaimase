@@ -55,10 +55,11 @@ export class BaseAPI {
     });
 
     // parse result
-    const text = await response.text();
     let data = null;
-    if (text.length >= 1) {
-      data = JSON.stringify(text);
+    try {
+      data = await response.json();
+    } catch (error) {
+      data = {};
     }
     const status = response.status;
 

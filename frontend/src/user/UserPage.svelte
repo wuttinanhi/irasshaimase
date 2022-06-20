@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Link } from "svelte-routing";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import ShippingAddressPanel from "../shippingaddress/ShippingAddressPanel.svelte";
@@ -28,9 +29,7 @@
         Shipping Address
       </button>
 
-      <button class="py-5 text-left" on:click={() => changePanel(null)}
-        >Order</button
-      >
+      <Link class="py-5 text-left" to="/order">Order</Link>
 
       <button
         class="py-5 text-left"
