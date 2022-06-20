@@ -20,7 +20,7 @@
   </div>
 
   <div class="flex flex-row mt-10 w-full space-x-10">
-    <div class="flex flex-col basis-1/6 border-r-2">
+    <div class="flex flex-col basis-1/6">
       <button
         class="py-5 text-left"
         on:click={() => changePanel(EUserPanel.SHIPPING_ADDRESS)}
@@ -41,13 +41,16 @@
 
       <a class="py-5 text-left" href="/logout">Logout</a>
     </div>
-    <div class="flex basis-5/6">
-      {#if panel === EUserPanel.SHIPPING_ADDRESS}
-        <ShippingAddressPanel />
-      {/if}
-      {#if panel === EUserPanel.CHANGE_PASSWORD}
-        <ChangePasswordPanel />
-      {/if}
+
+    <div class="flex basis-5/6 border-l-2">
+      <div class="flex ml-5 w-full">
+        {#if panel === EUserPanel.SHIPPING_ADDRESS}
+          <ShippingAddressPanel />
+        {/if}
+        {#if panel === EUserPanel.CHANGE_PASSWORD}
+          <ChangePasswordPanel />
+        {/if}
+      </div>
     </div>
   </div>
 </div>

@@ -32,7 +32,7 @@
     {/each}
   </div>
 
-  <div class="flex w-full justify-center mt-5">
+  <div class="flex w-full justify-center">
     <button
       type="button"
       class="flex bg-blue-600 px-6 py-3 text-white font-bold"

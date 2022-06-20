@@ -26,7 +26,7 @@
   }
 </script>
 
-<div class="flex flex-col basis-1/2">
+<div class="flex flex-col basis-1/2 w-full">
   <div class="flex">
     <h1 class="font-bold text-xl">Change Password</h1>
   </div>
