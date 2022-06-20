@@ -1,0 +1,5 @@
+export enum EUserPanel {
+  USER_INFO,
+  SHIPPING_ADDRESS,
+  CHANGE_PASSWORD,
+}

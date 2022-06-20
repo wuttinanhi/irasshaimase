@@ -1,5 +1,11 @@
 import { getUser } from "../user/user.store";
 
+export class IAPIResult {
+  data: any;
+  status: number;
+  response: Response;
+}
+
 export class BaseAPI {
   private baseUrl: string;
 
@@ -23,5 +29,40 @@ export class BaseAPI {
       headers: headers,
       body: JSON.stringify(body),
     }).then((response) => response.json());
+  }
+
+  public async send(
+    url: string,
+    method = "GET",
+    body?: any
+  ): Promise<IAPIResult> {
+    // headers object
+    const headers = {};
+    headers["Content-Type"] = "application/json";
+
+    // set authorization header if user is logged in
+    const userValue = getUser();
+    const accessToken = userValue?.accessToken;
+    if (userValue && accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    // send request
+    const response = await fetch(`${this.baseUrl}/${url}`, {
+      method: method,
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+
+    // parse result
+    const text = await response.text();
+    let data = null;
+    if (text.length >= 1) {
+      data = JSON.stringify(text);
+    }
+    const status = response.status;
+
+    // return result
+    return { data, status, response };
   }
 }
