@@ -18,13 +18,13 @@ export class Payment {
   amount: number;
 
   @Column({ type: 'enum', enum: EPaymentStatus, default: EPaymentStatus.CREATED })
-  status: string;
+  status: EPaymentStatus;
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @Column({ type: 'enum', enum: EPaymentMethod, default: EPaymentMethod.PAYPAL })
-  paymentMethod: string;
+  paymentMethod: EPaymentMethod;
 
   @Exclude()
   @Column()
