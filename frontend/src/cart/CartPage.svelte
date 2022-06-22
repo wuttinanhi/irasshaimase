@@ -17,11 +17,11 @@
     <CartDisplay />
   </div>
 
-  <div class="flex mt-10 w-full flex-row space-x-2">
-    <div class="flex w-full sm:basis-6/12 md:basis-5/12 xl:basis-6/12">
+  <div class="flex mt-10 w-full flex-col md:flex-row space-x-2">
+    <div class="flex w-full mt-2 md:basis-6/12">
       <CartSelectShippingAddress />
     </div>
-    <div class="flex w-full sm:basis-6/12 md:basis-5/12 xl:basis-6/12">
+    <div class="flex w-full mt-2 md:basis-6/12">
       <CartSummary />
     </div>
   </div>
