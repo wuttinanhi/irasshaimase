@@ -39,38 +39,42 @@
 </script>
 
 {#if orderReport}
-  <div class="flex flex-col border-2 w-full px-5 py-3" on:click={onClick}>
-    <div class="flex flex-row justify-between my-2 w-full">
-      <div class="flex flex-col">
-        <h1 class="flex text-xl">
-          Order {orderReport.id}
-          ({new Date(orderData.createdAt).toLocaleDateString()})
-        </h1>
-      </div>
+  <div class="flex flex-col border-2 w-full" on:click={onClick}>
+    <div class="flex flex-col w-full px-5 py-3">
+      <div class="flex flex-row justify-between my-2 w-full">
+        <div class="flex flex-col">
+          <h1 class="flex text-xl">
+            Order {orderReport.id}
+            ({new Date(orderData.createdAt).toLocaleDateString()})
+          </h1>
+        </div>
 
-      <div class="flex flex-row space-x-3">
-        <div class="flex">
-          <h1 class="text-lg text-blue-500 font-bold">{orderReport.status}</h1>
+        <div class="flex flex-row space-x-3">
+          <div class="flex">
+            <h1 class="text-lg text-blue-500 font-bold">
+              {orderReport.status}
+            </h1>
+          </div>
         </div>
       </div>
+
+      <div
+        class="flex flex-row justify-start w-full mt-2 space-x-2 overflow-x-auto overflow-y-hidden py-5"
+      >
+        {#if orderReport}
+          {#each orderReport.orderItems as orderItem}
+            <img
+              src={orderItem.image || PLACEHOLDER_IMAGE}
+              class="flex w-20 h-20"
+              alt={orderItem.name}
+            />
+          {/each}
+        {/if}
+      </div>
     </div>
 
     <div
-      class="flex flex-row justify-start w-full mt-2 space-x-2 overflow-x-auto overflow-y-hidden py-5"
-    >
-      {#if orderReport}
-        {#each orderReport.orderItems as orderItem}
-          <img
-            src={orderItem.image || PLACEHOLDER_IMAGE}
-            class="flex w-20 h-20"
-            alt={orderItem.name}
-          />
-        {/each}
-      {/if}
-    </div>
-
-    <div
-      class="flex flex-row justify-end items-center w-full mt-2 space-x-4"
+      class="flex flex-row justify-end items-center w-full mt-2 space-x-4 border-t-2 bg-gray-50 px-5 py-3"
       on:click={(e) => e.stopPropagation()}
     >
       <div class="flex">
