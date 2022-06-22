@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { IPaginationOptions } from '../pagination/pagination-options.interface';
 import { AdminGuard } from '../user-role/admin.guard';
 import { User } from '../user/entities/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -20,8 +21,8 @@ export class OrderController {
 
   @Get('paginate')
   @UseGuards(JwtAuthGuard)
-  paginate(@CurrentUser() user: User, @Query('page') page: number, @Query('limit') limit: number) {
-    return this.orderService.paginate(page, limit, user.id);
+  paginate(@CurrentUser() user: User, @Query() pagination: IPaginationOptions) {
+    return this.orderService.paginate(pagination.page, pagination.limit, user.id);
   }
 
   @Get('get')
@@ -51,8 +52,8 @@ export class OrderController {
 
   @Get('admin/paginate')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  adminPaginate(@Query('page') page: number, @Query('limit') limit: number, @Query('userId') userId: number) {
-    return this.orderService.paginate(page, limit, userId);
+  adminPaginate(@Query() pagination: IPaginationOptions, @Query('userId') userId: number) {
+    return this.orderService.paginate(pagination.page, pagination.limit, userId);
   }
 
   @Patch('admin/update')
