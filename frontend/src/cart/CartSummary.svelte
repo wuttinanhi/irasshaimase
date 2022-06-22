@@ -1,8 +1,10 @@
 <script lang="ts">
   import { OrderAPI } from "../api/order.api";
   import { PaymentAPI } from "../api/payment";
+  import { userStore } from "../user/user.store";
   import { Cart } from "./cart";
 
+  let isLoggedin = $userStore ? true : false;
   let checkoutDisabled = false;
 
   const cartStore = Cart.getCartStore();
@@ -67,15 +69,24 @@
   </div>
 
   <div class="flex justify-between pt-6">
-    <button
-      type="button"
-      class="w-full py-5 font-bold text-white {checkoutDisabled
-        ? 'bg-blue-400'
-        : 'bg-blue-600'}"
-      disabled={checkoutDisabled}
-      on:click={checkout}
-    >
-      {checkoutDisabled ? "Processing..." : "Checkout"}
-    </button>
+    {#if isLoggedin === true}
+      <button
+        type="button"
+        class="w-full py-5 font-bold text-white {checkoutDisabled
+          ? 'bg-blue-400'
+          : 'bg-blue-600'}"
+        disabled={checkoutDisabled}
+        on:click={checkout}
+      >
+        {checkoutDisabled ? "Processing..." : "Checkout"}
+      </button>
+    {:else}
+      <a
+        href="/login"
+        class="w-full py-5 font-bold text-white bg-blue-400 text-center"
+      >
+        Please Login to Checkout
+      </a>
+    {/if}
   </div>
 </div>
