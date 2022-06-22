@@ -1,6 +1,6 @@
 <script lang="ts">
   import { OrderAPI } from "../api/order.api";
-  import { PaymentAPI } from "../api/payment";
+  import { PaymentAPI } from "../api/payment.api";
   import { userStore } from "../user/user.store";
   import { Cart } from "./cart";
 

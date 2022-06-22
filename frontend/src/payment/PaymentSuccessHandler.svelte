@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PaymentAPI } from "../api/payment";
+  import { PaymentAPI } from "../api/payment.api";
   import { getQueryParam } from "../etc/helper";
 
   // get token query param
