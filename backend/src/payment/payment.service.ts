@@ -3,9 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EOrderStatus } from '../order/order-status.enum';
 import { OrderService } from '../order/order.service';
+import { Pagination } from '../pagination/pagination';
 import { PaypalService } from '../paypal/paypal.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { Payment } from './entities/payment.entity';
+import { IPaymentPaginationOptions } from './payment-pagination.interface';
 import { EPaymentStatus } from './payment-status.enum';
 
 @Injectable()
@@ -54,5 +56,13 @@ export class PaymentService {
     // update order status
     order.status = EOrderStatus.REFUNDED;
     await this.orderService.update(orderId, order);
+  }
+
+  async paginate(options: IPaymentPaginationOptions) {
+    const queryBuilder = this.paymentRepository.createQueryBuilder('payment').orderBy('id', options.sort);
+    if (options.userId) queryBuilder.where('payment.userId = :userId', { userId: options.userId });
+
+    const pagination = new Pagination(queryBuilder);
+    return pagination.paginate(options.page, options.limit);
   }
 }
