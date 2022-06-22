@@ -125,7 +125,7 @@ export class OrderService {
   }
 
   async paginate(page: number, limit: number, userId?: number) {
-    const queryBuilder = this.orderRepository.createQueryBuilder('order');
+    const queryBuilder = this.orderRepository.createQueryBuilder('order').orderBy('id', 'DESC');
     if (userId) queryBuilder.where('order.userId = :userId', { userId });
 
     const pagination = new Pagination(queryBuilder);
