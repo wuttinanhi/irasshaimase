@@ -10,11 +10,11 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
+  id: number;
   userId: number;
   orderItems: IOrderItem[];
   total: number;
   status: string;
-  id: number;
   createdAt: Date;
   shippingAddress: string;
 }
@@ -35,10 +35,11 @@ export interface IOrderPaginationResult {
 
 export interface IOrderReport {
   id: number;
-  createdAt: Date;
   userId: number;
   total: number;
   status: string;
+  createdAt: Date;
+  shippingAddress: string;
   orderItems: IOrderReportItem[];
 }
 
@@ -70,7 +71,7 @@ export class OrderAPI extends BaseAPI {
     });
 
     const response = await this.send(url, "POST", body);
-    
+
     if (response.status !== 201) throw new Error("failed to create order");
 
     return response.data as IOrderCreateResponse;

@@ -16,7 +16,7 @@
     pageData = result;
   }
 
-  function generatePagination() {
+  function generatePaginationNumber() {
     const result: number[] = [];
     for (
       let i = pageData.meta.currentPage + 1;
@@ -29,7 +29,9 @@
   }
 
   function changePage(to: number) {
+    // set page to
     page = to;
+    // load again
     load();
     // scroll to top
     window.scrollTo(0, 0);
@@ -65,15 +67,15 @@
         1
       </button>
 
-      {#each generatePagination() as p}
+      {#each generatePaginationNumber() as pageNumber}
         <button
           type="button"
           class="w-12 h-12 bg-white border-2 border-blue-600 text-blue-600 font-bold text-lg"
           on:click={() => {
-            changePage(p);
+            changePage(pageNumber);
           }}
         >
-          {p}
+          {pageNumber}
         </button>
       {/each}
 
@@ -89,6 +91,8 @@
         </button>
       {/if}
     </div>
+  {:else}
+    <div class="my-[100vh]" />
   {/if}
 </div>
 
