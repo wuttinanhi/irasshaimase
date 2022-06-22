@@ -30,6 +30,7 @@
   async function load() {
     locations = await api.getAll();
     selectedLocation = locations.filter((loc) => loc.default === true)[0];
+    callback(selectedLocation);
     loaded = true;
   }
 
