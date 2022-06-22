@@ -19,7 +19,9 @@ export interface IOrder {
   shippingAddress: string;
 }
 
-export interface IOrderCreateResponse extends IOrder {}
+export interface IOrderCreateResponse {
+  order: IOrder;
+}
 
 export interface IPaginateMeta {
   currentPage: number;

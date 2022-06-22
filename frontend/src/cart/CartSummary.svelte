@@ -23,11 +23,11 @@
 
       // create order
       const orderApi = new OrderAPI();
-      const createdOrder = await orderApi.createOrder(cartData);
+      const orderCreateResult = await orderApi.createOrder(cartData);
 
       // pay order
       const paymentApi = new PaymentAPI();
-      const payResult = await paymentApi.pay(createdOrder.id);
+      const payResult = await paymentApi.pay(orderCreateResult.order.id);
 
       // redirect to pay url
       window.location.href = payResult.payUrl;
