@@ -7,6 +7,7 @@ import { User } from '../user/entities/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { EOrderStatus } from './order-status.enum';
 import { OrderGetGuard } from './order.guard';
+import { OrderPaginationOptions } from './order.pagination';
 import { OrderService } from './order.service';
 
 @Controller('api/order')
@@ -22,7 +23,7 @@ export class OrderController {
   @Get('paginate')
   @UseGuards(JwtAuthGuard)
   paginate(@CurrentUser() user: User, @Query() pagination: IPaginationOptions) {
-    return this.orderService.paginate(pagination.page, pagination.limit, user.id);
+    return this.orderService.paginate({ ...pagination, userId: user.id });
   }
 
   @Get('get')
@@ -52,8 +53,8 @@ export class OrderController {
 
   @Get('admin/paginate')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  adminPaginate(@Query() pagination: IPaginationOptions, @Query('userId') userId: number) {
-    return this.orderService.paginate(pagination.page, pagination.limit, userId);
+  adminPaginate(@Query() pagination: OrderPaginationOptions) {
+    return this.orderService.paginate(pagination);
   }
 
   @Patch('admin/update')

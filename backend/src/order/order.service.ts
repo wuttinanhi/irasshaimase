@@ -14,6 +14,7 @@ import { ShippingAddressService } from '../shipping-address/shipping-address.ser
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderItem } from './entities/order.entity';
 import { EOrderStatus } from './order-status.enum';
+import { OrderPaginationOptions } from './order.pagination';
 
 @Injectable()
 export class OrderService {
@@ -124,12 +125,12 @@ export class OrderService {
     await this.update(id, order);
   }
 
-  async paginate(page: number, limit: number, userId?: number) {
-    const queryBuilder = this.orderRepository.createQueryBuilder('order').orderBy('id', 'DESC');
-    if (userId) queryBuilder.where('order.userId = :userId', { userId });
+  async paginate(options: OrderPaginationOptions) {
+    const queryBuilder = this.orderRepository.createQueryBuilder('order').orderBy('id', options.sort);
+    if (options.userId) queryBuilder.where('order.userId = :userId', { userId: options.userId });
 
     const pagination = new Pagination(queryBuilder);
-    return pagination.paginate(page, limit);
+    return pagination.paginate(options.page, options.limit);
   }
 
   async report(orderId: number) {
