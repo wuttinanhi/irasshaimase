@@ -1,6 +1,6 @@
 import { IsIn, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 
-export class IPaginationOptions {
+export class PaginationOptions {
   @IsPositive()
   @IsNumber()
   page: number;

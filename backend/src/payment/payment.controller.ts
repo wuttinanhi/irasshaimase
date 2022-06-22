@@ -7,8 +7,8 @@ import { PaypalService } from '../paypal/paypal.service';
 import { AdminGuard } from '../user-role/admin.guard';
 import { User } from '../user/entities/user.entity';
 import { EPaymentMethod } from './payment-method.enum';
-import { IPaymentPaginationOptions } from './payment-pagination.interface';
 import { EPaymentStatus } from './payment-status.enum';
+import { PaymentPaginationOptions } from './payment.pagination';
 import { PaymentService } from './payment.service';
 
 @Controller('api/payment')
@@ -74,7 +74,7 @@ export class PaymentController {
 
   @Get('paginate')
   @UseGuards(JwtAuthGuard)
-  paginate(@CurrentUser() user: User, @Query() pagination: IPaymentPaginationOptions) {
+  paginate(@CurrentUser() user: User, @Query() pagination: PaymentPaginationOptions) {
     return this.paymentService.paginate({
       limit: pagination.limit,
       page: pagination.page,
@@ -91,7 +91,7 @@ export class PaymentController {
 
   @Get('admin/paginate')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  adminPaginate(@CurrentUser() user: User, @Query() pagination: IPaymentPaginationOptions) {
+  adminPaginate(@CurrentUser() user: User, @Query() pagination: PaymentPaginationOptions) {
     return this.paymentService.paginate({
       limit: pagination.limit,
       page: pagination.page,

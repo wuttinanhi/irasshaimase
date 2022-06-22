@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { IPaginationOptions } from '../pagination/pagination-options.interface';
+import { PaginationOptions } from '../pagination/pagination.options';
 import { AdminGuard } from '../user-role/admin.guard';
 import { User } from '../user/entities/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -22,7 +22,7 @@ export class OrderController {
 
   @Get('paginate')
   @UseGuards(JwtAuthGuard)
-  paginate(@CurrentUser() user: User, @Query() pagination: IPaginationOptions) {
+  paginate(@CurrentUser() user: User, @Query() pagination: PaginationOptions) {
     return this.orderService.paginate({ ...pagination, userId: user.id });
   }
 

@@ -7,8 +7,8 @@ import { Pagination } from '../pagination/pagination';
 import { PaypalService } from '../paypal/paypal.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { Payment } from './entities/payment.entity';
-import { IPaymentPaginationOptions } from './payment-pagination.interface';
 import { EPaymentStatus } from './payment-status.enum';
+import { PaymentPaginationOptions } from './payment.pagination';
 
 @Injectable()
 export class PaymentService {
@@ -58,7 +58,7 @@ export class PaymentService {
     await this.orderService.update(orderId, order);
   }
 
-  async paginate(options: IPaymentPaginationOptions) {
+  async paginate(options: PaymentPaginationOptions) {
     const queryBuilder = this.paymentRepository.createQueryBuilder('payment').orderBy('id', options.sort);
     if (options.userId) queryBuilder.where('payment.userId = :userId', { userId: options.userId });
 

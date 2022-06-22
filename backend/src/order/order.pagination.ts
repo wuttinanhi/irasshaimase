@@ -1,7 +1,7 @@
 import { IsNumber, IsPositive } from 'class-validator';
-import { IPaginationOptions } from '../pagination/pagination-options.interface';
+import { PaginationOptions } from '../pagination/pagination.options';
 
-export class OrderPaginationOptions extends IPaginationOptions {
+export class OrderPaginationOptions extends PaginationOptions {
   @IsPositive()
   @IsNumber()
   userId: number;
