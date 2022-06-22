@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EOrderStatus } from '../order-status.enum';
 
@@ -23,7 +22,6 @@ export class Order {
   status: EOrderStatus;
 
   @Column()
-  @Exclude()
   shippingAddress: string;
 }
 
