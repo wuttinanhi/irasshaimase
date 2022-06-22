@@ -137,4 +137,8 @@ export class Cart {
     const cart = this.getCart();
     return cart.shippingAddressId;
   }
+
+  public static emptyCart() {
+    this.setCart(null);
+  }
 }

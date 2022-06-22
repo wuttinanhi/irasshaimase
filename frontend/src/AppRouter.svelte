@@ -31,6 +31,7 @@
   <Route path="/account"><UserPage /></Route>
 
   <Route path="/paypal/success"><PaymentSuccessHandler /></Route>
+  <Route path="/paypal/cancel"><PaymentSuccessHandler /></Route>
 
   <Route path="/dev/ProductOverlay"><ProductOverlay showing={true} /></Route>
   <Route path="/dev/InputNumber"><InputNumber /></Route>
