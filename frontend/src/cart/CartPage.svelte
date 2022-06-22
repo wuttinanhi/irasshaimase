@@ -2,6 +2,7 @@
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import CartDisplay from "./CartDisplay.svelte";
+  import CartSelectShippingAddress from "./CartSelectShippingAddress.svelte";
   import CartSummary from "./CartSummary.svelte";
 </script>
 
@@ -16,7 +17,10 @@
     <CartDisplay />
   </div>
 
-  <div class="flex mt-10 w-full justify-end">
+  <div class="flex mt-10 w-full flex-row space-x-2">
+    <div class="flex w-full sm:basis-6/12 md:basis-5/12 xl:basis-6/12">
+      <CartSelectShippingAddress />
+    </div>
     <div class="flex w-full sm:basis-6/12 md:basis-5/12 xl:basis-6/12">
       <CartSummary />
     </div>

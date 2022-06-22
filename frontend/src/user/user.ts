@@ -1,4 +1,5 @@
 import { AuthAPI } from "../api/auth.api";
+import { UserAPI } from "../api/user.api";
 import { setUser } from "./user.store";
 
 export class User {
@@ -22,10 +23,24 @@ export class User {
     localStorage.removeItem("accessToken");
   }
 
-  public static async loadUserFromLocalStorage() {
+  public static async load() {
     const accessToken = localStorage.getItem("accessToken");
+
     if (accessToken) {
-      setUser({ accessToken, isLoggedIn: true });
+      try {
+        // set user store
+        setUser({ accessToken, isLoggedIn: true });
+        // try get user from api
+        const api = new UserAPI();
+        await api.getUser();
+      } catch (error) {
+        // clear user store
+        setUser(null);
+        // remove access token from local storage
+        localStorage.removeItem("accessToken");
+        // redirect to index
+        window.location.href = "/";
+      }
     }
   }
 }

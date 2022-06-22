@@ -47,7 +47,9 @@
           <ShippingAddressPanel />
         {/if}
         {#if panel === EUserPanel.CHANGE_PASSWORD}
-          <ChangePasswordPanel />
+          <div class="flex flex-col basis-1/2 w-full">
+            <ChangePasswordPanel />
+          </div>
         {/if}
       </div>
     </div>

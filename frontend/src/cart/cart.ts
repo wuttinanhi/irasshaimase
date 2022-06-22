@@ -1,7 +1,7 @@
 import { CartAPI } from "../api/cart.api";
 import type { IProduct } from "../product/IProduct";
-import { cart, getCart, setCart } from "./cart-storage";
-import type { ICart, ICartItem } from "./ICart";
+import type { ICart, ICartItem } from "./cart.interface";
+import { cart, getCart, setCart } from "./cart.store";
 
 export class Cart {
   /**
@@ -125,5 +125,16 @@ export class Cart {
         console.log(`product ${product.name} is not available`);
       }
     }
+  }
+
+  public static setShippingAddressId(id: number) {
+    const cart = this.getCart();
+    cart.shippingAddressId = id;
+    this.setCart(cart);
+  }
+
+  public static getShippingAddressId() {
+    const cart = this.getCart();
+    return cart.shippingAddressId;
   }
 }

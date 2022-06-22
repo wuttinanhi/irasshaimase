@@ -13,10 +13,11 @@ export class BaseAPI {
     this.baseUrl = "http://localhost:3000";
   }
 
-  public get(url: string, method = "GET", body?: any): Promise<any> {
+  protected get(url: string, method = "GET", body?: any): Promise<any> {
     // headers object
     const headers = {};
     headers["Content-Type"] = "application/json";
+
     // set authorization header if user is logged in
     const userValue = getUser();
     const accessToken = userValue?.accessToken;
@@ -31,7 +32,7 @@ export class BaseAPI {
     }).then((response) => response.json());
   }
 
-  public async send(
+  protected async send(
     url: string,
     method = "GET",
     body?: any

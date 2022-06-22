@@ -1,8 +1,9 @@
 import { writable } from "svelte/store";
-import type { ICart } from "./ICart";
+import type { ICart } from "./cart.interface";
 
 const localStorageCartData = localStorage.getItem("cart");
 const cartData: ICart = JSON.parse(localStorageCartData) || {
+  shippingAddressId: null,
   items: [],
   total: 0,
 };

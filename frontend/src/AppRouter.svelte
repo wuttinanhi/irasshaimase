@@ -7,8 +7,8 @@
   import OrderReportPage from "./order/OrderReportPage.svelte";
   import NotFoundPage from "./page/NotFoundPage.svelte";
   import PaymentSuccessHandler from "./payment/PaymentSuccessHandler.svelte";
-  import Product from "./Product.svelte";
   import ProductOverlay from "./product/ProductOverlay.svelte";
+  import ProductPage from "./product/ProductPage.svelte";
   import LoginPage from "./user/LoginPage.svelte";
   import LogoutPage from "./user/LogoutPage.svelte";
   import UserPage from "./user/UserPage.svelte";
@@ -18,7 +18,7 @@
 
 <Router {url}>
   <Route path="/product/:id" let:params>
-    <Product productId={params.id} />
+    <ProductPage productId={params.id} />
   </Route>
   <Route path="/login"><LoginPage /></Route>
   <Route path="/logout"><LogoutPage /></Route>

@@ -1,4 +1,4 @@
-import type { ICart } from "../cart/ICart";
+import type { ICart } from "../cart/cart.interface";
 import { BaseAPI } from "./base.api";
 
 export interface IOrderItem {
@@ -16,12 +16,10 @@ export interface IOrder {
   status: string;
   id: number;
   createdAt: Date;
+  shippingAddress: string;
 }
 
-export interface IOrderCreateResponse {
-  order: IOrder;
-  payUrl: string;
-}
+export interface IOrderCreateResponse extends IOrder {}
 
 export interface IPaginateMeta {
   currentPage: number;
@@ -59,9 +57,11 @@ export class OrderAPI extends BaseAPI {
     const url = `api/order/create`;
 
     const body: any = {};
-    body.shippingAddress = "TODO: NEED TO IMPLEMENT";
+
+    body.shippingAddressId = cart.shippingAddressId;
     body.cart = {};
     body.cart.items = [];
+
     cart.items.forEach((item) => {
       body.cart.items.push({
         productId: item.product.id,
@@ -69,8 +69,11 @@ export class OrderAPI extends BaseAPI {
       });
     });
 
-    const response = await this.get(url, "POST", body);
-    return response as IOrderCreateResponse;
+    const response = await this.send(url, "POST", body);
+    
+    if (response.status !== 201) throw new Error("failed to create order");
+
+    return response.data as IOrderCreateResponse;
   }
 
   async paginate(page: number, limit = 50) {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import InputNumber from "../common/InputNumber.svelte";
   import { Cart } from "./cart";
-  import type { ICartItem } from "./ICart";
+  import type { ICartItem } from "./cart.interface";
 
   export let cartItem: ICartItem;
   let product = cartItem.product;

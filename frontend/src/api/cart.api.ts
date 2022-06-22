@@ -1,4 +1,4 @@
-import type { ICart } from "../cart/ICart";
+import type { ICart } from "../cart/cart.interface";
 import { BaseAPI } from "./base.api";
 
 export interface ICartValidateProduct {

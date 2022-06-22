@@ -1,5 +1,6 @@
 <script lang="ts">
   import { OrderAPI } from "../api/order.api";
+  import { PaymentAPI } from "../api/payment";
   import { Cart } from "./cart";
 
   let checkoutDisabled = false;
@@ -15,13 +16,21 @@
 
   async function checkout() {
     try {
+      // disable checkout button
       checkoutDisabled = true;
-      const api = new OrderAPI();
-      const response = await api.createOrder(cartData);
-      if (!response?.payUrl) throw new Error("Checkout failed");
-      const payUrl = response.payUrl;
-      window.location.href = payUrl;
+
+      // create order
+      const orderApi = new OrderAPI();
+      const createdOrder = await orderApi.createOrder(cartData);
+
+      // pay order
+      const paymentApi = new PaymentAPI();
+      const payResult = await paymentApi.pay(createdOrder.id);
+
+      // redirect to pay url
+      window.location.href = payResult.payUrl;
     } catch (error) {
+      // alert error
       alert(error);
     } finally {
       // delay 5 seconds before enable checkout button

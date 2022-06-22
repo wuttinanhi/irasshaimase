@@ -77,15 +77,17 @@
         </button>
       {/each}
 
-      <button
-        type="button"
-        class="w-12 h-12 bg-white border-2 border-blue-600 text-blue-600 font-bold text-lg"
-        on:click={() => {
-          changePage(pageData.meta.totalPages);
-        }}
-      >
-        {pageData.meta.totalPages}
-      </button>
+      {#if pageData.meta.totalPages > 1}
+        <button
+          type="button"
+          class="w-12 h-12 bg-white border-2 border-blue-600 text-blue-600 font-bold text-lg"
+          on:click={() => {
+            changePage(pageData.meta.totalPages);
+          }}
+        >
+          {pageData.meta.totalPages}
+        </button>
+      {/if}
     </div>
   {/if}
 </div>

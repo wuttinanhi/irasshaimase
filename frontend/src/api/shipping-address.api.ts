@@ -48,4 +48,15 @@ export class ShippingAddressAPI extends BaseAPI {
       throw new Error("error while deleting shipping address");
     }
   }
+
+  toHumanReadable(address: IShippingAddress) {
+    return (
+      `${address.firstname} ${address.lastname} \n` +
+      `${address.houseNumber} ${address.alley} ` +
+      `${address.lane} ${address.street} ${address.subArea} ${address.district} \n` +
+      `${address.postalCode} ${address.province} \n` +
+      `${address.phoneNumber} \n` +
+      `${address.info}`
+    );
+  }
 }
