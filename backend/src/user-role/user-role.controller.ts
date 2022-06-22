@@ -11,10 +11,7 @@ export class UserRoleController {
   @Post('set')
   @UseGuards(JwtAuthGuard, AdminGuard)
   async set(@Body() createUserRoleDto: CreateUserRoleDto) {
-    await this.userRoleService.setRole(
-      createUserRoleDto.userId,
-      createUserRoleDto.role,
-    );
+    await this.userRoleService.setRole(createUserRoleDto.userId, createUserRoleDto.role);
   }
 
   @Get('get/:userId')

@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  InternalServerErrorException,
-  Post,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, InternalServerErrorException, Post, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthUser } from './auth-user.decorator';
@@ -17,10 +10,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('/api/auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
   @Post('login')
   async login(@Body() dto: AuthLoginDto) {
@@ -38,14 +28,8 @@ export class AuthController {
 
   @Post('changepassword')
   @UseGuards(JwtAuthGuard)
-  async changePassword(
-    @AuthUser() user: User,
-    @Body() dto: AuthChangePasswordDto,
-  ) {
-    const authUser = await this.userService.authenticate(
-      user.email,
-      dto.password,
-    );
+  async changePassword(@AuthUser() user: User, @Body() dto: AuthChangePasswordDto) {
+    const authUser = await this.userService.authenticate(user.email, dto.password);
 
     if (!authUser) throw new UnauthorizedException();
 
