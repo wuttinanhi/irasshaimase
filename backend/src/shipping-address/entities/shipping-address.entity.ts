@@ -88,9 +88,9 @@ export class ShippingAddress {
 
   toHumanReadable() {
     return (
-      `${this.firstname} ${this.lastname} ${this.houseNumber} ${this.alley}` +
-      `${this.lane} ${this.street} ${this.subArea} ${this.district}` +
-      `${this.postalCode} ${this.province}` +
+      `${this.firstname} ${this.lastname} ${this.houseNumber} ${this.alley} ` +
+      `${this.lane} ${this.street} ${this.subArea} ${this.district} ` +
+      `${this.postalCode} ${this.province} ` +
       `${this.phoneNumber} ${this.info}`
     );
   }
