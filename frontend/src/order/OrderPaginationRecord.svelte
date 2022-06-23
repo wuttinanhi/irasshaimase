@@ -38,6 +38,7 @@
   }
 
   async function onClick() {
+    window.scrollTo(0, 0);
     navigate(`/order/${orderReport.id}`);
   }
 
