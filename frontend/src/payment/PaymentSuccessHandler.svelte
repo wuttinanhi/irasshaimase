@@ -10,10 +10,14 @@
     if (window.location.href.includes("cancel") || !token) {
       window.location.href = "/cart?success=false";
     } else {
-      const api = new PaymentAPI();
-      const result = await api.success(token);
-      Cart.emptyCart();
-      window.location.href = `/order/${result.orderId}`;
+      try {
+        const api = new PaymentAPI();
+        const result = await api.success(token);
+        Cart.emptyCart();
+        window.location.href = `/order/${result.orderId}`;
+      } catch (error) {
+        window.location.href = "/cart?success=false";
+      }
     }
   }
 
