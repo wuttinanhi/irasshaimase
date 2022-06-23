@@ -2,6 +2,7 @@
   import { IOrderReport, OrderAPI } from "../api/order.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
+  import OrderPayButton from "./OrderPayButton.svelte";
   import OrderReportRow from "./OrderReportRow.svelte";
 
   const orderApi = new OrderAPI();
@@ -21,22 +22,30 @@
 
 <div class="flex flex-col px-3 lg:pt-8 lg:px-32 2xl:pt-8 2xl:px-96">
   {#if orderReport}
-    <div class="flex flex-row justify-between mt-10">
-      <div class="flex flex-row">
+    <div class="flex flex-row justify-between mt-10 w-full">
+      <div class="flex flex-row flex-grow w-full items-center">
         <button
           type="button"
-          class="flex text-2xl text-blue-500 pr-5 mr-5 items-center border-r-2"
+          class="flex flex-shrink text-2xl text-blue-500 pr-5 mr-5 items-center border-r-2"
           on:click={() => history.back()}
         >
           Back
         </button>
 
-        <h1 class="flex text-4xl font-bold">Order #{orderReport.id}</h1>
+        <h1 class="flex flex-grow text-4xl font-bold">
+          Order #{orderReport.id}
+        </h1>
       </div>
 
-      <h1 class="flex font-bold text-4xl text-blue-500">
-        {orderReport.status}
-      </h1>
+      <div
+        class="flex flex-row justify-end items-center w-full space-x-4 bg-white px-5 py-3"
+        on:click={(e) => e.stopPropagation()}
+      >
+        <h1 class="flex font-bold text-4xl text-blue-500">
+          {orderReport.status}
+        </h1>
+        <div><OrderPayButton orderData={orderReport} /></div>
+      </div>
     </div>
 
     <div class="flex flex-col md:flex-row w-full mt-10 space-x-16">

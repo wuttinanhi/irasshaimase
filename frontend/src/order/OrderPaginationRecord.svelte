@@ -1,7 +1,7 @@
 <script lang="ts">
   import { navigate } from "svelte-routing";
   import { IOrder, IOrderReport, OrderAPI } from "../api/order.api";
-  import { PaymentAPI } from "../api/payment.api";
+  import OrderPayButton from "./OrderPayButton.svelte";
   import OrderTableFooter from "./OrderTableFooter.svelte";
   import OrderTableHeader from "./OrderTableHeader.svelte";
   import OrderTableRow from "./OrderTableRow.svelte";
@@ -10,7 +10,6 @@
   let ITEM_HIDDEN_COUNT = 0;
 
   const orderApi = new OrderAPI();
-  const paymentApi = new PaymentAPI();
 
   export let orderData: IOrder;
   let orderReport: IOrderReport;
@@ -21,20 +20,6 @@
     const result = await orderApi.report(orderData.id);
     orderReport = result;
     ITEM_HIDDEN_COUNT = orderReport.orderItems.length - ITEM_DISPLAY_LIMIT;
-  }
-
-  async function pay() {
-    try {
-      payDisabled = true;
-      const result = await paymentApi.pay(orderReport.id);
-      window.location.href = result.payUrl;
-    } catch (error) {
-      alert("Payment failed");
-    } finally {
-      setTimeout(() => {
-        payDisabled = false;
-      }, 3000);
-    }
   }
 
   async function onClick() {
@@ -82,20 +67,7 @@
         <h1 class="flex text-xl font-bold">Total ${orderData.total}</h1>
       </div>
 
-      {#if orderReport.status === "PENDING"}
-        <div class="flex">
-          <button
-            type="button"
-            class="flex py-2 px-10 
-            {payDisabled ? 'bg-blue-400' : 'bg-blue-600'} 
-            text-white font-bold text-lg"
-            disabled={payDisabled}
-            on:click={pay}
-          >
-            Pay
-          </button>
-        </div>
-      {/if}
+      <OrderPayButton orderData={orderReport} />
     </div>
   </div>
 {/if}
