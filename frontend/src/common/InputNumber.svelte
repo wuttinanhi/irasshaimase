@@ -50,8 +50,8 @@
     value = inputValue;
 
     // clamp value
-    if (min && value < min) value = min;
-    if (max && value > max) value = max;
+    if (min && value <= min) value = min;
+    if (max && value >= max) value = max;
 
     internalValue = value;
     if (onChange) onChange(value);
