@@ -70,16 +70,25 @@
 
   <div class="flex justify-between pt-6">
     {#if isLoggedin === true}
-      <button
-        type="button"
-        class="w-full py-5 font-bold text-white {checkoutDisabled
-          ? 'bg-blue-400'
-          : 'bg-blue-600'}"
-        disabled={checkoutDisabled}
-        on:click={checkout}
-      >
-        {checkoutDisabled ? "Processing..." : "Checkout"}
-      </button>
+      {#if cartData.items.length >= 1}
+        <button
+          type="button"
+          class="w-full py-5 font-bold text-white {checkoutDisabled
+            ? 'bg-blue-400'
+            : 'bg-blue-600'}"
+          disabled={checkoutDisabled}
+          on:click={checkout}
+        >
+          {checkoutDisabled ? "Processing..." : "Checkout"}
+        </button>
+      {:else}
+        <button
+          type="button"
+          class="w-full py-5 font-bold text-white bg-blue-400"
+        >
+          Cart is empty
+        </button>
+      {/if}
     {:else}
       <a
         href="/login"
