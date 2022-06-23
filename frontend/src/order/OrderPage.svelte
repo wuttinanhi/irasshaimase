@@ -2,7 +2,7 @@
   import { IOrder, IOrderPaginationResult, OrderAPI } from "../api/order.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
-  import OrderRow from "./OrderRow.svelte";
+  import OrderPaginationRecord from "./OrderPaginationRecord.svelte";
 
   const api = new OrderAPI();
   export let page: number = 1;
@@ -48,10 +48,10 @@
   </div>
 
   {#if pageData}
-    <div class="flex flex-col mt-5 w-full space-y-3">
+    <div class="flex flex-col mt-5 w-full space-y-20">
       {#if orders.length > 0}
         {#each orders as order}
-          <OrderRow orderData={order} />
+          <OrderPaginationRecord orderData={order} />
         {/each}
       {/if}
     </div>
