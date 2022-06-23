@@ -16,10 +16,14 @@
     addresses = response;
   }
 
+  function onChange() {
+    load();
+  }
+
   load();
 </script>
 
-<ShippingAddressModal bind:this={modal} mode="add" />
+<ShippingAddressModal bind:this={modal} mode="add" callback={onChange} />
 
 <div class="flex flex-col w-full">
   <div class="flex">
@@ -28,7 +32,7 @@
 
   <div class="flex flex-col my-10 space-y-5 w-full">
     {#each addresses as data, i}
-      <ShippingAddressRow {data} rowId={i + 1} />
+      <ShippingAddressRow {data} rowId={i + 1} {onChange} />
     {/each}
   </div>
 

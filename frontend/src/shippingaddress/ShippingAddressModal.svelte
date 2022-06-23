@@ -41,6 +41,7 @@
     if (e.key === "Escape") hideOverlay();
   });
 
+  // on submit button click
   async function onButtonClick() {
     data = {
       firstname,

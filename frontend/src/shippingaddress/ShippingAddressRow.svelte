@@ -4,9 +4,11 @@
 
   export let rowId: number = null;
   export let data: IShippingAddress = null;
+  export let onChange: () => void = null;
 
   function updateData(result: IShippingAddress) {
     data = result;
+    if (onChange) onChange();
   }
 
   let modal: ShippingAddressModal;
