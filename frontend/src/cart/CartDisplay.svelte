@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { Cart } from "./cart";
   import CartHeader from "./CartHeader.svelte";
   import CartRow from "./CartRow.svelte";
@@ -9,8 +9,10 @@
   let cartItems = $cartStore.items;
 
   // run on load
-  Cart.validate();
-  cartItems = $cartStore.items;
+  onMount(() => {
+    Cart.validate();
+    cartItems = $cartStore.items;
+  });
 
   // check cart every 10 seconds
   const looper = setInterval(() => {
@@ -27,7 +29,7 @@
 <div class="flex flex-col w-full border-b-2">
   <CartHeader />
 
-  {#if cartItems.length > 0}
+  {#if $cartStore.items.length >= 1}
     {#each cartItems as item}
       <CartRow cartItem={item} />
     {/each}

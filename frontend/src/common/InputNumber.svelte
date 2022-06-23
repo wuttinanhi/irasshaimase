@@ -2,28 +2,59 @@
   export let value: number = 0;
   export let min: number = 0;
   export let max: number = 9999;
-  export let onChange: (value: number) => void = () => {};
+
+  export let onBeforeChange: (value: number) => boolean = null;
+  export let onChange: (value: number) => void = null;
+
   export let disabled: boolean = false;
+  let internalValue: number = value;
 
   function increase() {
+    if (onBeforeChange) {
+      const shouldChange = onBeforeChange(value + 1);
+      if (shouldChange === false) return;
+    }
+
     value += 1;
-    if (value >= max) value = max;
-    onChange(value);
+    if (max && value >= max) value = max;
+
+    internalValue = value;
+    if (onChange) onChange(value);
   }
 
   function decrease() {
+    if (onBeforeChange) {
+      const shouldChange = onBeforeChange(value - 1);
+      if (shouldChange === false) return;
+    }
+
     value -= 1;
-    if (value <= min) value = min;
-    onChange(value);
+    if (min && value <= min) value = min;
+
+    internalValue = value;
+    if (onChange) onChange(value);
   }
 
   function onInputChange(e) {
-    value = parseInt(e.target.value) ?? 0;
+    const inputValue = parseInt(e.target.value) ?? 0;
+
+    if (onBeforeChange) {
+      const shouldChange = onBeforeChange(inputValue);
+      if (shouldChange === false) {
+        internalValue = null;
+        internalValue = value;
+        return;
+      }
+    }
+
+    value = inputValue;
+
     // clamp value
-    if (value < min) value = min;
-    if (value > max) value = max;
-    // call callback
-    onChange(value);
+    if (min && value < min) value = min;
+    if (max && value > max) value = max;
+
+    internalValue = value;
+    if (onChange) onChange(value);
   }
 </script>
 
@@ -40,7 +71,7 @@
     <input
       type="number"
       inputmode="numeric"
-      {value}
+      value={internalValue}
       class="no-spin rounded-md border-2 text-xl text-center w-full"
       on:change={onInputChange}
       {disabled}

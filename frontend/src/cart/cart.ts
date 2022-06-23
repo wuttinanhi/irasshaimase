@@ -104,7 +104,7 @@ export class Cart {
   }
 
   public static async validate() {
-    console.log("========== Validating cart ==========");
+    console.log("Validating cart");
 
     const cart = this.getCart();
     if (cart.items.length <= 0) return;
