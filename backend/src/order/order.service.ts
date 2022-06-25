@@ -127,7 +127,15 @@ export class OrderService {
 
   async paginate(options: OrderPaginationOptions) {
     const queryBuilder = this.orderRepository.createQueryBuilder('order').orderBy('id', options.sort);
+
     if (options.userId) queryBuilder.where('order.userId = :userId', { userId: options.userId });
+    if (options.status) queryBuilder.andWhere('order.status = :status', { status: options.status });
+
+    if (options.search) {
+      queryBuilder.andWhere('(order.createdAt LIKE :search OR order.shippingAddress LIKE :search)', {
+        search: `%${options.search}%`,
+      });
+    }
 
     const pagination = new Pagination(queryBuilder);
     return pagination.paginate(options.page, options.limit);
