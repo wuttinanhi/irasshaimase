@@ -21,7 +21,10 @@ export class Pagination<T> {
 
     const query = this.queryBuilder.skip((this.page - 1) * this.perPage).take(this.perPage);
     const items = await (raw ? query.getRawMany() : query.getMany());
-    const totalCount = await this.queryBuilder.getCount();
+
+    const totalCountQuery = this.queryBuilder.clone().select('COUNT(*)', 'count');
+    const totalCountResult = await totalCountQuery.getRawMany();
+    const totalCount = +totalCountResult[0].count;
 
     const response = new PaginationResponse();
     response.items = items;
