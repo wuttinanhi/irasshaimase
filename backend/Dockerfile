@@ -9,4 +9,4 @@ COPY . .
 EXPOSE 3000
 RUN chown -R node /app
 USER node
-CMD ["npm", "run", "prod"]
+CMD ["node", "dist/main"]
