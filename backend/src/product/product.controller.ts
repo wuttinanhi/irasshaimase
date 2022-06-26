@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { PaginationOptions } from '../pagination/pagination.options';
 import { AdminGuard } from '../user-role/admin.guard';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -33,7 +34,7 @@ export class ProductController {
   }
 
   @Get('paginate')
-  paginate(@Query('page') page: number, @Query('limit') limit: number) {
-    return this.productService.paginate(page, limit);
+  paginate(@Query() pagination: PaginationOptions) {
+    return this.productService.paginate(pagination);
   }
 }

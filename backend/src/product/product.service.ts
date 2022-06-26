@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pagination } from '../pagination/pagination';
+import { PaginationOptions } from '../pagination/pagination.options';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -74,7 +75,7 @@ export class ProductService {
     return update;
   }
 
-  paginate(page: number, limit: number) {
+  paginate(options: PaginationOptions) {
     const queryBuilder = this.productRepository
       .createQueryBuilder('product')
       .select([
@@ -86,9 +87,9 @@ export class ProductService {
         'ANY_VALUE(product_image.imageUrl) AS image',
       ])
       .leftJoin('product_image', 'product_image', 'product.id = product_image.productId')
-      .groupBy('id');
+      .groupBy('product.id');
 
     const pagination = new Pagination(queryBuilder);
-    return pagination.paginate(page, limit, true);
+    return pagination.paginate(options.page, options.limit, true);
   }
 }
