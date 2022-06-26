@@ -3,6 +3,7 @@
   import { IOrder, IOrderPaginationResult, OrderAPI } from "../api/order.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
+  import PaginationMenu from "../common/PaginationMenu.svelte";
   import OrderPaginationRecord from "./OrderPaginationRecord.svelte";
   import OrderSearchBar from "./OrderSearchBar.svelte";
 
@@ -10,26 +11,14 @@
 
   const api = new OrderAPI();
   let orders: IOrder[] = [];
-  let pageData: IOrderPaginationResult;
+  let data: IOrderPaginationResult;
   let searchValue: string;
 
   async function load() {
     orders = [];
     const result = await api.paginate(page, 5, searchValue);
     orders = [...result.items];
-    pageData = result;
-  }
-
-  function generatePaginationNumber() {
-    const result: number[] = [];
-    for (
-      let i = pageData.meta.currentPage + 1;
-      i < pageData.meta.totalPages;
-      i++
-    ) {
-      result.push(i);
-    }
-    return result;
+    data = result;
   }
 
   function changePage(to: number) {
@@ -61,49 +50,19 @@
     <OrderSearchBar bind:searchValue {onSearch} />
   </div>
 
-  {#if pageData}
+  {#if data}
     <div class="flex flex-col mt-5 w-full space-y-20">
       {#if orders.length > 0}
         {#each orders as order}
           <OrderPaginationRecord orderData={order} />
         {/each}
+      {:else}
+        <h1 class="w-full text-center text-xl italic">Not Found</h1>
       {/if}
     </div>
 
     <div class="flex flex-row justify-end mt-20 w-full space-x-2">
-      <button
-        type="button"
-        class="w-12 h-12 bg-white border-2 border-blue-600 text-blue-600 font-bold text-lg"
-        on:click={() => {
-          changePage(1);
-        }}
-      >
-        1
-      </button>
-
-      {#each generatePaginationNumber() as pageNumber}
-        <button
-          type="button"
-          class="w-12 h-12 bg-white border-2 border-blue-600 text-blue-600 font-bold text-lg"
-          on:click={() => {
-            changePage(pageNumber);
-          }}
-        >
-          {pageNumber}
-        </button>
-      {/each}
-
-      {#if pageData.meta.totalPages > 1}
-        <button
-          type="button"
-          class="w-12 h-12 bg-white border-2 border-blue-600 text-blue-600 font-bold text-lg"
-          on:click={() => {
-            changePage(pageData.meta.totalPages);
-          }}
-        >
-          {pageData.meta.totalPages}
-        </button>
-      {/if}
+      <PaginationMenu onChange={changePage} pagination={data.meta} />
     </div>
   {:else}
     <div class="my-[100vh]" />
