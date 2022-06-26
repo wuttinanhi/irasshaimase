@@ -79,8 +79,11 @@ export class OrderAPI extends BaseAPI {
     return response.data as IOrderCreateResponse;
   }
 
-  async paginate(page: number, limit = 50) {
-    const url = `api/order/paginate?page=${page}&limit=${limit}`;
+  async paginate(page: number, limit = 50, search?: string) {
+    const params: any = { page: page, limit: limit };
+    if (search) params.search = search;
+
+    const url = `api/order/paginate?${new URLSearchParams(params)}`;
     const result = await this.send(url, "GET");
     return result.data as IOrderPaginationResult;
   }

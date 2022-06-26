@@ -1,17 +1,21 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { IOrder, IOrderPaginationResult, OrderAPI } from "../api/order.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import OrderPaginationRecord from "./OrderPaginationRecord.svelte";
+  import OrderSearchBar from "./OrderSearchBar.svelte";
+
+  export let page: number = 1;
 
   const api = new OrderAPI();
-  export let page: number = 1;
   let orders: IOrder[] = [];
   let pageData: IOrderPaginationResult;
+  let searchValue: string;
 
   async function load() {
     orders = [];
-    const result = await api.paginate(page, 5);
+    const result = await api.paginate(page, 5, searchValue);
     orders = [...result.items];
     pageData = result;
   }
@@ -37,7 +41,13 @@
     window.scrollTo(0, 0);
   }
 
-  load();
+  function onSearch() {
+    load();
+  }
+
+  onMount(() => {
+    load();
+  });
 </script>
 
 <Navbar />
@@ -45,6 +55,10 @@
 <div class="flex flex-col px-3 lg:pt-8 lg:px-32 2xl:pt-8 2xl:px-96">
   <div class="flex my-5">
     <h1 class="text-4xl font-bold">Order</h1>
+  </div>
+
+  <div class="flex my-5 w-full">
+    <OrderSearchBar bind:searchValue {onSearch} />
   </div>
 
   {#if pageData}
