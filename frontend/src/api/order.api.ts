@@ -2,11 +2,14 @@ import type { ICart } from "../cart/cart.interface";
 import { BaseAPI } from "./base.api";
 
 export interface IOrderItem {
-  orderId: number;
-  productId: number;
+  id: number;
+  orderId?: number;
+  productId?: number;
+  name: string;
+  description: string;
   quantity: number;
   price: number;
-  id: number;
+  image: null | string;
 }
 
 export interface IOrder {
@@ -23,7 +26,7 @@ export interface IOrderCreateResponse {
   order: IOrder;
 }
 
-export interface IPaginateMeta {
+export interface IOrderPaginationMeta {
   currentPage: number;
   totalItemsInPage: number;
   totalItems: number;
@@ -32,7 +35,7 @@ export interface IPaginateMeta {
 
 export interface IOrderPaginationResult {
   items: IOrder[];
-  meta: IPaginateMeta;
+  meta: IOrderPaginationMeta;
 }
 
 export interface IOrderReport {
@@ -42,16 +45,7 @@ export interface IOrderReport {
   status: string;
   createdAt: Date;
   shippingAddress: string;
-  orderItems: IOrderReportItem[];
-}
-
-export interface IOrderReportItem {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  quantity: number;
-  image: null | string;
+  orderItems: IOrderItem[];
 }
 
 export class OrderAPI extends BaseAPI {
