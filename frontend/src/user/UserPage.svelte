@@ -20,34 +20,34 @@
     <h1 class="text-4xl font-bold">Account</h1>
   </div>
 
-  <div class="flex flex-row mt-10 w-full space-x-10">
-    <div class="flex flex-col basis-1/6">
+  <div class="flex flex-col w-full md:flex-row md:mt-10 md:space-x-10">
+    <div class="flex space-y-5 mb-10 flex-col w-full md:basis-1/6">
       <button
-        class="py-5 text-left"
+        class="flex text-left"
         on:click={() => changePanel(EUserPanel.SHIPPING_ADDRESS)}
       >
         Shipping Address
       </button>
 
-      <Link class="py-5 text-left" to="/order">Order</Link>
+      <Link class="flex text-left" to="/order">Order</Link>
 
       <button
-        class="py-5 text-left"
+        class="flex text-left"
         on:click={() => changePanel(EUserPanel.CHANGE_PASSWORD)}
       >
         Change Password
       </button>
 
-      <a class="py-5 text-left" href="/logout">Logout</a>
+      <a class="flex text-left" href="/logout">Logout</a>
     </div>
 
-    <div class="flex basis-5/6 border-l-2">
-      <div class="flex ml-5 w-full">
+    <div class="flex w-full md:basis-5/6 md:border-l-2">
+      <div class="flex md:ml-5 w-full">
         {#if panel === EUserPanel.SHIPPING_ADDRESS}
           <ShippingAddressPanel />
         {/if}
         {#if panel === EUserPanel.CHANGE_PASSWORD}
-          <div class="flex flex-col basis-1/2 w-full">
+          <div class="flex flex-col md:basis-1/2 w-full">
             <ChangePasswordPanel />
           </div>
         {/if}
