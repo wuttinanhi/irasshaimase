@@ -14,8 +14,7 @@ RUN yarn install --production --silent
 
 FROM production_module_install as production
 ENV NODE_ENV=production
-COPY --from=build_stage /app/dist /app/dist
-RUN chown -R node /app
+COPY --from=build_stage --chown=node  /app/dist /app/dist
 EXPOSE 3000
 USER node
 CMD ["node", "dist/main"]
