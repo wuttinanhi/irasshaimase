@@ -29,7 +29,7 @@ export class Pagination<T> {
     const query = this.queryBuilder.skip((this.page - 1) * this.perPage).take(this.perPage);
     const items = await (raw ? query.getRawMany() : query.getMany());
 
-    const response = new PaginationResponse();
+    const response = new PaginationResponse<T>();
     response.items = items;
     response.meta = {
       currentPage: this.page,

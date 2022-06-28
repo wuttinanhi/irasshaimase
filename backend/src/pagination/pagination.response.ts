@@ -12,8 +12,8 @@ export interface PaginationResponseLink {
   last: string;
 }
 
-export class PaginationResponse {
-  items: any[];
+export class PaginationResponse<T = any> {
+  items: T[];
   meta: PaginationResponseMeta;
   links: PaginationResponseLink;
 }
