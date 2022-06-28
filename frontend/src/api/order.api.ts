@@ -1,4 +1,5 @@
 import type { ICart } from "../cart/cart.interface";
+import type { EOrderStatus } from "../enum/order-status.enum";
 import { BaseAPI } from "./base.api";
 
 export interface IOrderItem {
@@ -48,6 +49,14 @@ export interface IOrderReport {
   orderItems: IOrderItem[];
 }
 
+export interface IOrderPaginateOptions {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: EOrderStatus;
+  sort?: "ASC" | "DESC";
+}
+
 export class OrderAPI extends BaseAPI {
   async createOrder(cart: ICart) {
     if (cart.items.length <= 0) return null;
@@ -73,10 +82,26 @@ export class OrderAPI extends BaseAPI {
     return response.data as IOrderCreateResponse;
   }
 
-  async paginate(page: number, limit = 50, search?: string) {
-    const params: any = { page: page, limit: limit };
-    if (search) params.search = search;
+  async paginate(options: IOrderPaginateOptions) {
+    // parse options
+    const params: any = { page: options.page, limit: options.limit };
+    if (!options.page || options.page <= 0) {
+      params.page = 1;
+    }
+    if (!options.limit || options.limit <= 0 || options.limit >= 50) {
+      params.limit = 50;
+    }
+    if (options.search) {
+      params.search = options.search;
+    }
+    if (options.status) {
+      params.status = options.status;
+    }
+    if (!options.sort) {
+      params.sort = "DESC";
+    }
 
+    // send request
     const url = `api/order/paginate?${new URLSearchParams(params)}`;
     const result = await this.send(url, "GET");
     return result.data as IOrderPaginationResult;
