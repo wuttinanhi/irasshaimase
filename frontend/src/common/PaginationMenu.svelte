@@ -26,7 +26,7 @@
   onMount(() => generatePageNumber());
 </script>
 
-<div class="flex flex-row md:justify-end items-center">
+<div class="flex flex-row md:justify-end items-center flex-wrap">
   {#each pageNumber as i}
     <button
       type="button"

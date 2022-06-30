@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { IOrderItem } from "../api/order.api";
   import { PLACEHOLDER_IMAGE } from "../etc/mock";
-
   export let orderItem: IOrderItem;
 </script>
 

@@ -49,6 +49,10 @@
           </div>
 
           <div class="flex">
+            <Link to="/payment" class="font-bold text-white">Payment</Link>
+          </div>
+
+          <div class="flex">
             <Link to="/order" class="font-bold text-white">Order</Link>
           </div>
 

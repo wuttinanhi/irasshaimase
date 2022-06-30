@@ -6,6 +6,7 @@
   import OrderPage from "./order/OrderPage.svelte";
   import OrderReportPage from "./order/OrderReportPage.svelte";
   import NotFoundPage from "./page/NotFoundPage.svelte";
+  import PaymentPage from "./payment/PaymentPage.svelte";
   import PaymentSuccessHandler from "./payment/PaymentSuccessHandler.svelte";
   import ProductOverlay from "./product/ProductOverlay.svelte";
   import ProductPage from "./product/ProductPage.svelte";
@@ -28,6 +29,7 @@
     <OrderReportPage orderId={params.id} />
   </Route>
   <Route path="/cart"><CartPage /></Route>
+  <Route path="/payment"><PaymentPage /></Route>
   <Route path="/account"><UserPage /></Route>
 
   <Route path="/paypal/success"><PaymentSuccessHandler /></Route>

@@ -8,6 +8,35 @@ export interface IPayResult {
   payUrl: string;
 }
 
+export interface IPayment {
+  id: number;
+  userId: number;
+  orderId: number;
+  amount: number;
+  status: string;
+  createdAt: Date;
+  paymentMethod: string;
+}
+
+export interface IPaymentPaginationMeta {
+  currentPage: number;
+  totalItemsInPage: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+export interface IPaymentPaginationResult {
+  items: IPayment[];
+  meta: IPaymentPaginationMeta;
+}
+
+export interface IOrderPaginateOptions {
+  search?: string;
+  page?: number;
+  limit?: number;
+  sort?: "ASC" | "DESC";
+}
+
 export class PaymentAPI extends BaseAPI {
   public async success(token: string) {
     const result = await this.send(`api/payment/success?token=${token}`);
@@ -22,5 +51,27 @@ export class PaymentAPI extends BaseAPI {
     if (response.status !== 201) throw new Error("failed to pay order");
 
     return response.data as IPayResult;
+  }
+
+  async paginate(options: IOrderPaginateOptions) {
+    // parse options
+    const params: any = { page: options.page, limit: options.limit };
+    if (!options.page || options.page <= 0) {
+      params.page = 1;
+    }
+    if (!options.limit || options.limit <= 0 || options.limit >= 50) {
+      params.limit = 50;
+    }
+    if (options.search) {
+      params.search = options.search;
+    }
+    if (!options.sort) {
+      params.sort = "DESC";
+    }
+
+    // send request
+    const url = `api/payment/paginate?${new URLSearchParams(params)}`;
+    const result = await this.send(url, "GET");
+    return result.data as IPaymentPaginationResult;
   }
 }
