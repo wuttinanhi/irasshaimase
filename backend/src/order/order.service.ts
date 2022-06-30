@@ -5,6 +5,7 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DataSource } from 'typeorm/data-source/DataSource';
@@ -29,6 +30,7 @@ export class OrderService {
     private readonly cartService: CartService,
     private readonly productService: ProductService,
     private readonly shippingAddressService: ShippingAddressService,
+    private readonly configService: ConfigService,
     // datasource
     private readonly dataSource: DataSource,
   ) {}
@@ -214,5 +216,17 @@ export class OrderService {
       // release query runner
       await queryRunner.release();
     }
+  }
+
+  async getPaymentTimeoutOrder() {
+    const PAYMENT_TIMEOUT_DURATION: number = this.configService.get('ORDER_PAYMENT_TIMEOUT');
+
+    const queryBuilder = this.orderRepository.createQueryBuilder('order');
+    queryBuilder.where('order.status = :status', { status: EOrderStatus.PENDING });
+    queryBuilder.andWhere('TIMESTAMPDIFF(SECOND,order.createdAt,NOW())  >= :timeout', {
+      timeout: PAYMENT_TIMEOUT_DURATION,
+    });
+
+    return queryBuilder.getMany();
   }
 }

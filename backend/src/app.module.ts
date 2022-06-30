@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
@@ -12,9 +13,10 @@ import { PaymentModule } from './payment/payment.module';
 import { PaypalModule } from './paypal/paypal.module';
 import { ProductImageModule } from './product-image/product-image.module';
 import { ProductModule } from './product/product.module';
+import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserModule } from './user/user.module';
-import { ShippingAddressModule } from './shipping-address/shipping-address.module';
+import { CronjobModule } from './cronjob/cronjob.module';
 
 @Module({
   imports: [
@@ -49,6 +51,8 @@ import { ShippingAddressModule } from './shipping-address/shipping-address.modul
     UserRoleModule,
     ProductImageModule,
     ShippingAddressModule,
+    ScheduleModule.forRoot(),
+    CronjobModule,
   ],
   controllers: [AppController],
   providers: [AppService],
