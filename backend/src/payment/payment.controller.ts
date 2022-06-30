@@ -76,9 +76,7 @@ export class PaymentController {
   @UseGuards(JwtAuthGuard)
   paginate(@CurrentUser() user: User, @Query() pagination: PaymentPaginationOptions) {
     return this.paymentService.paginate({
-      limit: pagination.limit,
-      page: pagination.page,
-      sort: pagination.sort,
+      ...pagination,
       userId: user.id,
     });
   }
@@ -91,12 +89,7 @@ export class PaymentController {
 
   @Get('admin/paginate')
   @UseGuards(JwtAuthGuard, AdminGuard)
-  adminPaginate(@CurrentUser() user: User, @Query() pagination: PaymentPaginationOptions) {
-    return this.paymentService.paginate({
-      limit: pagination.limit,
-      page: pagination.page,
-      sort: pagination.sort,
-      userId: pagination.userId,
-    });
+  adminPaginate(@Query() pagination: PaymentPaginationOptions) {
+    return this.paymentService.paginate(pagination);
   }
 }

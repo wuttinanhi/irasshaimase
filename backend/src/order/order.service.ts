@@ -139,8 +139,10 @@ export class OrderService {
 
     const pagination = new Pagination(queryBuilder);
     const pageResult = await pagination.paginate(options.page, options.limit);
+
     const populatedOrder = await Promise.all(pageResult.items.map((v) => this.report(v.id)));
     pageResult.items = populatedOrder;
+
     return pageResult;
   }
 

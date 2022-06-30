@@ -62,6 +62,19 @@ export class PaymentService {
     const queryBuilder = this.paymentRepository.createQueryBuilder('payment').orderBy('id', options.sort);
     if (options.userId) queryBuilder.where('payment.userId = :userId', { userId: options.userId });
 
+    if (options.search) {
+      queryBuilder.andWhere(
+        `(
+            CAST(payment.orderId as CHAR) LIKE :search 
+            OR CAST(payment.amount as CHAR) LIKE :search 
+            OR CAST(payment.createdAt as CHAR) LIKE :search 
+            OR payment.status LIKE :search 
+            OR payment.paymentMethod LIKE :search
+        )`,
+        { search: `%${options.search}%` },
+      );
+    }
+
     const pagination = new Pagination(queryBuilder);
     return pagination.paginate(options.page, options.limit);
   }
