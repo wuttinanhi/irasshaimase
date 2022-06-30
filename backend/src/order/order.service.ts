@@ -178,6 +178,10 @@ export class OrderService {
     if (order.status === EOrderStatus.CANCELLED) {
       throw new BadRequestException();
     }
+    // only created and pending order can be cancelled
+    if (order.status !== EOrderStatus.CREATED && order.status !== EOrderStatus.PENDING) {
+      throw new BadRequestException();
+    }
 
     // start transaction
     const queryRunner = this.dataSource.createQueryRunner();
