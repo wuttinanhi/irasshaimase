@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Link } from "svelte-routing";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import ShippingAddressPanel from "../shippingaddress/ShippingAddressPanel.svelte";
@@ -28,8 +27,6 @@
       >
         Shipping Address
       </button>
-
-      <Link class="flex text-left" to="/order">Order</Link>
 
       <button
         class="flex text-left"
