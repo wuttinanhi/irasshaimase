@@ -25,7 +25,7 @@
       payment = [];
       const result = await api.paginate({
         page: page,
-        limit: 5,
+        limit: 10,
         search: searchValue || null,
         sort: "DESC",
       });
