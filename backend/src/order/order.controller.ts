@@ -61,4 +61,10 @@ export class OrderController {
   async adminUpdate(@Query('id') id: number, @Body('status') status: EOrderStatus) {
     await this.orderService.updateOrderStatus(id, status);
   }
+
+  @Post('admin/cancel')
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  async adminCancel(@Query('id') id: number) {
+    await this.orderService.cancel(id);
+  }
 }
