@@ -17,6 +17,8 @@ import { ShippingAddressModule } from './shipping-address/shipping-address.modul
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserModule } from './user/user.module';
 import { CronjobModule } from './cronjob/cronjob.module';
+import { PdfMakerModule } from './pdf-maker/pdf-maker.module';
+import { ReceiptModule } from './receipt/receipt.module';
 
 @Module({
   imports: [
@@ -53,6 +55,8 @@ import { CronjobModule } from './cronjob/cronjob.module';
     ShippingAddressModule,
     ScheduleModule.forRoot(),
     CronjobModule,
+    PdfMakerModule,
+    ReceiptModule,
   ],
   controllers: [AppController],
   providers: [AppService],

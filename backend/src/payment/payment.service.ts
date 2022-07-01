@@ -78,4 +78,10 @@ export class PaymentService {
     const pagination = new Pagination(queryBuilder);
     return pagination.paginate(options.page, options.limit);
   }
+
+  async getByOrderId(orderId: number) {
+    const records = await this.paymentRepository.find({ where: { orderId } });
+    if (!records) throw new NotFoundException();
+    return records;
+  }
 }

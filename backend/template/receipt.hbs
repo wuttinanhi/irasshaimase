@@ -1,0 +1,214 @@
+<html>
+
+<head>
+  <title>Receipt</title>
+  <meta charset='UTF-8' />
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    html {
+      padding: 50px;
+      width: 2480px;
+      height: 3508px;
+      max-width: 790px;
+      max-height: 1120px;
+      overflow: hidden;
+      background-color: white;
+      /** border: 1px solid black; **/
+    }
+
+    p {
+      white-space: pre-line;
+    }
+
+    table {
+      padding: 10px;
+      width: 100%;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    th {
+      padding: 5px;
+      border-top:
+        0px;
+      border-bottom: 0px;
+      border: 1px solid black;
+      border-collapse: collapse;
+      background-color: lightgray;
+      color:
+        black;
+    }
+
+    tr {
+      border-top: 0px;
+      border-bottom: 0px;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 5px;
+      border-top: 0px;
+      border-bottom: 0px;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .row {
+      flex-direction: row;
+      flex-flow: row;
+    }
+
+    .column {
+      flex-direction: column;
+      flex-flow:
+        column;
+    }
+
+    .flex-1-2 {
+      display: flex;
+      flex-basis: 50%;
+      height: 100%;
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      max-width: 100px;
+      max-height: 100px;
+      background-color: red;
+      margin: 10px;
+    }
+
+    .m-x {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .m-y {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .v-center {
+      align-items: center;
+      justify-content: center;
+    }
+
+    .address {
+      margin: 0 10px 10px 0;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .padding {
+      padding: 10px;
+    }
+
+    .section-border {
+      margin: 1em 0 1em 0;
+      width: 100%;
+      height: 2em;
+      background-color: gray;
+    }
+
+    .m-x-large {
+      margin-top: 5vh;
+      margin-bottom: 5vh;
+    }
+
+    .text-left {
+      text-align: left;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class='flex row padding'>
+    <div class='flex row flex-1-2'>
+      <div class='flex-1-2 v-center'>
+        <img src='{{logoFilePath}}' class='flex logo' />
+        <p class='flex'>{{shopName}}</p>
+      </div>
+    </div>
+    <div class='flex-1-2'></div>
+  </div>
+  <div class='flex row padding'>
+    <div class='flex-1-2 column m-x m-y'>
+      <h3>From:</h3>
+      <p class='address'> {{shopName}} {{shopAddress}} {{shopPhone}} {{shopEmail}} {{shopWebsite}} </p>
+    </div>
+    <div class='flex-1-2 column m-x m-y'>
+      <h3>To:</h3>
+      <p class='address'> {{customerName}} {{customerAddress}} {{customerPhone}} {{customerEmail}} </p>
+    </div>
+  </div>
+  <hr class='section-border' />
+  <div class='flex column padding'>
+    <div class="flex column">
+      <p>Order ID: {{ orderId }}</p>
+      <p>Status: {{ status }}</p>
+      <br>
+    </div>
+    <table>
+      <tr>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr> {{#each items}} <tr>
+        <td class="text-left">{{this.description}}</td>
+        <td class="text-right">{{this.quantity}}</td>
+        <td class="text-right">{{this.unitPrice}}</td>
+        <td class="text-right">{{this.total}}</td>
+      </tr> {{/each}}
+    </table>
+  </div>
+  <hr class='section-border' />
+  <div class='flex column padding'>
+    <h3 class='flex'>Payment:</h3>
+    <br />
+    <div class='flex w-full'>
+      <table>
+        <tr>
+          <th>Payment ID</th>
+          <th>Date</th>
+          <th>Method</th>
+          <th>Amount</th>
+        </tr> {{#each payments}} <tr>
+          <td class="text-center">{{this.paymentId}}</td>
+          <td class="text-center">{{this.paymentDate}}</td>
+          <td class="text-center">{{this.paymentMethod}}</td>
+          <td class="text-center">{{this.paymentAmount}}</td>
+        </tr> {{/each}}
+      </table>
+    </div>
+  </div>
+  <hr class='section-border' />
+  <div class='flex column padding'>
+    <h3 class='flex'>Note:</h3>
+    <br />
+    <p class='flex'> {{note}} </p>
+  </div>
+</body>
+
+</html>

@@ -16,6 +16,7 @@ import { ShippingAddressService } from '../shipping-address/shipping-address.ser
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderItem } from './entities/order.entity';
 import { EOrderStatus } from './order-status.enum';
+import { IOrderReport } from './order.interface';
 import { OrderPaginationOptions } from './order.pagination';
 
 @Injectable()
@@ -144,7 +145,7 @@ export class OrderService {
     const pageResult = await pagination.paginate(options.page, options.limit);
 
     const populatedOrder = await Promise.all(pageResult.items.map((v) => this.report(v.id)));
-    pageResult.items = populatedOrder;
+    pageResult.items = <any>populatedOrder;
 
     return pageResult;
   }
@@ -170,7 +171,7 @@ export class OrderService {
 
     order.orderItems = await queryBuilder.getRawMany();
 
-    return order;
+    return order as IOrderReport;
   }
 
   async cancel(orderId: number) {
