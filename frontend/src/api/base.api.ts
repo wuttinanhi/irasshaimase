@@ -71,6 +71,13 @@ export class BaseAPI {
     }
     const status = response.status;
 
+    if (response.ok === false) {
+      throw new Error(data.message);
+    }
+
+    // return result
+    return { data, status, response };
+  }
     // return result
     return { data, status, response };
   }
