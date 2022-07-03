@@ -67,7 +67,6 @@
       <div class="flex flex-col mt-5 w-full">
         <AdminPaymentTable data={payments} showUser={true} />
       </div>
-
       <div class="flex flex-row justify-end mt-20 w-full space-x-2">
         <PaginationMenu onChange={changePage} pagination={data.meta} />
       </div>
