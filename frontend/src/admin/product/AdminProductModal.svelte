@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { ProductImageAPI } from "../api/product-image.api";
+  import { ProductImageAPI } from "../../api/product-image.api";
 
-  import { IProductDto, ProductAPI } from "../api/product.api";
-  import { PLACEHOLDER_IMAGE } from "../etc/mock";
-  import type { IProduct } from "../product/IProduct";
+  import { IProductDto, ProductAPI } from "../../api/product.api";
+  import { PLACEHOLDER_IMAGE } from "../../etc/mock";
+  import type { IProduct } from "../../product/IProduct";
 
   const productApi = new ProductAPI();
   const productImageApi = new ProductImageAPI();

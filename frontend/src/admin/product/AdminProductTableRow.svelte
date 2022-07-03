@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { ProductAPI } from "../api/product.api";
-  import ConfirmModal from "../common/ConfirmModal.svelte";
-  import type { IProduct } from "../product/IProduct";
+  import { ProductAPI } from "../../api/product.api";
+  import ConfirmModal from "../../common/ConfirmModal.svelte";
+  import type { IProduct } from "../../product/IProduct";
   import AdminProductModal from "./AdminProductModal.svelte";
 
   export let data: IProduct = null;

@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { IProductPaginationResult, ProductAPI } from "../api/product.api";
-  import Footer from "../common/Footer.svelte";
-  import Navbar from "../common/Navbar.svelte";
-  import PaginationMenu from "../common/PaginationMenu.svelte";
-  import SearchBar from "../common/SearchBar.svelte";
-  import type { IProduct } from "../product/IProduct";
+  import { IProductPaginationResult, ProductAPI } from "../../api/product.api";
+  import Footer from "../../common/Footer.svelte";
+  import Navbar from "../../common/Navbar.svelte";
+  import PaginationMenu from "../../common/PaginationMenu.svelte";
+  import SearchBar from "../../common/SearchBar.svelte";
+  import type { IProduct } from "../../product/IProduct";
   import AdminProductModal from "./AdminProductModal.svelte";
   import AdminProductTableHeader from "./AdminProductTableHeader.svelte";
   import AdminProductTableRow from "./AdminProductTableRow.svelte";

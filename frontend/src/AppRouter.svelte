@@ -1,6 +1,6 @@
 <script>
   import { Route, Router } from "svelte-routing";
-  import AdminProductManagePage from "./admin/AdminProductManagePage.svelte";
+  import AdminProductManagePage from "./admin/product/AdminProductManagePage.svelte";
   import CartPage from "./cart/CartPage.svelte";
   import InputNumber from "./common/InputNumber.svelte";
   import Index from "./Index.svelte";
