@@ -60,6 +60,12 @@
                 Admin Order
               </Link>
             </div>
+
+            <div class="flex">
+              <Link to="/admin/payment" class="font-bold text-white">
+                Admin Payment
+              </Link>
+            </div>
           {/if}
 
           <div class="flex">

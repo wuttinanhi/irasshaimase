@@ -35,6 +35,7 @@ export interface IOrderPaginateOptions {
   page?: number;
   limit?: number;
   sort?: "ASC" | "DESC";
+  admin?: boolean;
 }
 
 export class PaymentAPI extends BaseAPI {
@@ -70,7 +71,10 @@ export class PaymentAPI extends BaseAPI {
     }
 
     // send request
-    const url = `api/payment/paginate?${new URLSearchParams(params)}`;
+    let url = `api/payment/paginate?${new URLSearchParams(params)}`;
+    if (options.admin) {
+      `api/payment/admin/paginate?${new URLSearchParams(params)}`;
+    }
     const result = await this.send(url, "GET");
     return result.data as IPaymentPaginationResult;
   }
