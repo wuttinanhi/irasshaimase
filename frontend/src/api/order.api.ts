@@ -55,6 +55,7 @@ export interface IOrderPaginateOptions {
   search?: string;
   status?: EOrderStatus;
   sort?: "ASC" | "DESC";
+  admin?: boolean;
 }
 
 export class OrderAPI extends BaseAPI {
@@ -102,7 +103,10 @@ export class OrderAPI extends BaseAPI {
     }
 
     // send request
-    const url = `api/order/paginate?${new URLSearchParams(params)}`;
+    let url = `api/order/paginate?${new URLSearchParams(params)}`;
+    if (options.admin) {
+      url = `api/order/admin/paginate?${new URLSearchParams(params)}`;
+    }
     const result = await this.send(url, "GET");
     return result.data as IOrderPaginationResult;
   }

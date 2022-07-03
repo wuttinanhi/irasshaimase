@@ -1,8 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { IProductPaginationResult, ProductAPI } from "../../api/product.api";
-  import Footer from "../../common/Footer.svelte";
-  import Navbar from "../../common/Navbar.svelte";
   import PaginationMenu from "../../common/PaginationMenu.svelte";
   import SearchBar from "../../common/SearchBar.svelte";
   import type { IProduct } from "../../product/IProduct";
@@ -55,11 +53,9 @@
   });
 </script>
 
-<Navbar />
-
 <AdminProductModal bind:this={addModal} callback={load} mode="ADD" />
 
-<div class="flex flex-col px-3 lg:pt-8 lg:px-32 2xl:pt-8 2xl:px-96">
+<div class="flex flex-col px-3 w-full">
   <div class="flex my-5">
     <h1 class="text-3xl font-bold">Product Management</h1>
   </div>
@@ -96,5 +92,3 @@
     </div>
   {/if}
 </div>
-
-<Footer />

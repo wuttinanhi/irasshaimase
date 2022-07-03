@@ -1,7 +1,6 @@
 <script>
   import { Route, Router } from "svelte-routing";
-  import AdminPaymentPage from "./admin/payment/AdminPaymentPage.svelte";
-  import AdminProductManagePage from "./admin/product/AdminProductManagePage.svelte";
+  import AdminPageLayout from "./admin/AdminPageLayout.svelte";
   import CartPage from "./cart/CartPage.svelte";
   import InputNumber from "./common/InputNumber.svelte";
   import Index from "./Index.svelte";
@@ -37,8 +36,10 @@
   <Route path="/paypal/success"><PaymentSuccessHandler /></Route>
   <Route path="/paypal/cancel"><PaymentSuccessHandler /></Route>
 
-  <Route path="/admin/product"><AdminProductManagePage /></Route>
-  <Route path="/admin/payment"><AdminPaymentPage /></Route>
+  <Route path="/admin"><AdminPageLayout page="PRODUCT" /></Route>
+  <Route path="/admin/product"><AdminPageLayout page="PRODUCT" /></Route>
+  <Route path="/admin/order"><AdminPageLayout page="ORDER" /></Route>
+  <Route path="/admin/payment"><AdminPageLayout page="PAYMENT" /></Route>
 
   <Route path="/dev/ProductOverlay"><ProductOverlay showing={true} /></Route>
   <Route path="/dev/InputNumber"><InputNumber /></Route>

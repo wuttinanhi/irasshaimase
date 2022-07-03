@@ -51,19 +51,7 @@
           {#if $userStore.role === "ADMIN"}
             <div class="flex">
               <Link to="/admin/product" class="font-bold text-white">
-                Admin Product
-              </Link>
-            </div>
-
-            <div class="flex">
-              <Link to="/admin/order" class="font-bold text-white">
-                Admin Order
-              </Link>
-            </div>
-
-            <div class="flex">
-              <Link to="/admin/payment" class="font-bold text-white">
-                Admin Payment
+                Admin
               </Link>
             </div>
           {/if}
