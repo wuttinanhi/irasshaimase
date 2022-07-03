@@ -12,6 +12,7 @@ export class User {
     setUser({ accessToken: result.accessToken, isLoggedIn: true });
     // set access token in local storage
     localStorage.setItem("accessToken", result.accessToken);
+    // set remember me in local storage
     localStorage.setItem("rememberUser", `${remember}`);
   }
 
@@ -32,7 +33,6 @@ export class User {
         // try get user from api
         const api = new UserAPI();
         const userData = await api.getUser();
-        console.log(userData);
         // set user data
         setUser({
           accessToken,

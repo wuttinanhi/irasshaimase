@@ -4,7 +4,6 @@
 
   window.onbeforeunload = function () {
     const remember = localStorage.getItem("rememberUser");
-    console.log(remember);
     if (remember === "false") User.logout();
   };
 </script>
