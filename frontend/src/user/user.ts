@@ -11,9 +11,8 @@ export class User {
     // set user store
     setUser({ accessToken: result.accessToken, isLoggedIn: true });
     // set access token in local storage
-    if (remember) {
-      localStorage.setItem("accessToken", result.accessToken);
-    }
+    localStorage.setItem("accessToken", result.accessToken);
+    localStorage.setItem("rememberUser", `${remember}`);
   }
 
   public static async logout() {
@@ -24,15 +23,23 @@ export class User {
   }
 
   public static async load() {
+    // get user from local storage
     const accessToken = localStorage.getItem("accessToken");
-
     if (accessToken) {
       try {
         // set user store
         setUser({ accessToken, isLoggedIn: true });
         // try get user from api
         const api = new UserAPI();
-        await api.getUser();
+        const userData = await api.getUser();
+        console.log(userData);
+        // set user data
+        setUser({
+          accessToken,
+          isLoggedIn: true,
+          name: userData.name,
+          role: userData.role,
+        });
       } catch (error) {
         // clear user store
         setUser(null);

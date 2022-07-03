@@ -34,10 +34,8 @@ export class CartService {
 
     // not available product list
     const notAvailableList = checkResult.filter((id) => id.available === false);
-
     // get not available count
     const notAvailableCount = notAvailableList.length;
-
     // not available product id list
     const notAvailableProductIds = notAvailableList.map((v) => v.id);
 

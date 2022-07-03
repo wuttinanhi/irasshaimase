@@ -1,5 +1,6 @@
 <script lang="ts">
   import { navigate } from "svelte-routing";
+  import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import { User } from "./user";
   let email: string;
@@ -10,7 +11,8 @@
     try {
       // try login user
       await User.login(email, password, remember);
-
+      // load user
+      await User.load();
       // redirect to index page
       navigate("/", { replace: true });
     } catch (error) {
@@ -20,8 +22,6 @@
 </script>
 
 <Navbar />
-<!-- login form -->
-
 <div class="flex flex-row my-[30vh] justify-center">
   <div class="flex basis-1/5 flex-col gap-4">
     <div class="flex">
@@ -72,3 +72,4 @@
     </div>
   </div>
 </div>
+<Footer />
