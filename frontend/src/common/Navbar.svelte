@@ -48,6 +48,20 @@
             <!-- <Link to="/profile" class="font-bold text-white">Profile</Link> -->
           </div>
 
+          {#if $userStore.role === "ADMIN"}
+            <div class="flex">
+              <Link to="/admin/product" class="font-bold text-white">
+                Admin Product
+              </Link>
+            </div>
+
+            <div class="flex">
+              <Link to="/admin/order" class="font-bold text-white">
+                Admin Order
+              </Link>
+            </div>
+          {/if}
+
           <div class="flex">
             <Link to="/payment" class="font-bold text-white">Payment</Link>
           </div>

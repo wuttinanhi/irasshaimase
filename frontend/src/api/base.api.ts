@@ -1,5 +1,12 @@
 import { getUser } from "../user/user.store";
 
+export interface IPaginationMeta {
+  currentPage: number;
+  totalItemsInPage: number;
+  totalItems: number;
+  totalPages: number;
+}
+
 export class IAPIResult {
   data: any;
   status: number;

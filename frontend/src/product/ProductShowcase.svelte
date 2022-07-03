@@ -7,7 +7,12 @@
 
   async function getProduct() {
     const productApi = new ProductAPI();
-    products = await productApi.getAllProducts();
+    const result = await productApi.paginate({
+      limit: 50,
+      page: 1,
+      sort: "ASC",
+    });
+    products = result.items;
   }
 
   getProduct();
