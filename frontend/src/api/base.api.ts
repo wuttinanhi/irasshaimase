@@ -14,7 +14,7 @@ export class IAPIResult {
 }
 
 export class BaseAPI {
-  private baseUrl: string;
+  protected baseUrl: string;
 
   constructor() {
     this.baseUrl = "http://localhost:3000";
@@ -71,13 +71,11 @@ export class BaseAPI {
     }
     const status = response.status;
 
+    // throw error if response is not ok
     if (response.ok === false) {
       throw new Error(data.message);
     }
 
-    // return result
-    return { data, status, response };
-  }
     // return result
     return { data, status, response };
   }

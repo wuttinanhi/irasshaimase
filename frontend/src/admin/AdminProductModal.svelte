@@ -1,8 +1,12 @@
 <script lang="ts">
+  import { ProductImageAPI } from "../api/product-image.api";
+
   import { IProductDto, ProductAPI } from "../api/product.api";
+  import { PLACEHOLDER_IMAGE } from "../etc/mock";
   import type { IProduct } from "../product/IProduct";
 
   const productApi = new ProductAPI();
+  const productImageApi = new ProductImageAPI();
 
   export let showing = false;
   export let id: number = null;
@@ -14,6 +18,18 @@
   let description: string = data?.description;
   let price: number = data?.price;
   let stock: number = data?.stock;
+
+  let productImageInput: any;
+  let productImage: File;
+  let productImageUrl: any;
+
+  function onFileSelected(e) {
+    let image = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onload = (e) => (productImageUrl = e.target.result);
+    productImage = image;
+  }
 
   export function show() {
     showing = true;
@@ -36,7 +52,8 @@
       const dto: IProductDto = { name, description, price, stock };
 
       if (mode === "ADD") {
-        await productApi.create(dto);
+        const newProduct = await productApi.create(dto);
+        await productImageApi.addProductImage(newProduct.id, productImage);
       } else if (mode === "UPDATE") {
         await productApi.update(data.id, dto);
       }
@@ -74,6 +91,38 @@
           </div>
         </div>
 
+        <div class="flex flex-col w-full justify-center items-center">
+          {#if mode === "UPDATE"}
+            <img
+              src={data.image}
+              alt={"Product Image"}
+              class="flex w-32 h-3w-32 object-fill"
+            />
+          {:else}
+            <img
+              src={productImageUrl || PLACEHOLDER_IMAGE}
+              alt={"Product Image"}
+              class="flex w-32 h-3w-32 object-fill"
+            />
+          {/if}
+
+          <input
+            style="display:none"
+            type="file"
+            accept=".jpg, .jpeg, .png"
+            bind:this={productImageInput}
+            on:change={(e) => onFileSelected(e)}
+          />
+
+          <button
+            type="button"
+            class="flex shrink my-2 bg-blue-600 px-5 py-3 text-white font-bold"
+            on:click={() => productImageInput.click()}
+          >
+            Upload
+          </button>
+        </div>
+
         <div class="flex space-x-2 w-full">
           <input
             type="text"
@@ -92,7 +141,7 @@
           />
           <input
             type="number"
-            placeholder="Lastname"
+            placeholder="Stock"
             class="w-full p-2 border-2"
             bind:value={stock}
           />
@@ -100,7 +149,7 @@
 
         <div class="flex space-x-2 w-full">
           <textarea
-            placeholder="More information"
+            placeholder="Product Description"
             rows="5"
             class="w-full p-2 border-2"
             bind:value={description}
