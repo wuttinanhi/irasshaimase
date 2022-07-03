@@ -11,14 +11,14 @@
 <div class="w-full">
   <div class="w-full overflow-x-auto">
     <div class="table-header-row">
-      <th class="table-cell">Payment ID</th>
-      <th class="table-cell">Order ID</th>
-      <th class="table-cell">Amount</th>
-      {#if showUser}<th class="table-cell">User</th>{/if}
-      <th class="table-cell">Status</th>
-      <th class="table-cell table-cell-extended">Date</th>
-      <th class="table-cell">Method</th>
-      <th class="table-cell">Action</th>
+      <div class="table-cell">Payment ID</div>
+      <div class="table-cell">Order ID</div>
+      <div class="table-cell">Amount</div>
+      {#if showUser}<div class="table-cell">User</div>{/if}
+      <div class="table-cell">Status</div>
+      <div class="table-cell table-cell-extended">Date</div>
+      <div class="table-cell">Method</div>
+      <div class="table-cell">Action</div>
     </div>
 
     {#if data.length > 0}
