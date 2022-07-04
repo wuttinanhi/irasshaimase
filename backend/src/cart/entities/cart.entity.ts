@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { ArrayMinSize, IsArray, IsNumber, IsPositive, ValidateNested } from 'class-validator';
+import { ArrayMinSize, IsArray, IsInt, IsNumber, IsPositive, ValidateNested } from 'class-validator';
 
 export class Cart {
   @IsArray()
@@ -16,5 +16,6 @@ export class CartItem {
 
   @IsNumber()
   @IsPositive()
+  @IsInt()
   quantity: number;
 }
