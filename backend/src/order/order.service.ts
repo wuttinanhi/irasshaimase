@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -178,51 +177,6 @@ export class OrderService {
     order.orderItems = await queryBuilder.getRawMany();
 
     return order as IOrderReport;
-  }
-
-  async cancel(orderId: number) {
-    // get order
-    const order = await this.findOne(orderId);
-    // if order is already cancelled then throw exception
-    if (order.status === EOrderStatus.CANCELLED) {
-      throw new BadRequestException();
-    }
-    // only created and pending order can be cancelled
-    if (order.status !== EOrderStatus.CREATED && order.status !== EOrderStatus.PENDING) {
-      throw new BadRequestException();
-    }
-
-    // start transaction
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      // update order status
-      order.status = EOrderStatus.CANCELLED;
-      await queryRunner.manager.save(order);
-
-      // revert product stock function
-      async function revertProductStock(item: OrderItem) {
-        const product = await this.productService.findOne(item.productId);
-        product.stock = product.stock + item.quantity;
-        await queryRunner.manager.save(product);
-      }
-
-      // revert product stock
-      await Promise.all(order.orderItems.map((item) => revertProductStock.bind(this)(item)));
-
-      // commit transaction
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      // rollback transaction
-      await queryRunner.rollbackTransaction();
-      // throw error
-      throw new InternalServerErrorException();
-    } finally {
-      // release query runner
-      await queryRunner.release();
-    }
   }
 
   async getPaymentTimeoutOrder() {

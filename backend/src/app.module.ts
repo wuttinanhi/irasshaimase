@@ -19,6 +19,7 @@ import { UserModule } from './user/user.module';
 import { CronjobModule } from './cronjob/cronjob.module';
 import { PdfMakerModule } from './pdf-maker/pdf-maker.module';
 import { ReceiptModule } from './receipt/receipt.module';
+import { OrderExtendModule } from './order-extend/order-extend.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { ReceiptModule } from './receipt/receipt.module';
     CronjobModule,
     PdfMakerModule,
     ReceiptModule,
+    OrderExtendModule,
   ],
   controllers: [AppController],
   providers: [AppService],
