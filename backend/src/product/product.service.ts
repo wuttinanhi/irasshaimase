@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pagination } from '../pagination/pagination';
-import { PaginationOptions } from '../pagination/pagination.options';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { ProductPaginationOptions } from './product.pagination';
 
 // export class ProductPaginationObject extends OmitType(Product, ['id']) {
 //   image: string;
@@ -75,7 +75,7 @@ export class ProductService {
     return update;
   }
 
-  paginate(options: PaginationOptions) {
+  paginate(options: ProductPaginationOptions) {
     const queryBuilder = this.productRepository
       .createQueryBuilder('product')
       .select([
@@ -88,6 +88,19 @@ export class ProductService {
       ])
       .leftJoin('product_image', 'product_image', 'product.id = product_image.productId')
       .groupBy('product.id');
+
+    if (options.search) {
+      queryBuilder.where(
+        `
+          CAST(product.id as CHAR) LIKE :search OR
+          product.name LIKE :search OR 
+          CAST(product.price as CHAR) LIKE :search OR
+          product.description LIKE :search OR
+          CAST(product.stock as CHAR) LIKE :search
+        `,
+        { search: `%${options.search}%` },
+      );
+    }
 
     const pagination = new Pagination(queryBuilder);
     return pagination.paginate(options.page, options.limit, true);
