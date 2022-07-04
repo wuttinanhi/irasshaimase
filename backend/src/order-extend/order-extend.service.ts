@@ -1,12 +1,15 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { DataSource, QueryRunner } from 'typeorm';
-import { OrderItem } from '../order/entities/order.entity';
+import { Order, OrderItem } from '../order/entities/order.entity';
 import { EOrderStatus } from '../order/order-status.enum';
+import { IOrderReport } from '../order/order.interface';
 import { OrderService } from '../order/order.service';
 import { Payment } from '../payment/entities/payment.entity';
 import { EPaymentStatus } from '../payment/payment-status.enum';
 import { PaymentService } from '../payment/payment.service';
 import { ProductService } from '../product/product.service';
+import { User } from '../user/entities/user.entity';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class OrderExtendService {
@@ -17,6 +20,7 @@ export class OrderExtendService {
     private readonly orderService: OrderService,
     private readonly productService: ProductService,
     private readonly paymentService: PaymentService,
+    private readonly userService: UserService,
     // datasource
     private readonly dataSource: DataSource,
   ) {}
@@ -81,5 +85,11 @@ export class OrderExtendService {
       // release query runner
       await queryRunner.release();
     }
+  }
+
+  async populateOrder<T = Order | IOrderReport>(order: T) {
+    const user = await this.userService.findOne((<any>order).userId);
+    const populatedOrder: T & { user: User } = { ...order, user };
+    return populatedOrder;
   }
 }
