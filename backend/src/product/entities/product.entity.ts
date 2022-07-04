@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsPositive, IsString, Length } from 'class-validator';
+import { IsInt, IsNotEmpty, IsNumber, IsPositive, IsString, Length, Min } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -25,5 +25,8 @@ export class Product {
 
   @Column()
   @IsNumber()
+  @IsNotEmpty()
+  @Min(0)
+  @IsInt()
   stock: number;
 }
