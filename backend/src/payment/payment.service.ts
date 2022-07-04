@@ -5,6 +5,7 @@ import { EOrderStatus } from '../order/order-status.enum';
 import { OrderService } from '../order/order.service';
 import { Pagination } from '../pagination/pagination';
 import { PaypalService } from '../paypal/paypal.service';
+import { User } from '../user/entities/user.entity';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { Payment } from './entities/payment.entity';
 import { EPaymentStatus } from './payment-status.enum';
@@ -59,7 +60,7 @@ export class PaymentService {
   }
 
   async paginate(options: PaymentPaginationOptions) {
-    const queryBuilder = this.paymentRepository.createQueryBuilder('payment').orderBy('id', options.sort);
+    const queryBuilder = this.paymentRepository.createQueryBuilder('payment').orderBy('payment.id', options.sort);
     if (options.userId) queryBuilder.where('payment.userId = :userId', { userId: options.userId });
 
     if (options.search) {
@@ -74,6 +75,8 @@ export class PaymentService {
         { search: `%${options.search}%` },
       );
     }
+
+    queryBuilder.leftJoinAndMapOne('payment.user', User, 'user', 'user.id = payment.userId');
 
     const pagination = new Pagination(queryBuilder);
     return pagination.paginate(options.page, options.limit);
