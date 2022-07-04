@@ -22,7 +22,9 @@ export class OrderExtendController {
   @UseGuards(JwtAuthGuard)
   async paginate(@CurrentUser() user: User, @Query() pagination: OrderPaginationOptions) {
     const result = await this.orderService.paginate({ ...pagination, userId: user.id });
-    const orders = await Promise.all(result.items.map(async (order) => this.orderExtendService.populateOrder(order)));
+    const orders = await Promise.all(
+      result.items.map(async (order) => this.orderExtendService.populateOrder(order, { user: true })),
+    );
     return { ...result, items: orders };
   }
 
@@ -30,28 +32,30 @@ export class OrderExtendController {
   @UseGuards(JwtAuthGuard, OrderGetGuard)
   async get(@Query('id') id: number) {
     const order = await this.orderService.findOne(id);
-    return this.orderExtendService.populateOrder(order);
+    return this.orderExtendService.populateOrder(order, { user: true });
   }
 
   @Get('report')
   @UseGuards(JwtAuthGuard, OrderGetGuard)
   async report(@Query('id') id: number) {
     const report = await this.orderService.report(id);
-    return this.orderExtendService.populateOrder(report);
+    return this.orderExtendService.populateOrder(report, { user: true, payment: true });
   }
 
   @Get('admin/get')
   @UseGuards(JwtAuthGuard, AdminGuard)
   async adminGet(@Query('id') id: number) {
     const order = await this.orderService.findOne(id);
-    return this.orderExtendService.populateOrder(order);
+    return this.orderExtendService.populateOrder(order, { user: true });
   }
 
   @Get('admin/paginate')
   @UseGuards(JwtAuthGuard, AdminGuard)
   async adminPaginate(@Query() pagination: OrderPaginationOptions) {
     const result = await this.orderService.paginate(pagination);
-    const orders = await Promise.all(result.items.map(async (order) => this.orderExtendService.populateOrder(order)));
+    const orders = await Promise.all(
+      result.items.map(async (order) => this.orderExtendService.populateOrder(order, { user: true })),
+    );
     return { ...result, items: orders };
   }
 }

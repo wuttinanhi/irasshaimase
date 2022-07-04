@@ -1,15 +1,14 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { DataSource, QueryRunner } from 'typeorm';
-import { Order, OrderItem } from '../order/entities/order.entity';
+import { OrderItem } from '../order/entities/order.entity';
 import { EOrderStatus } from '../order/order-status.enum';
-import { IOrderReport } from '../order/order.interface';
 import { OrderService } from '../order/order.service';
 import { Payment } from '../payment/entities/payment.entity';
 import { EPaymentStatus } from '../payment/payment-status.enum';
 import { PaymentService } from '../payment/payment.service';
 import { ProductService } from '../product/product.service';
-import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
+import { IOrderPopulateOptions, IOrderType, IPopulatedOrder } from './order-extend.interface';
 
 @Injectable()
 export class OrderExtendService {
@@ -87,9 +86,16 @@ export class OrderExtendService {
     }
   }
 
-  async populateOrder<T = Order | IOrderReport>(order: T) {
-    const user = await this.userService.findOne((<any>order).userId);
-    const populatedOrder: T & { user: User } = { ...order, user };
+  async populateOrder(order: IOrderType, options: IOrderPopulateOptions) {
+    let populatedOrder: IPopulatedOrder;
+    if (options.user) {
+      const user = await this.userService.findOne((<any>order).userId);
+      populatedOrder = { ...order, user };
+    }
+    if (options.payment) {
+      const payments = await this.paymentService.getByOrderId(order.id);
+      populatedOrder = { ...order, payments };
+    }
     return populatedOrder;
   }
 }
