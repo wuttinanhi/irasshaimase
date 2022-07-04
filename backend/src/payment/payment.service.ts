@@ -84,4 +84,10 @@ export class PaymentService {
     if (!records) throw new NotFoundException();
     return records;
   }
+
+  async cancel(paymentId: number) {
+    const payment = await this.getById(paymentId);
+    payment.status = EPaymentStatus.CANCELLED;
+    await this.update(payment.id, payment);
+  }
 }
