@@ -136,9 +136,15 @@ export class OrderService {
     if (options.status) queryBuilder.andWhere('order.status = :status', { status: options.status });
 
     if (options.search) {
-      queryBuilder.andWhere('(order.createdAt LIKE :search OR order.shippingAddress LIKE :search)', {
-        search: `%${options.search}%`,
-      });
+      queryBuilder.andWhere(
+        `(
+          CAST(order.id as CHAR) LIKE :search OR 
+          CAST(order.createdAt as CHAR) LIKE :search OR 
+          order.status LIKE :search OR 
+          order.shippingAddress LIKE :search
+        )`,
+        { search: `%${options.search}%` },
+      );
     }
 
     const pagination = new Pagination(queryBuilder);
