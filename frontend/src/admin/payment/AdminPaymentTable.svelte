@@ -13,11 +13,11 @@
     <div class="table-header-row">
       <div class="table-cell">Payment ID</div>
       <div class="table-cell">Order ID</div>
-      <div class="table-cell">Amount</div>
       {#if showUser}<div class="table-cell">User</div>{/if}
       <div class="table-cell">Status</div>
       <div class="table-cell table-cell-extended">Date</div>
       <div class="table-cell">Method</div>
+      <div class="table-cell">Amount</div>
       <div class="table-cell">Action</div>
     </div>
 
@@ -26,13 +26,13 @@
         <div class="table-row">
           <div class="table-cell">{row.id}</div>
           <div class="table-cell">{row.orderId}</div>
-          <div class="table-cell">{row.amount}</div>
           <div class="table-cell">{row.user.name}</div>
           <div class="table-cell">{row.status}</div>
           <div class="table-cell table-cell-extended">
             {formatDate(row.createdAt)}
           </div>
           <div class="table-cell">{row.paymentMethod}</div>
+          <div class="table-cell">{row.amount}</div>
           <div class="table-cell">
             <Link
               to="/order/{row.orderId}"

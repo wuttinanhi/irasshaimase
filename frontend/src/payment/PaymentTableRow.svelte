@@ -18,10 +18,6 @@
     </div>
 
     <div class="flex basis-1 flex-grow justify-center">
-      <h1>{data.amount}</h1>
-    </div>
-
-    <div class="flex basis-1 flex-grow justify-center">
       <h1>{data.status}</h1>
     </div>
 
@@ -31,6 +27,10 @@
 
     <div class="flex basis-1 flex-grow justify-center">
       <h1>{data.paymentMethod}</h1>
+    </div>
+
+    <div class="flex basis-1 flex-grow justify-center">
+      <h1>{data.amount}</h1>
     </div>
 
     <div class="flex basis-1 flex-grow justify-center">
