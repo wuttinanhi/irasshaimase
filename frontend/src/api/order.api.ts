@@ -1,6 +1,7 @@
 import type { ICart } from "../cart/cart.interface";
 import type { EOrderStatus } from "../enum/order-status.enum";
 import { BaseAPI } from "./base.api";
+import type { IPayment } from "./payment.api";
 import type { IUser } from "./user.api";
 
 export interface IOrderItem {
@@ -49,6 +50,7 @@ export interface IOrderReport {
   createdAt: Date;
   shippingAddress: string;
   orderItems: IOrderItem[];
+  payments: IPayment[];
 }
 
 export interface IOrderPaginateOptions {

@@ -1,8 +1,11 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import { IOrderReport, OrderAPI } from "../api/order.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import OrderPayButton from "./OrderPayButton.svelte";
+  import OrderReportPayment from "./OrderReportPayment.svelte";
   import OrderReportRow from "./OrderReportRow.svelte";
 
   const orderApi = new OrderAPI();
@@ -13,9 +16,12 @@
   async function load() {
     const result = await orderApi.report(orderId);
     orderReport = result;
+    console.log(orderReport);
   }
 
-  load();
+  onMount(() => {
+    load();
+  });
 </script>
 
 <Navbar />
@@ -106,6 +112,11 @@
 
     <div class="flex flex-row justify-end w-full mt-10">
       <h1 class="flex text-2xl font-bold">Total: {orderReport.total}</h1>
+    </div>
+
+    <div class="flex flex-col w-full mt-10">
+      <h1 class="flex font-bold text-lg my-2">Payments:</h1>
+      <OrderReportPayment data={orderReport.payments} />
     </div>
   {:else}
     <div class="my-96" />
