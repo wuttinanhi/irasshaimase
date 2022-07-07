@@ -24,7 +24,7 @@
 <Navbar />
 
 <div class="flex flex-col lg:pt-8 lg:px-32 2xl:pt-8 2xl:px-96">
-  <div class="flex flex-col w-full md:flex-row md:mt-10 md:space-x-10">
+  <div class="flex flex-col w-full md:flex-row md:mt-10 md:space-x-0">
     <div
       class="flex flex-row space-x-5 md:space-y-2 md:space-x-0 md:flex-col w-full md:basis-1/6"
     >

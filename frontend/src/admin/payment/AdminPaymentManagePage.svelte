@@ -49,7 +49,7 @@
   });
 </script>
 
-<div class="flex flex-col px-3 w-full">
+<div class="flex flex-col w-full">
   <div class="flex my-5">
     <h1 class="text-3xl font-bold">Payment Management</h1>
   </div>
