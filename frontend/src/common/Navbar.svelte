@@ -90,7 +90,7 @@
           </div>
         {:else}
           <div class="flex">
-            <Link to="/login" class="font-bold text-white">LOGIN</Link>
+            <Link to="/login" class="font-bold text-white">ACCOUNT</Link>
           </div>
         {/if}
 
