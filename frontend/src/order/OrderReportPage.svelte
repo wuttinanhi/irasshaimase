@@ -22,34 +22,34 @@
 
 <div class="flex flex-col px-3 lg:pt-8 lg:px-32 2xl:pt-8 2xl:px-96">
   {#if orderReport}
-    <div class="flex flex-row justify-between mt-10 w-full">
+    <div class="flex flex-row justify-between lg:flex-row  mt-10 w-full">
       <div class="flex flex-row flex-grow w-full items-center">
         <button
           type="button"
-          class="flex flex-shrink text-2xl text-blue-500 pr-5 mr-5 items-center border-r-2"
+          class="flex flex-shrink lg:text-2xl text-blue-500 pr-5 mr-5 items-center border-r-2"
           on:click={() => history.back()}
         >
           Back
         </button>
 
-        <h1 class="flex flex-grow text-4xl font-bold">
+        <h1 class="flex flex-grow lg:text-4xl font-bold">
           Order #{orderReport.id}
         </h1>
       </div>
 
       <div
-        class="flex flex-row justify-end items-center w-full space-x-4 bg-white px-5 py-3"
+        class="flex flex-row justify-end items-center w-full space-x-4 bg-white lg:px-5 lg:py-3"
         on:click={(e) => e.stopPropagation()}
       >
-        <h1 class="flex font-bold text-4xl text-blue-500">
+        <h1 class="flex font-bold lg:text-4xl text-blue-500">
           {orderReport.status}
         </h1>
         <div><OrderPayButton orderData={orderReport} /></div>
       </div>
     </div>
 
-    <div class="flex flex-col md:flex-row w-full mt-10 space-x-16">
-      <div class="flex md:basis-6/12 flex-col w-full">
+    <div class="flex flex-col mt-10 w-full lg:flex-row lg:space-x-16">
+      <div class="flex lg:basis-6/12 flex-col w-full">
         <h1 class="flex font-bold text-lg my-3">Summary</h1>
 
         <div class="flex flex-row w-full justify-between">
@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <div class="flex md:basis-6/12 flex-col w-full">
+      <div class="flex mt-5 lg:mt-0 lg:basis-6/12 flex-col w-full">
         <h1 class="flex font-bold text-lg my-3">Shipping Address</h1>
         <h1 class="flex whitespace-pre-wrap">{orderReport.shippingAddress}</h1>
       </div>
