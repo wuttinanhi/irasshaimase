@@ -14,7 +14,11 @@ export class PdfMakerService {
     const content = template(data);
 
     // create using puppeteer
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      ignoreHTTPSErrors: true,
+      dumpio: false,
+    });
     const page = await browser.newPage();
     await page.setContent(content);
     await page.emulateMediaType('print');
