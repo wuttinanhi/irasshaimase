@@ -1,6 +1,6 @@
 import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,6 +20,7 @@ export class UserService {
     if (exists) throw new ConflictException();
 
     const user = this.userRepository.create(createUserDto);
+    user.password = await hash(user.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
     const result = await this.userRepository.save(user);
     return result;
   }
@@ -41,13 +42,11 @@ export class UserService {
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
 
-    const result = await this.userRepository.update(
-      id,
-      this.userRepository.create({
-        ...user,
-        ...updateUserDto,
-      }),
-    );
+    if (updateUserDto.password) {
+      updateUserDto.password = await hash(updateUserDto.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
+    }
+
+    const result = await this.userRepository.update(id, { ...user, ...updateUserDto });
 
     return result;
   }
