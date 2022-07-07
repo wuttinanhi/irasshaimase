@@ -21,7 +21,7 @@
       {#each data as row}
         <div class="table-row">
           <div class="table-cell">{row.id}</div>
-          <div class="table-cell">{row.userId}</div>
+          <div class="table-cell">{row.user.name}</div>
           <div class="table-cell table-cell-extended">
             {formatDate(row.createdAt)}
           </div>
