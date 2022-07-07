@@ -53,7 +53,9 @@
 
       if (mode === "ADD") {
         const newProduct = await productApi.create(dto);
-        await productImageApi.addProductImage(newProduct.id, productImage);
+        if (productImage) {
+          await productImageApi.addProductImage(newProduct.id, productImage);
+        }
       } else if (mode === "UPDATE") {
         await productApi.update(data.id, dto);
       }
@@ -123,36 +125,50 @@
           </button>
         </div>
 
-        <div class="flex space-x-2 w-full">
+        <div class="flex flex-col w-full">
+          <label for="product-name" class="text-sm">Product name</label>
           <input
             type="text"
             placeholder="Product Name"
             class="w-full p-2 border-2"
             bind:value={name}
+            id="product-name"
           />
         </div>
 
-        <div class="flex space-x-2 w-full">
-          <input
-            type="number"
-            placeholder="Price"
-            class="w-full p-2 border-2"
-            bind:value={price}
-          />
-          <input
-            type="number"
-            placeholder="Stock"
-            class="w-full p-2 border-2"
-            bind:value={stock}
-          />
+        <div class="flex flex-row w-full space-x-1">
+          <div class="flex flex-col">
+            <label for="product-price" class="text-sm">Product price</label>
+            <input
+              type="number"
+              placeholder="Price"
+              class="w-full p-2 border-2"
+              bind:value={price}
+              id="product-price"
+            />
+          </div>
+          <div class="flex flex-col">
+            <label for="product-stock" class="text-sm">Product stock</label>
+            <input
+              type="number"
+              placeholder="Stock"
+              class="w-full p-2 border-2"
+              bind:value={stock}
+              id="product-stock"
+            />
+          </div>
         </div>
 
-        <div class="flex space-x-2 w-full">
+        <div class="flex flex-col w-full">
+          <label for="product-description" class="text-sm">
+            Product description
+          </label>
           <textarea
             placeholder="Product Description"
             rows="5"
             class="w-full p-2 border-2"
             bind:value={description}
+            id="product-description"
           />
         </div>
 
