@@ -4,7 +4,19 @@ export interface IAuthLoginResult {
   accessToken: string;
 }
 
+export interface IAuthRegister {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export class AuthAPI extends BaseAPI {
+  async register(data: IAuthRegister) {
+    const url = "api/auth/register";
+    const body = data;
+    await this.send(url, "POST", body);
+  }
+
   async login(email: string, password: string) {
     const url = "api/auth/login";
     const body = { email, password };

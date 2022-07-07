@@ -13,6 +13,7 @@
   import ProductPage from "./product/ProductPage.svelte";
   import LoginPage from "./user/LoginPage.svelte";
   import LogoutPage from "./user/LogoutPage.svelte";
+  import RegisterPage from "./user/RegisterPage.svelte";
   import UserPage from "./user/UserPage.svelte";
 
   export let url = "";
@@ -23,6 +24,7 @@
     <ProductPage productId={params.id} />
   </Route>
   <Route path="/login"><LoginPage /></Route>
+  <Route path="/register"><RegisterPage /></Route>
   <Route path="/logout"><LogoutPage /></Route>
 
   <Route path="/order"><OrderPage /></Route>
