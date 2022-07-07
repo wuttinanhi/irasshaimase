@@ -3,7 +3,6 @@
   import { Link } from "svelte-routing";
   import CartButton from "../cart/CartButton.svelte";
   import { userStore } from "../user/user.store";
-  import ResponsiveDebugger from "./ResponsiveDebugger.svelte";
 
   export let showSidebar = false;
 
@@ -29,8 +28,6 @@
     hideOverlay();
   });
 </script>
-
-<ResponsiveDebugger />
 
 <div class="w-full bg-blue-500 px-5 md:px-16">
   <div class="py-5">
