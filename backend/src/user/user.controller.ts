@@ -1,6 +1,7 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { AuthUser } from '../auth/auth-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
@@ -12,5 +13,11 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   async user(@AuthUser() user: User) {
     return user;
+  }
+
+  @Patch('/update')
+  @UseGuards(JwtAuthGuard)
+  async update(@AuthUser() user: User, @Body() dto: UpdateUserProfileDto) {
+    await this.userService.update(user.id, dto);
   }
 }
