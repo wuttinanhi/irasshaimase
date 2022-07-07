@@ -1,6 +1,6 @@
 import { BaseAPI } from "./base.api";
 
-export interface IUserResult {
+export interface IUser {
   id: number;
   name: string;
   email: string;
@@ -12,6 +12,6 @@ export class UserAPI extends BaseAPI {
     const url = "api/user";
     const result = await this.send(url, "GET");
     if (result.status !== 200) throw new Error("Can't get user from API");
-    return result.data as IUserResult;
+    return result.data as IUser;
   }
 }

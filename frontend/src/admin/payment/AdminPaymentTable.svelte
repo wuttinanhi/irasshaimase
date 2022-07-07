@@ -27,7 +27,7 @@
           <div class="table-cell">{row.id}</div>
           <div class="table-cell">{row.orderId}</div>
           <div class="table-cell">{row.amount}</div>
-          <div class="table-cell">{row.userId}</div>
+          <div class="table-cell">{row.user.name}</div>
           <div class="table-cell">{row.status}</div>
           <div class="table-cell table-cell-extended">
             {formatDate(row.createdAt)}

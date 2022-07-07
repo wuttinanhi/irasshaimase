@@ -1,4 +1,5 @@
 import { BaseAPI } from "./base.api";
+import type { IUser } from "./user.api";
 
 export interface IPaymentSuccessResult {
   orderId: number;
@@ -16,6 +17,7 @@ export interface IPayment {
   status: string;
   createdAt: Date;
   paymentMethod: string;
+  user: IUser;
 }
 
 export interface IPaymentPaginationMeta {
