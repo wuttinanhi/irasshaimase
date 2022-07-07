@@ -3,9 +3,10 @@
   import Navbar from "../common/Navbar.svelte";
   import ShippingAddressPanel from "../shippingaddress/ShippingAddressPanel.svelte";
   import ChangePasswordPanel from "./ChangePasswordPanel.svelte";
+  import UpdateUserPanel from "./UpdateUserPanel.svelte";
   import { EUserPanel } from "./user-panel.enum";
 
-  let panel: EUserPanel = EUserPanel.SHIPPING_ADDRESS;
+  let panel: EUserPanel = EUserPanel.USER_INFO;
 
   function changePanel(to: EUserPanel) {
     panel = to;
@@ -21,6 +22,13 @@
 
   <div class="flex flex-col w-full md:flex-row md:mt-10 md:space-x-10">
     <div class="flex space-y-5 mb-10 flex-col w-full md:basis-1/6">
+      <button
+        class="flex text-left"
+        on:click={() => changePanel(EUserPanel.USER_INFO)}
+      >
+        Profile
+      </button>
+
       <button
         class="flex text-left"
         on:click={() => changePanel(EUserPanel.SHIPPING_ADDRESS)}
@@ -46,6 +54,11 @@
         {#if panel === EUserPanel.CHANGE_PASSWORD}
           <div class="flex flex-col md:basis-1/2 w-full">
             <ChangePasswordPanel />
+          </div>
+        {/if}
+        {#if panel === EUserPanel.USER_INFO}
+          <div class="flex flex-col md:basis-1/2 w-full">
+            <UpdateUserPanel />
           </div>
         {/if}
       </div>
