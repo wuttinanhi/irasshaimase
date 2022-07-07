@@ -3,6 +3,7 @@
   import { Link } from "svelte-routing";
   import CartButton from "../cart/CartButton.svelte";
   import { userStore } from "../user/user.store";
+  import ResponsiveDebugger from "./ResponsiveDebugger.svelte";
 
   export let showSidebar = false;
 
@@ -16,10 +17,20 @@
     document.body.style.overflow = "auto";
   }
 
+  export function toggleOverlay() {
+    if (showSidebar) {
+      hideOverlay();
+    } else {
+      showOverlay();
+    }
+  }
+
   onDestroy(() => {
     hideOverlay();
   });
 </script>
+
+<ResponsiveDebugger />
 
 <div class="w-full bg-blue-500 px-5 md:px-16">
   <div class="py-5">
@@ -28,20 +39,33 @@
         <Link to="/">
           <div class="flex flex-col">
             <div>
-              <h1 class="font-bold text-white text-2xl">IRASSHAIMASE</h1>
+              <h1 class="font-bold text-white text-sm sm:text-2xl">
+                IRASSHAIMASE
+              </h1>
             </div>
             <div>
-              <h1 class="font-bold text-white text-sm">いらっしゃいませ</h1>
+              <h1 class="font-bold text-white text-sm sm:text-sm">
+                いらっしゃいませ
+              </h1>
             </div>
           </div>
         </Link>
       </div>
 
       <div
-        class="hidden sm:flex flex-row gap-x-12 pt-2 content-center items-baseline"
+        class="
+          fixed z-50 flex flex-col w-full h-screen bg-blue-400 inset-0 space-y-5 p-5 mt-20
+
+          ease-in-out duration-300
+          {showSidebar ? 'translate-x-0' : '-translate-x-full'}
+
+          sm:relative sm:flex sm:flex-row sm:w-fit sm:h-fit sm:bg-blue-500 sm:space-y-0 sm:p-0 sm:mt-0
+          sm:gap-x-12 sm:content-center sm:items-baseline sm:translate-x-0
+        "
       >
         <!-- <Link to="/contact" class="font-bold text-white">CONTACT</Link>
         <Link to="/about" class="font-bold text-white">ABOUT</Link> -->
+
         {#if $userStore}
           <div class="flex">
             <!-- TODO: Need implementation -->
@@ -73,6 +97,8 @@
           </div>
         {/if}
 
+        <hr class="visible sm:hidden bg-white" />
+
         <div class="flex">
           <CartButton />
         </div>
@@ -82,7 +108,7 @@
         <button
           type="button"
           class="font-bold text-white text-lg"
-          on:click={showOverlay}
+          on:click={toggleOverlay}
         >
           Menu
         </button>
@@ -90,38 +116,3 @@
     </div>
   </div>
 </div>
-
-<!-- MOBILE SIDEBAR -->
-{#if showSidebar}
-  <div
-    class="z-100 flex fixed inset-0 w-full h-full bg-black bg-opacity-80"
-    on:click={hideOverlay}
-  >
-    <div
-      class="z-101 flex flex-col px-5 basis-9/12 bg-blue-600 text-white"
-      on:click={(e) => e.stopPropagation()}
-    >
-      <div class="flex pt-10 pb-8 w-full">
-        <div class="flex flex-col w-full pb-5 border-b-2">
-          <Link to="/">
-            <h1 class="font-bold text-white text-2xl">IRASSHAIMASE</h1>
-            <h1 class="font-bold text-white text-sm">いらっしゃいませ</h1>
-          </Link>
-        </div>
-      </div>
-
-      <!-- 
-      <div class="flex py-5">
-        <Link to="/contact" class="font-bold">CONTACT</Link>
-      </div>
-
-      <div class="flex py-5">
-        <Link to="/about" class="font-bold">ABOUT</Link>
-      </div> -->
-
-      <div class="flex py-5">
-        <CartButton />
-      </div>
-    </div>
-  </div>
-{/if}
