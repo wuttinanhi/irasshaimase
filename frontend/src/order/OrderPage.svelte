@@ -130,6 +130,18 @@
       >
         Received
       </button>
+
+      <button
+        class="
+        flex text-left  
+        {status === EOrderStatus.CANCELLED ? 'font-bold' : ''}
+        "
+        on:click={() => {
+          setStatus(EOrderStatus.CANCELLED);
+        }}
+      >
+        Cancelled
+      </button>
     </div>
 
     <div class="flex w-full md:basis-5/6 md:border-l-2">
