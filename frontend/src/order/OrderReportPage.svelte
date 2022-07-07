@@ -16,7 +16,6 @@
   async function load() {
     const result = await orderApi.report(orderId);
     orderReport = result;
-    console.log(orderReport);
   }
 
   onMount(() => {
