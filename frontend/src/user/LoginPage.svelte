@@ -22,8 +22,8 @@
 </script>
 
 <Navbar />
-<div class="flex flex-row my-[30vh] justify-center">
-  <div class="flex basis-1/5 flex-col gap-4">
+<div class="flex flex-row my-[20vh] justify-center">
+  <div class="flex flex-col w-full p-5 md:basis-1/5 gap-4">
     <div class="flex">
       <h1 class="text-2xl">Login</h1>
     </div>
