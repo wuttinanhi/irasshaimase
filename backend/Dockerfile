@@ -11,10 +11,8 @@ RUN yarn build
 
 
 
-FROM node:lts-alpine as production_module_install
-WORKDIR /app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "yarn.lock", "./"]
-RUN yarn install --production --silent
+FROM node:lts-alpine as production_puppeteer_install
+# Make puppeteer work in the container
 # Running on Alpine
 # https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-on-alpine
 # Installs latest Chromium (100) package.
@@ -41,13 +39,20 @@ RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /app
 
-# Run everything after as non-privileged user.
-USER pptruser
+
+
+FROM production_puppeteer_install as production_module_install
+WORKDIR /app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "yarn.lock", "./"]
+RUN yarn install --production --silent
+
+
 
 FROM production_module_install as production
 ENV NODE_ENV=production
 COPY --from=build_stage --chown=pptruser /app/dist /app/dist
-COPY --chown=pptruser ./template /app/template 
-RUN mkdir -p /app/output
+COPY --chown=pptruser ./template /app/template
+RUN mkdir -p /app/output && chown -R pptruser:pptruser /app/output
+USER pptruser
 EXPOSE 3000
 CMD ["node", "dist/main"]
