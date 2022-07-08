@@ -12,6 +12,12 @@ import { OrderExtendService } from './order-extend.service';
 export class OrderExtendController {
   constructor(private readonly orderExtendService: OrderExtendService, private readonly orderService: OrderService) {}
 
+  @Post('cancel')
+  @UseGuards(JwtAuthGuard, OrderGetGuard)
+  async cancel(@Query('id') id: number) {
+    await this.orderExtendService.cancel(id);
+  }
+
   @Post('admin/cancel')
   @UseGuards(JwtAuthGuard, AdminGuard)
   async adminCancel(@Query('id') id: number) {
