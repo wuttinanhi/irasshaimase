@@ -120,4 +120,9 @@ export class OrderAPI extends BaseAPI {
     const result = await this.send(url, "GET");
     return result.data as IOrderReport;
   }
+
+  async cancel(orderId: number) {
+    const url = `api/order/cancel?id=${orderId}`;
+    await this.send(url, "POST");
+  }
 }

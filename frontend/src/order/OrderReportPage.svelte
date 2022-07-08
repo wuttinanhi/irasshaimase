@@ -4,6 +4,7 @@
   import { IOrderReport, OrderAPI } from "../api/order.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
+  import OrderCancelButton from "./OrderCancelButton.svelte";
   import OrderPayButton from "./OrderPayButton.svelte";
   import OrderReportPayment from "./OrderReportPayment.svelte";
   import OrderReportRow from "./OrderReportRow.svelte";
@@ -116,6 +117,13 @@
     <div class="flex flex-col w-full mt-10">
       <h1 class="flex font-bold text-lg my-2">Payments:</h1>
       <OrderReportPayment data={orderReport.payments} />
+    </div>
+
+    <div class="flex flex-col w-full mt-10">
+      <h1 class="flex font-bold text-lg my-2">Options:</h1>
+      <div class="flex">
+        <OrderCancelButton order={orderReport} />
+      </div>
     </div>
   {:else}
     <div class="my-96" />
