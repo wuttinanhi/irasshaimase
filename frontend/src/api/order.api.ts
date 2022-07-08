@@ -1,6 +1,7 @@
 import type { ICart } from "../cart/cart.interface";
 import type { EOrderStatus } from "../enum/order-status.enum";
-import { BaseAPI } from "./base.api";
+import { BaseAPI, IAPIError } from "./base.api";
+import type { INotAvailableProductResponse } from "./cart.api";
 import type { IPayment } from "./payment.api";
 import type { IUser } from "./user.api";
 
@@ -80,11 +81,15 @@ export class OrderAPI extends BaseAPI {
       });
     });
 
-    const response = await this.send(url, "POST", body);
-
-    if (response.status !== 201) throw new Error("failed to create order");
-
-    return response.data as IOrderCreateResponse;
+    try {
+      const response = await this.send(url, "POST", body);
+      return response.data as IOrderCreateResponse;
+    } catch (error) {
+      if (error instanceof IAPIError && error.status === 422) {
+        const data = error.data as INotAvailableProductResponse;
+        throw data;
+      }
+    }
   }
 
   async paginate(options: IOrderPaginateOptions) {

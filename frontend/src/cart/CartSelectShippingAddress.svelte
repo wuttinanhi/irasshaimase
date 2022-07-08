@@ -35,7 +35,9 @@
 
   <div class="flex justify-between mt-2">
     <h1 class="whitespace-pre-wrap">
-      {selectedLocation ? api.toHumanReadable(selectedLocation) : ""}
+      {selectedLocation
+        ? api.toHumanReadable(selectedLocation)
+        : "No shipping address selected"}
     </h1>
   </div>
 </div>

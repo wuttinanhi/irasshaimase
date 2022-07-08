@@ -2,10 +2,10 @@
   import { Link } from "svelte-routing";
   import { Cart } from "./cart";
 
-  let totalPrice = Cart.getToal();
+  let totalPrice = Cart.getTotal();
 
   Cart.getCartStore().subscribe(() => {
-    totalPrice = Cart.getToal();
+    totalPrice = Cart.getTotal();
   });
 </script>
 

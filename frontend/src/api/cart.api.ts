@@ -1,5 +1,6 @@
 import type { ICart } from "../cart/cart.interface";
 import { BaseAPI } from "./base.api";
+import type { IProduct } from "./product.api";
 
 export interface ICartValidateProduct {
   id: number;
@@ -15,6 +16,17 @@ export interface ICartValidateResponse {
   notAvailableProductIds: number[];
   notAvailableCount: number;
   products: ICartValidateProduct[];
+}
+
+export interface INotAvailableProduct extends IProduct {
+  available: boolean;
+  requestedQuantity: number;
+}
+
+export interface INotAvailableProductResponse {
+  notAvailableProductIds: number[];
+  notAvailableCount: number;
+  products: INotAvailableProduct[];
 }
 
 export class CartAPI extends BaseAPI {
@@ -35,7 +47,7 @@ export class CartAPI extends BaseAPI {
       return null;
     }
 
-    const response = await this.get(url, "POST", body);
-    return response as ICartValidateResponse;
+    const response = await this.send(url, "POST", body);
+    return response.data as ICartValidateResponse;
   }
 }

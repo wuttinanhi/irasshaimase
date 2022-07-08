@@ -4,6 +4,18 @@ import type { ICart, ICartItem } from "./cart.interface";
 import { cart, getCart, setCart } from "./cart.store";
 
 export class Cart {
+  public static getCartStore() {
+    return cart;
+  }
+
+  public static getCart() {
+    return getCart();
+  }
+
+  public static setCart(cart: ICart) {
+    setCart(cart);
+  }
+
   /**
    * addItem - Adds a product to the cart.
    */
@@ -20,8 +32,9 @@ export class Cart {
     this.setItem(product, previousQuantity - quantity);
   }
 
-  static getItem(product: IProduct): ICartItem {
+  public static getItem(product: IProduct): ICartItem {
     const cart = this.getCart();
+    if (!cart?.items) return null;
     const cartItem = cart.items.find((item) => item.product.id === product.id);
     return cartItem;
   }
@@ -29,17 +42,17 @@ export class Cart {
   /**
    * getToal - Calculates the total price of the cart.
    */
-  public static getToal() {
-    const cartTotal = this.getCart().items.reduce(
-      (total, item) =>
-        item.available ? total + item.product.price * item.quantity : total,
-      0
-    );
-    return cartTotal.toFixed(2);
-  }
+  public static getTotal() {
+    const cart = this.getCart();
+    if (!cart?.items) return 0;
 
-  public static getCartStore() {
-    return cart;
+    const cartTotal = cart.items.reduce((total, item) => {
+      return item.available
+        ? total + item.product.price * item.quantity
+        : total;
+    }, 0);
+
+    return cartTotal.toFixed(2);
   }
 
   /**
@@ -78,15 +91,7 @@ export class Cart {
     this.setCart(cart);
   }
 
-  private static getCart() {
-    return getCart();
-  }
-
-  private static setCart(cart: ICart) {
-    setCart(cart);
-  }
-
-  public static getItemById(productId: number) {
+  public static getItemByProductId(productId: number) {
     const cart = this.getCart();
     const cartItem = cart.items.find((item) => item.product.id === productId);
     return cartItem;
@@ -107,20 +112,23 @@ export class Cart {
     console.log("Validating cart");
 
     const cart = this.getCart();
+
+    if (!cart?.items) return;
     if (cart.items.length <= 0) return;
 
-    const api = new CartAPI();
-    const request = await api.validate(cart);
+    const cartApi = new CartAPI();
+    const request = await cartApi.validate(cart);
 
     if (request === null) return;
 
     for (const notAvailableProduct of request.products) {
-      const cartItem = Cart.getItemById(notAvailableProduct.id);
+      // get product by id
+      const cartItem = Cart.getItemByProductId(notAvailableProduct.id);
       const product = cartItem.product;
-
+      // set available status
       const productAvailable = notAvailableProduct.available;
       Cart.setAvailable(product, productAvailable);
-
+      // log available status
       if (productAvailable == false) {
         console.log(`product ${product.name} is not available`);
       }
@@ -139,6 +147,6 @@ export class Cart {
   }
 
   public static emptyCart() {
-    this.setCart(null);
+    this.setCart({ shippingAddressId: null, items: [], total: 0 });
   }
 }

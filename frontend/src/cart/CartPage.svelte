@@ -1,9 +1,9 @@
 <script lang="ts">
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
-  import CartDisplay from "./CartDisplay.svelte";
   import CartSelectShippingAddress from "./CartSelectShippingAddress.svelte";
   import CartSummary from "./CartSummary.svelte";
+  import CartTable from "./CartTable.svelte";
 </script>
 
 <Navbar />
@@ -14,7 +14,7 @@
   </div>
 
   <div class="flex">
-    <CartDisplay />
+    <CartTable />
   </div>
 
   <div class="flex mt-10 w-full flex-col md:flex-row space-x-2">

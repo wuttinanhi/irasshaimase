@@ -13,6 +13,13 @@ export class IAPIResult {
   response: Response;
 }
 
+export class IAPIError extends Error {
+  status: number;
+  data: any;
+  message: string;
+  response: Response;
+}
+
 export class BaseAPI {
   protected baseUrl: string;
 
@@ -81,7 +88,13 @@ export class BaseAPI {
 
     // throw error if response is not ok
     if (response.ok === false) {
-      throw new Error(data.message);
+      const error = new IAPIError();
+      error.name = data.message;
+      error.status = status;
+      error.data = data;
+      error.message = data.message;
+      error.response = response;
+      throw error;
     }
 
     // return result
