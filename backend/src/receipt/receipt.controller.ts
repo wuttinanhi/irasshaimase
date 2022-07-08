@@ -12,7 +12,7 @@ export class ReceiptController {
 
   @Get('get')
   @UseGuards(JwtAuthGuard, OrderGetGuard)
-  async findAll(@Res({ passthrough: true }) response: Response, @Query('id') id: number) {
+  async get(@Res({ passthrough: true }) response: Response, @Query('id') id: number) {
     // get receipt data
     const receiptData = await this.receiptService.getById(id);
 
@@ -20,8 +20,13 @@ export class ReceiptController {
     const dir = process.cwd();
     // handlebar template file path
     const inputPath = `${dir}/template/receipt.hbs`;
+
+    // get current time in unix
+    const nowUnixTime = new Date().getTime();
+    // file name
+    const fileName = `receipt-${nowUnixTime}-${receiptData.orderId}.pdf`;
     // output file path
-    const outputPath = `${dir}/output/${id}.pdf`;
+    const outputPath = `${dir}/output/${fileName}`;
 
     // generate pdf
     const filePath = await this.pdfMakerService.generate(inputPath, outputPath, receiptData);

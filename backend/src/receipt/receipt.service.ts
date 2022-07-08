@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { readdir, unlink } from 'fs/promises';
 import { OrderService } from '../order/order.service';
 import { PaymentService } from '../payment/payment.service';
 import { UserService } from '../user/user.service';
@@ -6,10 +8,13 @@ import { IReceipt } from './receipt.interface';
 
 @Injectable()
 export class ReceiptService {
+  private readonly logger = new Logger(ReceiptService.name);
+
   constructor(
     private readonly orderService: OrderService,
     private readonly paymentService: PaymentService,
     private readonly userService: UserService,
+    private readonly configService: ConfigService,
   ) {}
 
   async getById(id: number): Promise<IReceipt> {
@@ -64,5 +69,36 @@ export class ReceiptService {
     };
 
     return receipt;
+  }
+
+  async cleanReceiptFile() {
+    const RECEIPT_DELETE_AFTER_SECONDS = this.configService.get<number>('RECEIPT_DELETE_AFTER_SECONDS');
+
+    const dir = process.cwd();
+    const files = await readdir(`${dir}/output`);
+
+    for (const fileName of files) {
+      if (fileName.startsWith('receipt-')) {
+        // get file unix time
+        const time = Number(fileName.split('-')[1].split('.')[0]);
+
+        // file date
+        const toDate = new Date(time);
+        // current date
+        const nowDate = new Date();
+        // diff date seconds
+        const diff = (nowDate.getTime() - toDate.getTime()) / 1000;
+
+        // if diff > RECEIPT_DELETE_AFTER_SECONDS then delete file
+        if (diff > RECEIPT_DELETE_AFTER_SECONDS) {
+          // file path
+          const filePath = `${dir}/output/${fileName}`;
+          // log delete
+          this.logger.warn(`Deleting receipt file ${filePath}`);
+          // delete file
+          await unlink(filePath);
+        }
+      }
+    }
   }
 }
