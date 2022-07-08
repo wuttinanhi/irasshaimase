@@ -1,29 +1,25 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import {
     IShippingAddress,
     ShippingAddressAPI,
   } from "../api/shipping-address.api";
-  import ShippingAddressModal from "./ShippingAddressModal.svelte";
+  import ShippingAddressAddButton from "./ShippingAddressAddButton.svelte";
   import ShippingAddressRow from "./ShippingAddressRow.svelte";
 
   const api = new ShippingAddressAPI();
   let addresses: IShippingAddress[] = [];
-
-  let modal: ShippingAddressModal;
 
   async function load() {
     const response = await api.getAll();
     addresses = response;
   }
 
-  function onChange() {
+  onMount(() => {
     load();
-  }
-
-  load();
+  });
 </script>
-
-<ShippingAddressModal bind:this={modal} mode="add" callback={onChange} />
 
 <div class="flex flex-col w-full">
   <div class="flex">
@@ -36,15 +32,7 @@
     {/each}
   </div>
 
-  <div class="flex w-full justify-center">
-    <button
-      type="button"
-      class="flex bg-blue-600 px-6 py-3 text-white font-bold"
-      on:click={() => {
-        modal.showOverlay();
-      }}
-    >
-      Add new address
-    </button>
+  <div class="flex flex-row w-full justify-center">
+    <ShippingAddressAddButton callback={load} />
   </div>
 </div>

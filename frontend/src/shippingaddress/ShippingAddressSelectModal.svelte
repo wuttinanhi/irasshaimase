@@ -3,6 +3,7 @@
     IShippingAddress,
     ShippingAddressAPI,
   } from "../api/shipping-address.api";
+  import ShippingAddressAddButton from "./ShippingAddressAddButton.svelte";
 
   export let show: boolean = false;
   export let selectedLocation: IShippingAddress = null;
@@ -83,6 +84,10 @@
               </p>
             </div>
           {/each}
+        </div>
+
+        <div class="flex flex-row justify-center">
+          <ShippingAddressAddButton callback={load} />
         </div>
       </div>
     </div>
