@@ -5,6 +5,7 @@
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import OrderCancelButton from "./OrderCancelButton.svelte";
+  import OrderDownloadReceipt from "./OrderDownloadReceipt.svelte";
   import OrderPayButton from "./OrderPayButton.svelte";
   import OrderReportPayment from "./OrderReportPayment.svelte";
   import OrderReportRow from "./OrderReportRow.svelte";
@@ -119,10 +120,16 @@
       <OrderReportPayment data={orderReport.payments} />
     </div>
 
-    <div class="flex flex-col w-full mt-10">
+    <div class="flex flex-col w-full mt-20">
       <h1 class="flex font-bold text-lg my-2">Options:</h1>
-      <div class="flex">
-        <OrderCancelButton order={orderReport} />
+
+      <div class="flex flex-col md:flex-row">
+        <div class="flex m-1">
+          <OrderDownloadReceipt order={orderReport} />
+        </div>
+        <div class="flex m-1">
+          <OrderCancelButton order={orderReport} />
+        </div>
       </div>
     </div>
   {:else}

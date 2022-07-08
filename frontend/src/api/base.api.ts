@@ -39,11 +39,7 @@ export class BaseAPI {
     }).then((response) => response.json());
   }
 
-  protected async send(
-    url: string,
-    method = "GET",
-    body?: any
-  ): Promise<IAPIResult> {
+  protected createHeader() {
     // headers object
     const headers = {};
     headers["Content-Type"] = "application/json";
@@ -54,6 +50,18 @@ export class BaseAPI {
     if (userValue && accessToken) {
       headers["Authorization"] = `Bearer ${accessToken}`;
     }
+
+    // return headers
+    return headers;
+  }
+
+  protected async send(
+    url: string,
+    method = "GET",
+    body?: any
+  ): Promise<IAPIResult> {
+    // headers object
+    const headers = this.createHeader();
 
     // send request
     const response = await fetch(`${this.baseUrl}/${url}`, {

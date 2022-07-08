@@ -36,7 +36,7 @@
     type="button"
     class="flex py-2 px-10  {disabled
       ? 'bg-red-400'
-      : 'bg-red-600'}  text-white font-bold text-lg"
+      : 'bg-red-600'}  text-white font-bold md:text-lg"
     {disabled}
     on:click={() => {
       confirmModal.showOverlay();
