@@ -1,5 +1,6 @@
 <script lang="ts">
   import { AuthAPI } from "../api/auth.api";
+  import type { IAPIError } from "../api/base.api";
 
   const api = new AuthAPI();
 
@@ -8,6 +9,7 @@
   let confirmPassword = "";
 
   let disabled = false;
+  let errorMessage = null;
 
   async function changePassword() {
     try {
@@ -19,7 +21,8 @@
       await api.changePassword(currentPassword, newPassword);
       alert("Password changed");
     } catch (error) {
-      alert("An error occurred");
+      const err = error as IAPIError;
+      errorMessage = err.message.join("\n");
     } finally {
       disabled = false;
     }
@@ -58,6 +61,10 @@
       {disabled}
       bind:value={confirmPassword}
     />
+
+    {#if errorMessage}
+      <p class="text-red-500">{errorMessage}</p>
+    {/if}
   </div>
 
   <div class="flex w-full mt-5">

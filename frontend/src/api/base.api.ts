@@ -16,7 +16,7 @@ export class IAPIResult {
 export class IAPIError extends Error {
   status: number;
   data: any;
-  message: string;
+  message: any;
   response: Response;
 }
 

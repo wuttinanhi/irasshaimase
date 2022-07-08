@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import type { IAPIError } from "../api/base.api";
   import {
     IPayment,
     IPaymentPaginationResult,
@@ -32,7 +33,8 @@
       if (result.items) payment = [...result.items];
       data = result;
     } catch (error) {
-      // TODO: alert user unable to load data
+      const err = error as IAPIError;
+      alert(err.message);
     }
   }
 

@@ -1,11 +1,15 @@
 <script lang="ts">
   import { Link, navigate } from "svelte-routing";
+  import type { IAPIError } from "../api/base.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import { User } from "./user";
+
   let email: string;
   let password: string;
   let remember: boolean;
+
+  let errorMessage = null;
 
   async function login() {
     try {
@@ -16,7 +20,8 @@
       // redirect to index page
       navigate("/", { replace: true });
     } catch (error) {
-      alert(error);
+      const err = error as IAPIError;
+      errorMessage = err.message;
     }
   }
 </script>
@@ -59,6 +64,12 @@
         bind:checked={remember}
       />
       <label for="remember" class="ml-2">Remember me</label>
+    </div>
+
+    <div class="flex">
+      {#if errorMessage}
+        <p class="text-red-500">{errorMessage}</p>
+      {/if}
     </div>
 
     <div class="flex flex-col">

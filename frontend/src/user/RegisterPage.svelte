@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Link, navigate } from "svelte-routing";
   import { AuthAPI } from "../api/auth.api";
+  import type { IAPIError } from "../api/base.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
   import { User } from "./user";
@@ -8,6 +9,8 @@
   let name: string;
   let email: string;
   let password: string;
+
+  let errorMessage = null;
 
   async function register() {
     try {
@@ -22,7 +25,8 @@
       // redirect to index page
       navigate("/", { replace: true });
     } catch (error) {
-      alert(error);
+      const err = error as IAPIError;
+      errorMessage = err.message;
     }
   }
 </script>
@@ -65,6 +69,12 @@
         class="w-full p-2 border-2 border-gray-500"
         bind:value={password}
       />
+    </div>
+
+    <div class="flex">
+      {#if errorMessage}
+        <p class="text-red-500">{errorMessage}</p>
+      {/if}
     </div>
 
     <div class="flex flex-col">

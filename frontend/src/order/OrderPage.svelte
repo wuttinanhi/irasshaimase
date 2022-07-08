@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import type { IAPIError } from "../api/base.api";
   import { IOrder, IOrderPaginationResult, OrderAPI } from "../api/order.api";
   import Footer from "../common/Footer.svelte";
   import Navbar from "../common/Navbar.svelte";
@@ -31,7 +32,8 @@
       if (result.items) orders = [...result.items];
       data = result;
     } catch (error) {
-      // TODO: alert user unable to load data
+      const err = error as IAPIError;
+      alert(err.message);
     }
   }
 

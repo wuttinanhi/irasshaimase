@@ -1,23 +1,25 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import type { IAPIError } from "../api/base.api";
   import { UserAPI } from "../api/user.api";
 
   const userApi = new UserAPI();
 
   let name = "";
   let disabled = false;
-  let err = null;
+  let errorMessage = null;
   let result = null;
 
   async function updateUser() {
     try {
-      err = null;
+      errorMessage = null;
       result = null;
       disabled = true;
       await userApi.updateUser({ name });
       result = "Updated";
     } catch (error) {
-      err = error.message;
+      const err = error as IAPIError;
+      errorMessage = err.message;
     } finally {
       disabled = false;
     }
@@ -50,8 +52,8 @@
   </div>
 
   <div class="flex flex-col">
-    {#if err}
-      <div class="text-red-500">{err}</div>
+    {#if errorMessage}
+      <div class="text-red-500">{errorMessage}</div>
     {/if}
     {#if result}
       <div class="text-green-500">{result}</div>
