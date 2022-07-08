@@ -7,15 +7,17 @@
 
   let confirmModal: ConfirmModal;
   let disabled = false;
+  let errorMessage = null;
 
   async function modalCallback(result: boolean) {
     if (result !== true) return;
     try {
+      errorMessage = null;
       disabled = true;
       await orderApi.cancel(order.id);
       window.location.reload();
     } catch (error) {
-      alert("Fail to cancel order");
+      errorMessage = "Fail to cancel order";
     } finally {
       setTimeout(() => {
         disabled = false;
@@ -32,16 +34,24 @@
     callback={modalCallback}
   />
 
-  <button
-    type="button"
-    class="flex py-2 px-10  {disabled
-      ? 'bg-red-400'
-      : 'bg-red-600'}  text-white font-bold md:text-lg"
-    {disabled}
-    on:click={() => {
-      confirmModal.showOverlay();
-    }}
-  >
-    Cancel Order
-  </button>
+  <div class="flex flex-col">
+    <button
+      type="button"
+      class="
+        flex py-2 px-10  {disabled
+        ? 'bg-red-400'
+        : 'bg-red-600'}  text-white font-bold md:text-lg
+      "
+      {disabled}
+      on:click={() => {
+        confirmModal.showOverlay();
+      }}
+    >
+      Cancel Order
+    </button>
+
+    {#if errorMessage}
+      <p class="text-red-500">{errorMessage}</p>
+    {/if}
+  </div>
 {/if}

@@ -89,6 +89,7 @@ export class OrderAPI extends BaseAPI {
         const data = error.data as INotAvailableProductResponse;
         throw data;
       }
+      throw error;
     }
   }
 
