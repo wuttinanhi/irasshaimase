@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { readdir, unlink } from 'fs/promises';
 import { OrderService } from '../order/order.service';
 import { PaymentService } from '../payment/payment.service';
+import { PdfMakerService } from '../pdf-maker/pdf-maker.service';
 import { UserService } from '../user/user.service';
 import { IReceipt } from './receipt.interface';
 
@@ -15,6 +16,7 @@ export class ReceiptService {
     private readonly paymentService: PaymentService,
     private readonly userService: UserService,
     private readonly configService: ConfigService,
+    private readonly pdfMakerService: PdfMakerService,
   ) {}
 
   async getById(id: number): Promise<IReceipt> {
@@ -100,5 +102,28 @@ export class ReceiptService {
         }
       }
     }
+  }
+
+  async generateReceiptPdf(orderId: any) {
+    // get receipt data
+    const receiptData = await this.getById(orderId);
+
+    // get current directory
+    const dir = process.cwd();
+    // handlebar template file path
+    const inputPath = `${dir}/template/receipt.hbs`;
+
+    // get current time in unix
+    const nowUnixTime = new Date().getTime();
+    // file name
+    const fileName = `receipt-${nowUnixTime}-${receiptData.orderId}.pdf`;
+    // output file path
+    const outputPath = `${dir}/output/${fileName}`;
+
+    // generate pdf
+    const filePath = await this.pdfMakerService.generate(inputPath, outputPath, receiptData);
+
+    // return file path
+    return filePath;
   }
 }

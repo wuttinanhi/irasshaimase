@@ -3,36 +3,20 @@ import { Response } from 'express';
 import { createReadStream } from 'fs';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { OrderGetGuard } from '../order/order.guard';
-import { PdfMakerService } from '../pdf-maker/pdf-maker.service';
 import { ReceiptService } from './receipt.service';
 
 @Controller('api/receipt')
 export class ReceiptController {
-  constructor(private readonly receiptService: ReceiptService, private readonly pdfMakerService: PdfMakerService) {}
+  constructor(private readonly receiptService: ReceiptService) {}
 
   @Get('get')
   @UseGuards(JwtAuthGuard, OrderGetGuard)
   async get(@Res({ passthrough: true }) response: Response, @Query('id') id: number) {
-    // get receipt data
-    const receiptData = await this.receiptService.getById(id);
-
-    // get current directory
-    const dir = process.cwd();
-    // handlebar template file path
-    const inputPath = `${dir}/template/receipt.hbs`;
-
-    // get current time in unix
-    const nowUnixTime = new Date().getTime();
-    // file name
-    const fileName = `receipt-${nowUnixTime}-${receiptData.orderId}.pdf`;
-    // output file path
-    const outputPath = `${dir}/output/${fileName}`;
-
-    // generate pdf
-    const filePath = await this.pdfMakerService.generate(inputPath, outputPath, receiptData);
+    // generate receipt and retrieve file path
+    const pdfFilePath = await this.receiptService.generateReceiptPdf(id);
 
     // create read stream
-    const file = createReadStream(filePath);
+    const file = createReadStream(pdfFilePath);
     response.set({
       'Content-Type': 'application/pdf',
       // uncomment for file download
