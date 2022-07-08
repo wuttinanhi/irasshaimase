@@ -28,7 +28,7 @@
 
   <div class="flex flex-col my-10 space-y-5 w-full">
     {#each addresses as data, i}
-      <ShippingAddressRow {data} rowId={i + 1} {onChange} />
+      <ShippingAddressRow {data} rowId={i + 1} onChange={load} />
     {/each}
   </div>
 

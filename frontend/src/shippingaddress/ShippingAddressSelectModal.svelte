@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import {
     IShippingAddress,
     ShippingAddressAPI,
@@ -31,17 +33,19 @@
   async function load() {
     locations = await api.getAll();
     selectedLocation = locations.filter((loc) => loc.default === true)[0];
-    callback(selectedLocation);
     loaded = true;
+    if (selectedLocation && callback) callback(selectedLocation);
   }
 
   function onClick(index: number) {
     selectedLocation = locations[index];
     hideOverlay();
-    callback(selectedLocation);
+    if (callback) callback(selectedLocation);
   }
 
-  load();
+  onMount(() => {
+    load();
+  });
 </script>
 
 {#if show && loaded === true}
