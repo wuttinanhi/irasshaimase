@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
+  import type { IAPIError } from "../api/base.api";
   import {
     IShippingAddress,
     ShippingAddressAPI,
@@ -25,6 +28,8 @@
   let phoneNumber: string = data.phoneNumber;
   let info: string = data.info;
   let primary: boolean = data.default;
+
+  let errorMessage: string = null;
 
   export function showOverlay() {
     showing = true;
@@ -59,19 +64,29 @@
       default: primary,
     };
 
-    if (mode === "add") {
-      await api.add(data);
-    } else if (mode === "update") {
-      await api.update(id, data);
+    try {
+      errorMessage = null;
+      if (mode === "add") {
+        await api.add(data);
+      } else if (mode === "update") {
+        await api.update(id, data);
+      }
+      if (callback) {
+        data.id = id;
+        callback(data);
+      }
+      hideOverlay();
+    } catch (error) {
+      const err = error as IAPIError;
+      let messages: string[] = err.data.message;
+      messages = messages.slice(0, 6);
+      errorMessage = messages.join("\n");
     }
-
-    if (callback) {
-      data.id = id;
-      callback(data);
-    }
-
-    hideOverlay();
   }
+
+  onMount(() => {
+    errorMessage = null;
+  });
 </script>
 
 {#if showing === true}
@@ -100,6 +115,12 @@
               🗙
             </button>
           </div>
+        </div>
+
+        <div class="flex my-2 w-full">
+          {#if errorMessage !== null}
+            <p class="text-red-500 text-sm">{errorMessage}</p>
+          {/if}
         </div>
 
         <div class="flex space-x-2 w-full">
